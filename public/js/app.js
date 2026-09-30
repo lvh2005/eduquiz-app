@@ -47,12 +47,12 @@ function refreshDashboard() {
   document.getElementById('dashTotalQ').innerText = allQuestions.length;
   const subjects = Array.from(new Set(allQuestions.map(q => q.subject || 'Chưa đặt môn'))).sort();
   const container = document.getElementById('partsContainer');
-  let html = `<div class="part-chip ${selectedSubject === 'all' ? 'active' : ''}" onclick="selectSubject('all')">Tất cả (${allQuestions.length} câu)</div>`;
+  let html = `<div class="subject-card ${selectedSubject === 'all' ? 'active' : ''}" onclick="startSubject('all')"><span class="subject-card-name">Tất cả</span><span class="subject-card-count">${allQuestions.length} câu</span></div>`;
   subjects.forEach(subject => {
     const count = allQuestions.filter(q => (q.subject || 'Chưa đặt môn') === subject).length;
     const safeSubject = subject.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
     const subjectArgument = JSON.stringify(subject).replace(/"/g, '&quot;');
-    html += `<div class="part-chip ${selectedSubject === subject ? 'active' : ''}" onclick="selectSubject(${subjectArgument})">${safeSubject} (${count} câu)</div>`;
+    html += `<div class="subject-card ${selectedSubject === subject ? 'active' : ''}" onclick="startSubject(${subjectArgument})"><span class="subject-card-name">${safeSubject}</span><span class="subject-card-count">${count} câu</span><button class="subject-card-delete" title="Xóa môn này" aria-label="Xóa môn này" onclick="event.stopPropagation(); deleteSubject(${subjectArgument})"><i class="fa-solid fa-trash"></i></button></div>`;
   });
   container.innerHTML = html;
 }
@@ -62,9 +62,22 @@ function selectPart(p) {
   refreshDashboard();
 }
 
-function selectSubject(subject) {
+function startSubject(subject) {
   selectedSubject = subject;
-  refreshDashboard();
+  openStartModal();
+}
+
+async function deleteSubject(subject) {
+  if (!confirm(`Xóa toàn bộ ${subject} khỏi đề thi?`)) return;
+  try {
+    const res = await fetch(`/api/exam?id=${EXAM_ID}&subject=${encodeURIComponent(subject)}`, { method: 'DELETE' });
+    const result = await res.json();
+    if (!res.ok || !result.success) throw new Error(result.error || 'Không thể xóa môn');
+    if (selectedSubject === subject) selectedSubject = 'all';
+    await fetchExam();
+  } catch (err) {
+    alert('Lỗi xóa môn: ' + err.message);
+  }
 }
 
 // 2. Upload file Word .docx -> Parse trên Client -> Đẩy JSON lên Vercel API

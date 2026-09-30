@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST,DELETE');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
@@ -62,6 +62,21 @@ export default async function handler(req, res) {
 
       await redis.set(redisKey, JSON.stringify(examPayload));
       return res.status(200).json({ success: true, count: questions.length, total: examPayload.questions.length, exam: examPayload });
+    }
+
+    if (req.method === 'DELETE') {
+      const subject = String(req.query.subject || '').trim();
+      if (!subject) return res.status(400).json({ error: 'Thiếu tên môn cần xóa' });
+
+      const currentData = await redis.get(redisKey);
+      const currentExam = currentData ? (typeof currentData === 'string' ? JSON.parse(currentData) : currentData) : null;
+      if (!currentExam) return res.status(404).json({ error: 'Chưa có đề thi' });
+
+      const questions = (currentExam.questions || []).filter(question => (question.subject || currentExam.subject) !== subject);
+      const subjects = Array.from(new Set(questions.map(question => question.subject).filter(Boolean)));
+      const examPayload = { ...currentExam, subject: subjects[0] || '', subjects, questions, updatedAt: new Date().toISOString() };
+      await redis.set(redisKey, JSON.stringify(examPayload));
+      return res.status(200).json({ success: true, count: questions.length, exam: examPayload });
     }
 
     return res.status(405).json({ error: 'Method not allowed' });

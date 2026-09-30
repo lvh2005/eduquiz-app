@@ -350,25 +350,43 @@ body { background-color: var(--body-bg); color: var(--gray-800); min-height: 100
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 20px;
   flex-wrap: wrap;
 }
-.part-chip {
-  background: var(--gray-100);
+.subject-card {
+  position: relative;
+  min-width: 180px;
+  padding: 14px 42px 14px 16px;
   border: 1px solid var(--gray-200);
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
+  border-radius: 10px;
+  background: var(--gray-100);
   color: var(--gray-700);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
   transition: 0.2s;
 }
-.part-chip.active {
+.subject-card:hover,
+.subject-card.active {
   background: var(--primary);
   color: white;
   border-color: var(--primary);
 }
+.subject-card-name { display: block; margin-bottom: 4px; }
+.subject-card-count { font-size: 12px; font-weight: 500; opacity: 0.8; }
+.subject-card-delete {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.75;
+}
+.subject-card-delete:hover { background: rgba(239, 68, 68, 0.18); color: #dc2626; opacity: 1; }
 
 /* =========================================
    QUIZ VIEW
@@ -809,7 +827,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     border-radius: 12px;
   }
   .parts-selector { gap: 8px; margin-bottom: 0; }
-  .part-chip { padding: 8px 11px; font-size: 12px; }
+  .subject-card { min-width: 150px; padding: 11px 38px 11px 12px; font-size: 12px; }
 
   #quiz-view > div:first-child {
     align-items: center !important;
