@@ -1,5 +1,18 @@
 const EXAM_ID = 'hubt_csdl_2tc';
 
+let isAdmin = false;
+const presenceSessionId = sessionStorage.getItem('eduquizPresenceId') || (window.crypto && typeof window.crypto.randomUUID === 'function'
+  ? window.crypto.randomUUID()
+  : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, character => {
+    const randomValue = Math.random() * 16 | 0;
+    return (character === 'x' ? randomValue : (randomValue & 0x3 | 0x8)).toString(16);
+  }));
+sessionStorage.setItem('eduquizPresenceId', presenceSessionId);
+let sharedLocation = null;
+try {
+  sharedLocation = JSON.parse(sessionStorage.getItem('eduquizSharedLocation') || 'null');
+} catch {}
+
 let allQuestions = [];
 let activeQuestions = [];
 let currentIndex = 0;
@@ -52,7 +65,7 @@ function refreshDashboard() {
     const count = allQuestions.filter(q => (q.subject || 'Chưa đặt môn') === subject).length;
     const safeSubject = subject.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
     const subjectArgument = JSON.stringify(subject).replace(/"/g, '&quot;');
-    html += `<div class="subject-card ${selectedSubject === subject ? 'active' : ''}" onclick="startSubject(${subjectArgument})"><span class="subject-card-name">${safeSubject}</span><span class="subject-card-count">${count} câu</span><button class="subject-card-delete" title="Xóa môn này" aria-label="Xóa môn này" onclick="event.stopPropagation(); deleteSubject(${subjectArgument})"><i class="fa-solid fa-trash"></i></button></div>`;
+    html += `<div class="subject-card ${selectedSubject === subject ? 'active' : ''}" onclick="startSubject(${subjectArgument})"><span class="subject-card-name">${safeSubject}</span><span class="subject-card-count">${count} câu</span>${isAdmin ? `<button class="subject-card-delete" title="Xóa môn này" aria-label="Xóa môn này" onclick="event.stopPropagation(); deleteSubject(${subjectArgument})"><i class="fa-solid fa-trash"></i></button>` : ''}</div>`;
   });
   container.innerHTML = html;
 }
@@ -68,6 +81,7 @@ function startSubject(subject) {
 }
 
 async function deleteSubject(subject) {
+  if (!isAdmin) return;
   if (!confirm(`Xóa toàn bộ ${subject} khỏi đề thi?`)) return;
   try {
     const res = await fetch(`/api/exam?id=${EXAM_ID}&subject=${encodeURIComponent(subject)}`, { method: 'DELETE' });
@@ -386,7 +400,10 @@ function goToDashboard() {
   clearInterval(timerInterval);
 }
 function openStartModal() { document.getElementById('settingsModal').style.display = 'flex'; }
-function openUploadModal() { document.getElementById('uploadModal').style.display = 'flex'; }
+function openUploadModal() {
+  if (!isAdmin) return window.location.assign('/admin.html');
+  document.getElementById('uploadModal').style.display = 'flex';
+}
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 function toggleMobileDrawer() {
   const d = document.getElementById('mobileDrawer');
@@ -411,6 +428,71 @@ function exportQuestionsJSON() {
   a.click();
 }
 
+async function sendPresenceHeartbeat() {
+  try {
+    await fetch('/api/presence', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: presenceSessionId, location: sharedLocation })
+    });
+  } catch (error) {
+    console.warn('Không gửi được heartbeat:', error);
+  }
+}
+
+function renderLocationSharing() {
+  const button = document.getElementById('locationShareButton');
+  const title = document.getElementById('locationShareTitle');
+  const description = document.getElementById('locationShareDescription');
+  if (!button || !title || !description) return;
+
+  if (sharedLocation) {
+    title.innerText = 'Bạn đang chia sẻ vị trí';
+    description.innerText = 'Chỉ quản trị viên xem được vị trí. Dữ liệu tự xóa trong tối đa 3 phút sau lần gửi cuối hoặc khi bạn dừng chia sẻ.';
+    button.innerHTML = '<i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i> Ngừng chia sẻ';
+  } else {
+    title.innerText = 'Chia sẻ vị trí (không bắt buộc)';
+    description.innerText = 'Chỉ quản trị viên xem được vị trí sau khi bạn đồng ý. Tọa độ tự xóa trong tối đa 3 phút.';
+    button.innerHTML = '<i class="fa-solid fa-location-dot" aria-hidden="true"></i> Chia sẻ vị trí';
+  }
+}
+
+function toggleLocationSharing() {
+  if (sharedLocation) {
+    sharedLocation = null;
+    sessionStorage.removeItem('eduquizSharedLocation');
+    renderLocationSharing();
+    sendPresenceHeartbeat();
+    return;
+  }
+
+  if (!navigator.geolocation) return alert('Trình duyệt này không hỗ trợ định vị.');
+  navigator.geolocation.getCurrentPosition(position => {
+    sharedLocation = {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+      accuracy: position.coords.accuracy
+    };
+    sessionStorage.setItem('eduquizSharedLocation', JSON.stringify(sharedLocation));
+    renderLocationSharing();
+    sendPresenceHeartbeat();
+  }, error => {
+    const message = error.code === error.PERMISSION_DENIED
+      ? 'Bạn chưa cấp quyền vị trí. Có thể bật quyền trong cài đặt trình duyệt.'
+      : 'Không lấy được vị trí. Hãy thử lại khi trình duyệt cho phép định vị.';
+    alert(message);
+  }, { enableHighAccuracy: false, maximumAge: 30000, timeout: 10000 });
+}
+
+function initializePresence() {
+  renderLocationSharing();
+  sendPresenceHeartbeat();
+  setInterval(sendPresenceHeartbeat, 30000);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') sendPresenceHeartbeat();
+  });
+}
+
 window.addEventListener('keydown', (e) => {
   if (document.getElementById('quiz-view').style.display !== 'block') return;
   const k = e.key.toUpperCase();
@@ -419,6 +501,15 @@ window.addEventListener('keydown', (e) => {
   else if (e.key === 'ArrowRight') nextQuestion();
 });
 
-window.onload = () => {
-  fetchExam();
+window.onload = async () => {
+  try {
+    const response = await fetch('/api/admin-auth');
+    const session = response.ok ? await response.json() : { authenticated: false };
+    isAdmin = session.authenticated === true;
+  } catch {
+    isAdmin = false;
+  }
+  if (isAdmin) document.getElementById('adminUploadButton').style.display = 'flex';
+  initializePresence();
+  await fetchExam();
 };

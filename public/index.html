@@ -26,7 +26,7 @@
     </div>
 
     <div class="header-actions">
-      <button class="btn-header-upload" onclick="openUploadModal()">
+      <button class="btn-header-upload" id="adminUploadButton" onclick="openUploadModal()" style="display:none;">
         <i class="fa-solid fa-cloud-arrow-up"></i> Tải đề lên (.docx)
       </button>
       <button class="mobile-menu-btn" onclick="toggleMobileDrawer()" title="Mở danh mục câu">
@@ -86,6 +86,16 @@
         <button class="btn-cta-primary" onclick="openStartModal()"><i class="fa-solid fa-bolt"></i> Luyện tập ngay</button>
       </div>
     </div>
+
+    <section class="presence-sharing" aria-label="Chia sẻ vị trí">
+      <div>
+        <strong id="locationShareTitle">Chia sẻ vị trí (không bắt buộc)</strong>
+        <p id="locationShareDescription">Chỉ quản trị viên xem được vị trí sau khi bạn đồng ý. Tọa độ tự xóa trong tối đa 3 phút.</p>
+      </div>
+      <button class="location-share-button" id="locationShareButton" type="button" onclick="toggleLocationSharing()">
+        <i class="fa-solid fa-location-dot" aria-hidden="true"></i> Chia sẻ vị trí
+      </button>
+    </section>
 
     <!-- Phân chia môn thi -->
     <div style="background:var(--card-bg); padding:20px; border-radius:12px; border:1px solid var(--gray-200);">

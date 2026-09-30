@@ -144,6 +144,33 @@ body { background-color: var(--body-bg); color: var(--gray-800); min-height: 100
   margin: 24px auto;
   padding: 0 20px;
 }
+.presence-sharing {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--gray-200);
+  border-left: 4px solid #0f766e;
+  border-radius: 8px;
+  background: var(--card-bg);
+}
+.presence-sharing strong { display: block; color: var(--gray-800); font-size: 14px; }
+.presence-sharing p { margin-top: 3px; color: var(--gray-500); font-size: 12px; }
+.location-share-button {
+  flex: 0 0 auto;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid #0f766e;
+  border-radius: 6px;
+  background: transparent;
+  color: #0f766e;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.location-share-button:hover { background: #f0fdfa; }
 
 /* Dashboard Card */
 .dashboard-card {
@@ -782,6 +809,8 @@ input:checked + .slider:before { transform: translateX(22px); }
 }
 
 @media (max-width: 640px) {
+  .presence-sharing { align-items: flex-start; flex-direction: column; }
+  .location-share-button { width: 100%; }
   .edu-header {
     height: 58px;
     padding: 0 12px;

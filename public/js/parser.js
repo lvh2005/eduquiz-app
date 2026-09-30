@@ -59,7 +59,7 @@ function parseQuizTextDetailed(fullText) {
   const sourceNumbers = questions.map(question => question.sourceNumber);
   sourceNumbers.forEach((number, index) => {
     const previous = sourceNumbers[index - 1];
-    if (index > 0 && number !== previous + 1) {
+    if (index > 0 && number > previous + 1) {
       diagnostics.push(`Thiếu hoặc sai thứ tự giữa câu ${previous} và câu ${number}`);
     }
   });

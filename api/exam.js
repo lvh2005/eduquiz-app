@@ -1,4 +1,5 @@
 import { Redis } from '@upstash/redis';
+import { isAdminAuthenticated } from '../lib/admin-auth.js';
 
 // Khởi tạo Redis client từ biến môi trường của Upstash trên Vercel
 const redis = new Redis({
@@ -18,6 +19,10 @@ export default async function handler(req, res) {
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
+  }
+
+  if (['POST', 'DELETE'].includes(req.method) && !isAdminAuthenticated(req)) {
+    return res.status(401).json({ error: 'Cần đăng nhập admin để thay đổi đề thi' });
   }
 
   const { id = 'hubt_csdl_2tc' } = req.query;
