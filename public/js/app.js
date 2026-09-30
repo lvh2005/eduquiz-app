@@ -234,7 +234,14 @@ function renderQuestion() {
       }
     }
 
-    div.innerHTML = `<div class="opt-circle">${letters[idx]}</div><div>${opt}</div>`;
+    const circle = document.createElement('div');
+    circle.className = 'opt-circle';
+    circle.textContent = letters[idx];
+
+    const text = document.createElement('div');
+    text.textContent = opt;
+
+    div.append(circle, text);
     div.onclick = () => selectOption(idx);
     container.appendChild(div);
   });
