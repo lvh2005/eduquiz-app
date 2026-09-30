@@ -6,6 +6,8 @@ let currentIndex = 0;
 let userAnswers = {};
 let flaggedQuestions = new Set();
 let timerInterval = null;
+let autoNextTimer = null;
+let autoNextTick = null;
 let secondsElapsed = 0;
 let currentFilter = 'all';
 let selectedPart = 'all';
@@ -13,7 +15,9 @@ let selectedPart = 'all';
 let settings = {
   shuffleQ: false,
   shuffleOpt: false,
-  instantFeedback: true
+  instantFeedback: true,
+  autoNext: false,
+  autoNextDelay: 2
 };
 
 // 1. Lấy dữ liệu đề thi từ Vercel Serverless API
@@ -115,6 +119,8 @@ function applySettingsAndStart() {
   settings.shuffleQ = document.getElementById('settingShuffleQ').checked;
   settings.shuffleOpt = document.getElementById('settingShuffleOpt').checked;
   settings.instantFeedback = document.getElementById('settingInstantFeedback').checked;
+  settings.autoNext = document.getElementById('settingAutoNext').checked;
+  settings.autoNextDelay = Number(document.getElementById('settingAutoNextDelay').value);
   isSoundEnabled = document.getElementById('settingSound').checked;
   closeModal('settingsModal');
 
@@ -138,6 +144,7 @@ function applySettingsAndStart() {
   currentIndex = 0;
   userAnswers = {};
   flaggedQuestions.clear();
+  clearAutoNext();
   secondsElapsed = 0;
 
   document.getElementById('dashboard-view').style.display = 'none';
@@ -204,10 +211,40 @@ function selectOption(idx) {
   }
   renderQuestion();
   renderGrid();
+  if (settings.autoNext && currentIndex < activeQuestions.length - 1) scheduleAutoNext();
+  else clearAutoNext();
 }
 
-function prevQuestion() { if (currentIndex > 0) { currentIndex--; renderQuestion(); } }
+function clearAutoNext() {
+  clearTimeout(autoNextTimer);
+  clearInterval(autoNextTick);
+  autoNextTimer = null;
+  autoNextTick = null;
+}
+
+function scheduleAutoNext() {
+  clearAutoNext();
+  const deadline = Date.now() + settings.autoNextDelay * 1000;
+  const button = document.getElementById('btnNextQ');
+  const updateCountdown = () => {
+    const remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+    button.innerHTML = `<i class="fa-regular fa-clock"></i> Câu tiếp (${remaining}s) <i class="fa-solid fa-chevron-right"></i>`;
+  };
+
+  updateCountdown();
+  autoNextTick = setInterval(updateCountdown, 100);
+  autoNextTimer = setTimeout(() => {
+    clearAutoNext();
+    nextQuestion();
+  }, settings.autoNextDelay * 1000);
+}
+
+function prevQuestion() {
+  clearAutoNext();
+  if (currentIndex > 0) { currentIndex--; renderQuestion(); }
+}
 function nextQuestion() {
+  clearAutoNext();
   if (currentIndex < activeQuestions.length - 1) { currentIndex++; renderQuestion(); }
   else submitExam();
 }
@@ -243,6 +280,7 @@ function renderGrid() {
 }
 
 function jumpQuestion(idx) {
+  clearAutoNext();
   currentIndex = idx;
   renderQuestion();
   const drawer = document.getElementById('mobileDrawer');
@@ -258,6 +296,7 @@ function setGridFilter(f) {
 }
 
 function submitExam() {
+  clearAutoNext();
   let correct = 0, wrong = 0, unanswered = 0;
   activeQuestions.forEach(q => {
     const ans = userAnswers[q.id];
@@ -278,6 +317,7 @@ function submitExam() {
 }
 
 function retryWrongQuestions() {
+  clearAutoNext();
   const wrongs = activeQuestions.filter(q => userAnswers[q.id] !== undefined && userAnswers[q.id] !== q.c);
   if (wrongs.length === 0) return alert('Bạn không làm sai câu nào!');
   activeQuestions = wrongs;
@@ -289,6 +329,7 @@ function retryWrongQuestions() {
 }
 
 function goToDashboard() {
+  clearAutoNext();
   document.getElementById('dashboard-view').style.display = 'block';
   document.getElementById('quiz-view').style.display = 'none';
   clearInterval(timerInterval);

@@ -189,6 +189,20 @@
           <span>Hiện đúng/sai ngay khi chọn</span>
           <label class="toggle-switch"><input type="checkbox" id="settingInstantFeedback" checked><span class="slider"></span></label>
         </div>
+        <div class="setting-row setting-row-auto-next">
+          <span>Tự động chuyển câu</span>
+          <label class="toggle-switch"><input type="checkbox" id="settingAutoNext"><span class="slider"></span></label>
+        </div>
+        <div class="setting-row setting-row-delay">
+          <label for="settingAutoNextDelay">Chuyển sau</label>
+          <select id="settingAutoNextDelay" aria-label="Thời gian tự chuyển câu">
+            <option value="1">1 giây</option>
+            <option value="2" selected>2 giây</option>
+            <option value="3">3 giây</option>
+            <option value="4">4 giây</option>
+            <option value="5">5 giây</option>
+          </select>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn-nav primary" onclick="applySettingsAndStart()">Bắt đầu làm bài</button>
