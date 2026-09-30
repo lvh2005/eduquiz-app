@@ -89,10 +89,15 @@ async function handleWordFile(e) {
     const subject = document.getElementById('subjectInput').value.trim();
     if (!subject) return alert('Vui lòng nhập tên môn trước khi tải file Word!');
     const text = await extractTextFromDocx(file);
-    const parsedQuestions = parseQuizText(text);
+    const parsedResult = parseQuizTextDetailed(text);
+    const parsedQuestions = parsedResult.questions;
 
     if (parsedQuestions.length === 0) {
       return alert('Không bóc tách được câu hỏi nào từ file Word! Hãy kiểm tra định dạng.');
+    }
+
+    if (parsedResult.diagnostics.length > 0) {
+      alert(`Đã đọc ${parsedQuestions.length} câu, nhưng có cảnh báo:\n\n- ${parsedResult.diagnostics.join('\n- ')}`);
     }
 
     const title = file.name.replace(/\.[^/.]+$/, '');
@@ -125,8 +130,12 @@ async function handleRawTextSubmit() {
   const subject = document.getElementById('subjectInput').value.trim();
   if (!subject) return alert('Vui lòng nhập tên môn trước khi lưu câu hỏi!');
 
-  const parsed = parseQuizText(text);
+  const parsedResult = parseQuizTextDetailed(text);
+  const parsed = parsedResult.questions;
   if (parsed.length === 0) return alert('Không nhận dạng được câu hỏi!');
+  if (parsedResult.diagnostics.length > 0) {
+    alert(`Đã đọc ${parsed.length} câu, nhưng có cảnh báo:\n\n- ${parsedResult.diagnostics.join('\n- ')}`);
+  }
   parsed.forEach(question => { question.subject = subject; });
 
   try {
