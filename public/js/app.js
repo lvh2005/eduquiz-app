@@ -11,6 +11,7 @@ let autoNextTick = null;
 let secondsElapsed = 0;
 let currentFilter = 'all';
 let selectedPart = 'all';
+let selectedSubject = 'all';
 
 let settings = {
   shuffleQ: false,
@@ -28,6 +29,11 @@ async function fetchExam() {
       const data = await res.json();
       allQuestions = data.questions || [];
       if (data.title) document.getElementById('dashExamTitle').innerText = data.title;
+      const subject = data.subject || allQuestions[0]?.subject || data.title;
+      allQuestions.forEach(question => {
+        if (!question.subject) question.subject = subject || 'Chưa đặt môn';
+      });
+      if (subject) document.getElementById('dashCoverTitle').innerText = subject.toUpperCase();
     } else {
       console.warn('Chưa có đề trên Redis. Hãy tải file Word lên!');
     }
@@ -39,12 +45,14 @@ async function fetchExam() {
 
 function refreshDashboard() {
   document.getElementById('dashTotalQ').innerText = allQuestions.length;
-  const parts = Array.from(new Set(allQuestions.map(q => q.part || 1))).sort((a,b) => a - b);
+  const subjects = Array.from(new Set(allQuestions.map(q => q.subject || 'Chưa đặt môn'))).sort();
   const container = document.getElementById('partsContainer');
-  let html = `<div class="part-chip ${selectedPart === 'all' ? 'active' : ''}" onclick="selectPart('all')">Tất cả (${allQuestions.length} câu)</div>`;
-  parts.forEach(p => {
-    const count = allQuestions.filter(q => (q.part || 1) === p).length;
-    html += `<div class="part-chip ${selectedPart == p ? 'active' : ''}" onclick="selectPart(${p})">Phần ${p} (${count} câu)</div>`;
+  let html = `<div class="part-chip ${selectedSubject === 'all' ? 'active' : ''}" onclick="selectSubject('all')">Tất cả (${allQuestions.length} câu)</div>`;
+  subjects.forEach(subject => {
+    const count = allQuestions.filter(q => (q.subject || 'Chưa đặt môn') === subject).length;
+    const safeSubject = subject.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
+    const subjectArgument = JSON.stringify(subject).replace(/"/g, '&quot;');
+    html += `<div class="part-chip ${selectedSubject === subject ? 'active' : ''}" onclick="selectSubject(${subjectArgument})">${safeSubject} (${count} câu)</div>`;
   });
   container.innerHTML = html;
 }
@@ -54,12 +62,19 @@ function selectPart(p) {
   refreshDashboard();
 }
 
+function selectSubject(subject) {
+  selectedSubject = subject;
+  refreshDashboard();
+}
+
 // 2. Upload file Word .docx -> Parse trên Client -> Đẩy JSON lên Vercel API
 async function handleWordFile(e) {
   const file = e.target.files[0];
   if (!file) return;
 
   try {
+    const subject = document.getElementById('subjectInput').value.trim();
+    if (!subject) return alert('Vui lòng nhập tên môn trước khi tải file Word!');
     const text = await extractTextFromDocx(file);
     const parsedQuestions = parseQuizText(text);
 
@@ -68,16 +83,18 @@ async function handleWordFile(e) {
     }
 
     const title = file.name.replace(/\.[^/.]+$/, '');
+    parsedQuestions.forEach(question => { question.subject = subject; });
     const res = await fetch(`/api/exam?id=${EXAM_ID}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, questions: parsedQuestions })
+      body: JSON.stringify({ title, subject, questions: parsedQuestions })
     });
 
     const result = await res.json();
     if (result.success) {
       alert(`🎉 Đã lưu ${result.count} câu hỏi lên Upstash Redis!`);
       closeModal('uploadModal');
+      document.getElementById('subjectInput').value = '';
       await fetchExam();
     } else {
       alert('Lỗi: ' + result.error);
@@ -92,21 +109,25 @@ async function handleWordFile(e) {
 async function handleRawTextSubmit() {
   const text = document.getElementById('rawTextarea').value;
   if (!text.trim()) return alert('Vui lòng dán nội dung câu hỏi!');
+  const subject = document.getElementById('subjectInput').value.trim();
+  if (!subject) return alert('Vui lòng nhập tên môn trước khi lưu câu hỏi!');
 
   const parsed = parseQuizText(text);
   if (parsed.length === 0) return alert('Không nhận dạng được câu hỏi!');
+  parsed.forEach(question => { question.subject = subject; });
 
   try {
     const res = await fetch(`/api/exam?id=${EXAM_ID}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: 'Đề thi trắc nghiệm', questions: parsed })
+      body: JSON.stringify({ title: 'Đề thi trắc nghiệm', subject, questions: parsed })
     });
     const result = await res.json();
     if (result.success) {
       alert(`🎉 Đã lưu ${result.count} câu hỏi vào Redis!`);
       closeModal('uploadModal');
       document.getElementById('rawTextarea').value = '';
+      document.getElementById('subjectInput').value = '';
       await fetchExam();
     }
   } catch (err) {
@@ -125,6 +146,7 @@ function applySettingsAndStart() {
   closeModal('settingsModal');
 
   let list = [...allQuestions];
+  if (selectedSubject !== 'all') list = list.filter(q => (q.subject || 'Chưa đặt môn') === selectedSubject);
   if (selectedPart !== 'all') list = list.filter(q => (q.part || 1) == selectedPart);
   if (list.length === 0) return alert('Phần này chưa có câu hỏi!');
 

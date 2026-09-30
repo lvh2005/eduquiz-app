@@ -87,9 +87,9 @@
       </div>
     </div>
 
-    <!-- Phân chia phần thi -->
+    <!-- Phân chia môn thi -->
     <div style="background:var(--card-bg); padding:20px; border-radius:12px; border:1px solid var(--gray-200);">
-      <div style="font-size:14px; font-weight:700; margin-bottom:12px;">Phần thi:</div>
+      <div style="font-size:14px; font-weight:700; margin-bottom:12px;">Môn thi:</div>
       <div class="parts-selector" id="partsContainer"></div>
     </div>
   </main>
@@ -154,6 +154,8 @@
         <button class="icon-btn" onclick="closeModal('uploadModal')"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="modal-body">
+        <label for="subjectInput" style="display:block; font-weight:700; margin-bottom:6px;">Tên môn</label>
+        <input id="subjectInput" type="text" required style="width:100%; padding:10px; margin-bottom:12px; border-radius:8px; border:1px solid var(--gray-300);" placeholder="Ví dụ: Lập trình quản trị cơ sở dữ liệu">
         <div class="drop-zone" onclick="document.getElementById('fileUploadInput').click()">
           <i class="fa-regular fa-file-word" style="font-size:32px; color:var(--primary);"></i>
           <p style="font-weight:700; margin-top:6px;">Chọn file Word (.docx) để tự động cập nhật lên Redis</p>

@@ -35,20 +35,33 @@ export default async function handler(req, res) {
 
     // 2. Lưu / Cập nhật đề thi mới
     if (req.method === 'POST') {
-      const { title, questions } = req.body;
+      const { title, subject, questions } = req.body;
       if (!questions || !Array.isArray(questions)) {
         return res.status(400).json({ error: 'Dữ liệu questions không hợp lệ' });
       }
 
+      const incomingSubject = subject || questions.find(question => question.subject)?.subject || title || 'Chưa đặt môn';
+      const currentData = await redis.get(redisKey);
+      const currentExam = currentData ? (typeof currentData === 'string' ? JSON.parse(currentData) : currentData) : null;
+      const currentQuestions = currentExam?.questions || [];
+      const currentSubject = currentExam?.subject || currentExam?.title || 'Chưa đặt môn';
+      const normalizedQuestions = currentQuestions.map(question => ({
+        ...question,
+        subject: question.subject || currentSubject,
+      }));
+      const retainedQuestions = normalizedQuestions.filter(question => question.subject !== incomingSubject);
+
       const examPayload = {
         id,
-        title: title || 'Bộ đề trắc nghiệm CSDL',
+        title: currentExam?.title || title || 'Bộ đề trắc nghiệm CSDL',
+        subject: incomingSubject,
+        subjects: Array.from(new Set([...retainedQuestions, ...questions].map(question => question.subject || incomingSubject))),
         updatedAt: new Date().toISOString(),
-        questions,
+        questions: [...retainedQuestions, ...questions],
       };
 
       await redis.set(redisKey, JSON.stringify(examPayload));
-      return res.status(200).json({ success: true, count: questions.length, exam: examPayload });
+      return res.status(200).json({ success: true, count: questions.length, total: examPayload.questions.length, exam: examPayload });
     }
 
     return res.status(405).json({ error: 'Method not allowed' });
