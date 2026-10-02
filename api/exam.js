@@ -74,7 +74,13 @@ export default async function handler(req, res) {
           return !sub || sub === ktmSubjectName.toLowerCase() || sub.includes('kế toán máy') || sub.includes('ketoanmay');
         });
 
-        const needsKtmUpgrade = ktmQuestions.length < 172 || !ktmQuestions[0]?.image;
+        const allowedImageQuestions = new Set([1, 2, 3, 4, 5, 48, 49, 50, 51, 52, 53]);
+        const hasImageMismatch = ktmQuestions.some(q => {
+          const isAllowed = q.part === 1 && allowedImageQuestions.has(q.sourceNumber);
+          return (isAllowed && !q.image) || (!isAllowed && Boolean(q.image));
+        });
+
+        const needsKtmUpgrade = ktmQuestions.length < 172 || hasImageMismatch;
 
         if (needsKtmUpgrade) {
           examData.questions = [...otherQuestions, ...DEFAULT_EXAM];

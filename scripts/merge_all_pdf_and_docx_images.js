@@ -21,13 +21,21 @@ const pdfImgMap = {
   53: getBase64Jpg('scripts/extracted_img_11_obj158.jpg'),
 };
 
+const allowedWithImages = new Set([1, 2, 3, 4, 5, 48, 49, 50, 51, 52, 53]);
+
 let attached = 0;
+let removed = 0;
+
 questions.forEach(q => {
-  if (q.part === 1) {
-    if (pdfImgMap[q.sourceNumber]) {
-      q.image = pdfImgMap[q.sourceNumber];
-      attached++;
-      console.log(`Attached PDF image to Part 1 - Câu ${q.sourceNumber} (ID ${q.id})`);
+  if (q.part === 1 && allowedWithImages.has(q.sourceNumber)) {
+    q.image = pdfImgMap[q.sourceNumber];
+    attached++;
+    console.log(`Attached PDF image to Part 1 - Câu ${q.sourceNumber} (ID ${q.id})`);
+  } else {
+    if (q.image) {
+      delete q.image;
+      removed++;
+      console.log(`Removed unwanted image from Part ${q.part} - Câu ${q.sourceNumber} (ID ${q.id})`);
     }
   }
 });
@@ -36,4 +44,5 @@ fs.writeFileSync('public/data/ketoanmay_172.json', JSON.stringify(questions, nul
 fs.writeFileSync('ketoanmay_173_questions.json', JSON.stringify(questions, null, 2), 'utf8');
 fs.writeFileSync('lib/default-exam.js', `export const DEFAULT_EXAM = ${JSON.stringify(questions, null, 2)};\n`, 'utf8');
 
-console.log(`\nUpdated all files! Total questions with images: ${questions.filter(q => !!q.image).length}`);
+console.log(`\nAttached: ${attached}, Removed: ${removed}`);
+console.log(`Updated all files! Total questions with images: ${questions.filter(q => !!q.image).length}`);
