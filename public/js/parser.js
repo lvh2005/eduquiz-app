@@ -125,9 +125,98 @@ function uint8ArrayToBase64(uint8Array) {
   return window.btoa(binary);
 }
 
-// Bóc tách câu hỏi từ file DOCX hoặc PPTX
+// =======================================================
+// XỬ LÝ FILE PDF (.PDF) - Cả PDF có chữ và PDF dạng ảnh scan (OCR)
+// =======================================================
+async function parsePdfFileDetailed(file) {
+  if (!window.pdfjsLib) {
+    throw new Error('Thư viện PDF.js chưa được tải. Vui lòng kiểm tra kết nối mạng.');
+  }
+
+  const arrayBuffer = await file.arrayBuffer();
+  const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
+  const pdf = await loadingTask.promise;
+  const numPages = pdf.numPages;
+  let fullExtractedText = '';
+  const diagnostics = [];
+
+  for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+    const page = await pdf.getPage(pageNum);
+    const textContent = await page.getTextContent();
+    const items = textContent.items || [];
+
+    if (items.length > 0) {
+      // Sắp xếp các đoạn text theo tọa độ dọc (Y) từ trên xuống dưới, rồi theo tọa độ ngang (X)
+      items.sort((a, b) => {
+        const yDiff = Math.abs(b.transform[5] - a.transform[5]);
+        if (yDiff > 6) {
+          return b.transform[5] - a.transform[5];
+        }
+        return a.transform[4] - b.transform[4];
+      });
+
+      let pageLines = [];
+      let currentLine = '';
+      let lastY = null;
+
+      items.forEach(item => {
+        const str = item.str || '';
+        if (!str.trim()) return;
+
+        const currentY = item.transform[5];
+        if (lastY !== null && Math.abs(currentY - lastY) > 8) {
+          if (currentLine.trim()) pageLines.push(currentLine.trim());
+          currentLine = str;
+        } else {
+          currentLine += (currentLine ? ' ' : '') + str;
+        }
+        lastY = currentY;
+      });
+
+      if (currentLine.trim()) pageLines.push(currentLine.trim());
+      fullExtractedText += pageLines.join('\n') + '\n\n';
+    } else if (window.Tesseract) {
+      // Nếu là PDF ảnh scan không có text layer, kích hoạt OCR nhận diện chữ
+      try {
+        const viewport = page.getViewport({ scale: 1.5 });
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        const ctx = canvas.getContext('2d');
+        await page.render({ canvasContext: ctx, viewport }).promise;
+
+        const ocrResult = await window.Tesseract.recognize(canvas, 'vie+eng');
+        const ocrText = ocrResult?.data?.text || '';
+        if (ocrText.trim()) {
+          fullExtractedText += ocrText + '\n\n';
+        }
+      } catch (ocrErr) {
+        console.warn(`Lỗi OCR trang ${pageNum}:`, ocrErr);
+        diagnostics.push(`Trang ${pageNum} không thể nhận dạng chữ qua OCR: ${ocrErr.message}`);
+      }
+    }
+  }
+
+  if (!fullExtractedText.trim()) {
+    throw new Error('Không trích xuất được chữ từ file PDF. File có thể là ảnh scan chất lượng thấp hoặc bị khóa bảo vệ.');
+  }
+
+  const parsed = parseQuizTextDetailed(fullExtractedText);
+  return {
+    questions: parsed.questions,
+    diagnostics: [...diagnostics, ...parsed.diagnostics]
+  };
+}
+
+// Bóc tách câu hỏi tổng quát từ mọi loại file: .pdf, .docx, .pptx, .txt
 async function parseDocxFileDetailed(file) {
   const fileName = (file.name || '').toLowerCase();
+
+  // 1. File PDF
+  if (fileName.endsWith('.pdf')) {
+    return await parsePdfFileDetailed(file);
+  }
+
   const arrayBuffer = await file.arrayBuffer();
   const zip = await readDocxZipEntries(arrayBuffer);
   const decoder = new TextDecoder('utf-8');
