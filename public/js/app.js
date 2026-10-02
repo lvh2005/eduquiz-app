@@ -50,10 +50,28 @@ async function fetchExam() {
       });
       if (subject) document.getElementById('dashCoverTitle').innerText = subject.toUpperCase();
     } else {
-      console.warn('Chưa có đề trên Redis. Hãy tải file Word lên!');
+      console.warn('Chưa có đề trên Redis. Tải bộ câu hỏi mặc định 172 câu (Phần 1 + Phần 2)...');
+      const fallbackRes = await fetch('/data/ketoanmay_172.json');
+      if (fallbackRes.ok) {
+        allQuestions = await fallbackRes.json();
+        const defaultSubject = 'Cơ sở công nghệ của hệ thống kế toán máy HUBT (2TC)';
+        document.getElementById('dashExamTitle').innerText = defaultSubject;
+        document.getElementById('dashCoverTitle').innerText = defaultSubject.toUpperCase();
+      }
     }
   } catch (err) {
     console.error('Lỗi fetchExam:', err);
+    try {
+      const fallbackRes = await fetch('/data/ketoanmay_172.json');
+      if (fallbackRes.ok) {
+        allQuestions = await fallbackRes.json();
+        const defaultSubject = 'Cơ sở công nghệ của hệ thống kế toán máy HUBT (2TC)';
+        document.getElementById('dashExamTitle').innerText = defaultSubject;
+        document.getElementById('dashCoverTitle').innerText = defaultSubject.toUpperCase();
+      }
+    } catch (e) {
+      console.error('Lỗi load fallback:', e);
+    }
   }
   refreshDashboard();
 }
