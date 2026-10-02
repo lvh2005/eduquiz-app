@@ -356,6 +356,21 @@ body { background-color: var(--body-bg); color: var(--gray-800); min-height: 100
   transition: 0.2s;
 }
 .btn-cta-green:hover { background: #15803d; }
+.btn-cta-upload {
+  background: #0284c7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-weight: 700;
+  font-size: 14.5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s;
+}
+.btn-cta-upload:hover { background: #0369a1; }
 .btn-cta-primary {
   background: var(--primary);
   color: white;
@@ -372,48 +387,338 @@ body { background-color: var(--body-bg); color: var(--gray-800); min-height: 100
 }
 .btn-cta-primary:hover { background: var(--primary-hover); }
 
-/* Part chips */
-.parts-selector {
+/* =========================================
+   TRENDING EXAMS SECTION (Kiểu ảnh xu hướng)
+   ========================================= */
+.trending-section {
+  margin-top: 28px;
+  margin-bottom: 40px;
+}
+.trending-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 18px;
   flex-wrap: wrap;
+  gap: 12px;
 }
-.subject-card {
-  position: relative;
-  min-width: 180px;
-  padding: 14px 42px 14px 16px;
-  border: 1px solid var(--gray-200);
-  border-radius: 10px;
-  background: var(--gray-100);
-  color: var(--gray-700);
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: 0.2s;
+.trending-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.subject-card:hover,
-.subject-card.active {
+.trending-fire-icon {
+  font-size: 22px;
+  color: #f97316;
+  display: flex;
+  align-items: center;
+  animation: pulse-fire 1.8s infinite ease-in-out;
+}
+@keyframes pulse-fire {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+.trending-header-title h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--gray-900);
+  letter-spacing: -0.3px;
+}
+.btn-add-exam-sub {
   background: var(--primary);
   color: white;
-  border-color: var(--primary);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s;
 }
-.subject-card-name { display: block; margin-bottom: 4px; }
-.subject-card-count { font-size: 12px; font-weight: 500; opacity: 0.8; }
-.subject-card-delete {
+.btn-add-exam-sub:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.trending-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+  gap: 20px;
+}
+
+/* Empty State */
+.empty-exams-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px 20px;
+  background: var(--card-bg);
+  border: 2px dashed var(--gray-300);
+  border-radius: 16px;
+}
+
+/* Card Styling */
+.trending-card {
+  background: var(--card-bg);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+body.dark .trending-card {
+  background: #0f172a;
+  border-color: #1e293b;
+}
+.trending-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 28px -4px rgba(79, 70, 229, 0.18), var(--shadow-md);
+}
+.trending-card.active {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+/* Card Banner */
+.trending-card-banner {
+  position: relative;
+  background: #fdfbf7;
+  border-bottom: 1px solid var(--gray-200);
+  padding: 16px 14px 14px;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+body.dark .trending-card-banner {
+  background: #fdfaf6; /* Giữ style giấy note trường HUBT màu sáng cho poster như ảnh thực tế */
+}
+
+/* Notebook background effect with decorative corner books */
+.banner-notebook-bg {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+.trending-card-banner::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 100% 12px;
+  pointer-events: none;
+}
+.trending-card-banner::after {
+  content: "📚";
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  font-size: 24px;
+  opacity: 0.85;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.banner-school {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.3;
+  margin-bottom: 6px;
+  letter-spacing: -0.1px;
+}
+.banner-subject-red {
+  font-size: 13px;
+  font-weight: 900;
+  color: #dc2626;
+  line-height: 1.35;
+  margin: 4px 0;
+  text-transform: uppercase;
+  letter-spacing: -0.2px;
+}
+.banner-tc {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #dc2626;
+}
+.banner-year {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #1e293b;
+  margin-top: 4px;
+}
+
+/* Banner Floating Action Buttons (Heart + Delete) */
+.banner-actions {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 26px;
-  height: 26px;
-  border: 0;
-  border-radius: 6px;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  opacity: 0.75;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 5;
 }
-.subject-card-delete:hover { background: rgba(239, 68, 68, 0.18); color: #dc2626; opacity: 1; }
+.banner-btn-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.banner-btn-icon:hover.heart {
+  background: rgba(244, 63, 94, 0.9);
+  color: #ffffff;
+  transform: scale(1.1);
+}
+.banner-btn-icon.favorited {
+  background: #f43f5e;
+  color: #ffffff;
+}
+.banner-btn-icon:hover.trash {
+  background: rgba(220, 38, 38, 0.9);
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+/* Card Body */
+.trending-card-body {
+  padding: 16px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.trending-card-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--gray-900);
+  line-height: 1.4;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 40px;
+}
+.trending-card-author {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+.author-avatar-sm {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--gray-200);
+  color: var(--gray-600);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body.dark .author-avatar-sm {
+  background: #334155;
+  color: #cbd5e1;
+}
+.author-name-sm {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-500);
+}
+body.dark .author-name-sm {
+  color: #94a3b8;
+}
+
+.trending-stats-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--gray-500);
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+body.dark .trending-stats-row {
+  color: #94a3b8;
+}
+.trending-stats-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.trending-stats-row .rating {
+  color: #f59e0b;
+  font-weight: 700;
+}
+
+.trending-tags-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.trending-tag {
+  background: var(--gray-100);
+  color: var(--gray-600);
+  border: 1px solid var(--gray-200);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+body.dark .trending-tag {
+  background: #1e293b;
+  color: #cbd5e1;
+  border-color: #334155;
+}
+
+.trending-date {
+  font-size: 11.5px;
+  color: var(--gray-400);
+  margin-bottom: 10px;
+}
+
+.trending-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ea580c;
+  padding-top: 10px;
+  border-top: 1px solid var(--gray-100);
+  margin-top: auto;
+}
+body.dark .trending-footer {
+  border-top-color: #1e293b;
+  color: #fb923c;
+}
+.fire-flame {
+  font-size: 14px;
+}
 
 /* =========================================
    QUIZ VIEW
@@ -453,9 +758,100 @@ body { background-color: var(--body-bg); color: var(--gray-800); min-height: 100
   font-size: 17px;
   font-weight: 600;
   color: var(--gray-900);
-  margin-bottom: 20px;
-  line-height: 1.5;
+  margin-bottom: 16px;
+  line-height: 1.55;
 }
+
+/* Question Images */
+.q-image-container {
+  margin-bottom: 20px;
+}
+.q-image-wrapper {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 12px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+}
+body.dark .q-image-wrapper {
+  background: #1e293b;
+  border-color: #334155;
+}
+.quiz-question-image {
+  max-width: 100%;
+  max-height: 380px;
+  object-fit: contain;
+  border-radius: 8px;
+  cursor: zoom-in;
+  transition: transform 0.2s ease;
+  background: #ffffff;
+}
+.quiz-question-image:hover {
+  transform: scale(1.01);
+}
+.q-image-hint {
+  font-size: 12px;
+  color: var(--gray-500);
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+body.dark .q-image-hint {
+  color: var(--gray-400);
+}
+
+/* Lightbox Modal */
+.image-lightbox-backdrop {
+  z-index: 1200;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.image-lightbox-content {
+  position: relative;
+  max-width: 92vw;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.image-lightbox-content img {
+  max-width: 100%;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  background: #ffffff;
+}
+.image-lightbox-close {
+  position: absolute;
+  top: -42px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: 0.2s;
+}
+.image-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
+}
+
 .q-options {
   display: flex;
   flex-direction: column;

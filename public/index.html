@@ -26,8 +26,8 @@
     </div>
 
     <div class="header-actions">
-      <button class="btn-header-upload" id="adminUploadButton" onclick="openUploadModal()" style="display:none;">
-        <i class="fa-solid fa-cloud-arrow-up"></i> Tải đề lên (.docx)
+      <button class="btn-header-upload" id="adminUploadButton" onclick="openUploadModal()">
+        <i class="fa-solid fa-cloud-arrow-up"></i> Thêm đề thi (.docx)
       </button>
       <button class="mobile-menu-btn" onclick="toggleMobileDrawer()" title="Mở danh mục câu">
         <i class="fa-solid fa-bars"></i>
@@ -83,7 +83,7 @@
 
       <div class="cta-action-bar">
         <button class="btn-cta-green" onclick="exportQuestionsJSON()"><i class="fa-solid fa-download"></i> Xuất JSON</button>
-        <button class="btn-cta-primary" onclick="openStartModal()"><i class="fa-solid fa-bolt"></i> Luyện tập ngay</button>
+        <button class="btn-cta-upload" onclick="openUploadModal()"><i class="fa-solid fa-cloud-arrow-up"></i> Thêm đề thi mới</button>
       </div>
     </div>
 
@@ -97,11 +97,21 @@
       </button>
     </section>
 
-    <!-- Phân chia môn thi -->
-    <div style="background:var(--card-bg); padding:20px; border-radius:12px; border:1px solid var(--gray-200);">
-      <div style="font-size:14px; font-weight:700; margin-bottom:12px;">Môn thi:</div>
-      <div class="parts-selector subject-cards" id="partsContainer"></div>
-    </div>
+    <!-- Danh sách môn thi theo phong cách đề thi lên xu hướng -->
+    <section class="trending-section">
+      <div class="trending-header">
+        <div class="trending-header-title">
+          <span class="trending-fire-icon"><i class="fa-solid fa-fire"></i></span>
+          <h2>Đề thi lên xu hướng</h2>
+        </div>
+        <div class="trending-header-actions">
+          <button class="btn-add-exam-sub" onclick="openUploadModal()">
+            <i class="fa-solid fa-plus"></i> Thêm đề mới
+          </button>
+        </div>
+      </div>
+      <div class="trending-grid" id="partsContainer"></div>
+    </section>
   </main>
 
   <!-- QUIZ VIEW -->
@@ -123,6 +133,7 @@
           <button class="icon-btn" onclick="toggleFlagCurrent()" id="flagBtn"><i class="fa-regular fa-bookmark"></i></button>
         </div>
         <div class="q-text" id="qQuestionText">Đang tải câu hỏi...</div>
+        <div class="q-image-container" id="qImageContainer" style="display:none;"></div>
         <div class="q-options" id="qOptionsContainer"></div>
         <div class="quiz-bottom-nav">
           <button class="btn-nav" id="btnPrevQ" onclick="prevQuestion()"><i class="fa-solid fa-chevron-left"></i> Câu trước</button>
@@ -241,6 +252,14 @@
         <button class="btn-nav" onclick="retryWrongQuestions()">Làm lại câu sai</button>
         <button class="btn-nav primary" onclick="goToDashboard(); closeModal('resultModal');">Quay lại</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Modal Phóng to Ảnh -->
+  <div class="modal-backdrop image-lightbox-backdrop" id="imageLightboxModal" onclick="closeModal('imageLightboxModal')">
+    <div class="image-lightbox-content" onclick="event.stopPropagation()">
+      <button class="image-lightbox-close" onclick="closeModal('imageLightboxModal')"><i class="fa-solid fa-xmark"></i></button>
+      <img id="lightboxImage" src="" alt="Hình ảnh phóng to">
     </div>
   </div>
 
