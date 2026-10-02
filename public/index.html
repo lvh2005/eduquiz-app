@@ -178,9 +178,12 @@
         <label for="subjectInput" style="display:block; font-weight:700; margin-bottom:6px;">Tên môn</label>
         <input id="subjectInput" type="text" required style="width:100%; padding:10px; margin-bottom:12px; border-radius:8px; border:1px solid var(--gray-300);" placeholder="Ví dụ: Lập trình quản trị cơ sở dữ liệu">
         <div class="drop-zone" onclick="document.getElementById('fileUploadInput').click()">
-          <i class="fa-regular fa-file-word" style="font-size:32px; color:var(--primary);"></i>
-          <p style="font-weight:700; margin-top:6px;">Chọn file Word (.docx) để tự động cập nhật lên Redis</p>
-          <input type="file" id="fileUploadInput" accept=".docx" style="display:none;" onchange="handleWordFile(event)">
+          <div style="font-size:32px; color:var(--primary); margin-bottom:4px;">
+            <i class="fa-regular fa-file-word"></i> <i class="fa-regular fa-file-powerpoint" style="color:#f97316; margin-left:6px;"></i>
+          </div>
+          <p style="font-weight:700; margin-top:6px;">Chọn file Word (.docx) hoặc PowerPoint (.pptx)</p>
+          <p style="font-size:12.5px; color:var(--gray-500); margin-top:2px;">Tự động nhận diện chữ, đáp án đỏ/gạch chân và hình ảnh</p>
+          <input type="file" id="fileUploadInput" accept=".docx,.pptx" style="display:none;" onchange="handleWordFile(event)">
         </div>
         <textarea id="rawTextarea" rows="6" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--gray-300);" placeholder="Hoặc dán câu hỏi:&#10;Câu 1: SQL là gì?&#10;*A. Ngôn ngữ truy vấn&#10;B. Ngôn ngữ dịch"></textarea>
         <button class="btn-cta-primary" style="width:100%; justify-content:center;" onclick="handleRawTextSubmit()">Lưu vào Redis</button>
