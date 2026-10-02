@@ -7,6 +7,8 @@ const redis = new Redis({
   token: process.env.UPSTASH_REDIS_REST_TOKEN,
 });
 
+import { DEFAULT_EXAM } from '../lib/default-exam.js';
+
 export default async function handler(req, res) {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -32,16 +34,38 @@ export default async function handler(req, res) {
     // 1. Lấy dữ liệu đề thi kèm thống kê lượt thi thật
     if (req.method === 'GET') {
       const statsKey = `eduquiz:stats:${id}`;
-      const [data, rawStats] = await Promise.all([
-        redis.get(redisKey),
-        redis.get(statsKey).catch(() => null)
-      ]);
+      let data = null;
+      let rawStats = null;
 
-      if (!data) {
-        return res.status(404).json({ error: 'Chưa có đề thi nào được tạo' });
+      try {
+        [data, rawStats] = await Promise.all([
+          redis.get(redisKey),
+          redis.get(statsKey).catch(() => null)
+        ]);
+      } catch (redisErr) {
+        console.warn('Redis query failed, using default dataset:', redisErr);
       }
 
-      const examData = typeof data === 'string' ? JSON.parse(data) : data;
+      let examData;
+      if (!data) {
+        examData = {
+          id,
+          title: 'Cơ sở công nghệ của hệ thống kế toán máy HUBT (2TC)',
+          subject: 'Cơ sở công nghệ của hệ thống kế toán máy HUBT (2TC)',
+          subjects: ['Cơ sở công nghệ của hệ thống kế toán máy HUBT (2TC)'],
+          updatedAt: new Date().toISOString(),
+          questions: DEFAULT_EXAM,
+        };
+        try { await redis.set(redisKey, JSON.stringify(examData)); } catch (_) {}
+      } else {
+        examData = typeof data === 'string' ? JSON.parse(data) : data;
+        // Nếu đề cũ trong Redis chỉ có dưới 172 câu hoặc chưa có Phần 2, tự động nâng cấp
+        if (Array.isArray(examData.questions) && examData.questions.length < 172) {
+          examData.questions = DEFAULT_EXAM;
+          try { await redis.set(redisKey, JSON.stringify(examData)); } catch (_) {}
+        }
+      }
+
       examData.stats = rawStats ? (typeof rawStats === 'string' ? JSON.parse(rawStats) : rawStats) : {};
       return res.status(200).json(examData);
     }
