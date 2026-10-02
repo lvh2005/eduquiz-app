@@ -457,7 +457,7 @@ async function parseDocxFileDetailed(file) {
   return { questions, diagnostics };
 }
 
-// Phân tích văn bản thô (khi dán Text thủ công)
+// Phân tích văn bản thô (hỗ trợ cả định dạng EduQuiz PDF, Word, dán Text thủ công)
 function parseQuizTextDetailed(fullText) {
   const lines = fullText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
   const questions = [];
@@ -465,27 +465,36 @@ function parseQuizTextDetailed(fullText) {
   let currentPart = 1;
   let current = null;
 
-  const qRegex = /^(?:câu|cau)\s*(\d+)[\s*:\.\-\)](.*)$/i;
   const partRegex = /^(?:phần|phan|part)\s*(\d+)/i;
-  const optRegex = /^(\*|\[x\])?\s*(?:\(([A-Da-d])\)|\[([A-Da-d])\]|([A-Da-d])[\.\:\-\)\]])\s*(.*)$/;
+  const qMetaRegex = /^(?:câu|cau)\s*\d+\s*\((?:một|nhiều|mot|nhieu)?\s*đáp án\)/i;
+  const qHeaderRegex = /^(?:câu|cau|question|q\s*\.?|bài|bai)\s*(\d+)[\s*:\.\-\)]([\s\S]*)$/i;
+  const numberedQRegex = /^(\d+)[\.\:\-\)]([\s\S]*)$/;
+  const optPrefixRegex = /^(?:(?:\(([a-eA-E])\)|\[([a-eA-E])\]|([a-eA-E])[\.\:\-\)\]])\s*|\*\s*)+([\s\S]*)$/;
 
-  const finishCurrent = () => {
+  function finishCurrent() {
     if (!current) return;
     if (current.a.length >= 2) {
       questions.push(current);
-    } else {
+    } else if (current.a.length > 0) {
       diagnostics.push(`Câu ${current.sourceNumber} chỉ có ${current.a.length} phương án`);
     }
-  };
+  }
 
   lines.forEach(line => {
+    // Bỏ qua các dòng tiêu đề header/footer của trang in PDF
+    if (qMetaRegex.test(line) || line.startsWith('https://') || line.includes('EduQuiz -') || /^\d+\/\d+$/.test(line)) {
+      return;
+    }
+
+    // Nhận dạng phần thi (Phần 1, Phần 2...)
     const partMatch = line.match(partRegex);
     if (partMatch) {
       currentPart = parseInt(partMatch[1]) || 1;
       return;
     }
 
-    const qMatch = line.match(qRegex);
+    // Nhận dạng đầu câu hỏi: "Câu 1: ...", "Câu 2. ...", "1. ..."
+    const qMatch = line.match(qHeaderRegex) || (line.match(numberedQRegex) && line.includes('?'));
     if (qMatch) {
       finishCurrent();
       let qBody = qMatch[2].trim().replace(/^["'“](.*)["'”]$/, '$1').trim();
@@ -501,20 +510,21 @@ function parseQuizTextDetailed(fullText) {
       return;
     }
 
-    const optMatch = line.match(optRegex);
-    if (optMatch && current) {
-      const isCorrect = Boolean(optMatch[1]);
-      let optText = optMatch[5].trim().replace(/^["'“](.*)["'”]$/, '$1').trim();
-      current.a.push(optText);
-      if (isCorrect) current.c = current.a.length - 1;
-      return;
-    }
-
+    // Nhận dạng các phương án trả lời
     if (current) {
-      let cleanLine = line.replace(/^["'“](.*)["'”]$/, '$1').trim();
-      if (current.a.length === 0) current.q += ' ' + cleanLine;
-      else {
-        current.a.push(cleanLine);
+      let isCorrect = line.startsWith('*') || line.startsWith('•*') || /\[x\]/i.test(line);
+      let optText = line.replace(/^\*\s*/, '');
+      const optMatch = optText.match(optPrefixRegex);
+      if (optMatch) {
+        optText = optMatch[4].trim();
+      }
+      optText = optText.replace(/^["'“](.*)["'”]$/, '$1').trim();
+
+      if (optText) {
+        current.a.push(optText);
+        if (isCorrect) {
+          current.c = current.a.length - 1;
+        }
       }
     }
   });
