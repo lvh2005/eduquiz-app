@@ -43,7 +43,7 @@ async function fetchExam() {
       const data = await res.json();
       allQuestions = data.questions || [];
       serverStats = data.stats || {};
-      if (allQuestions.length < 172) {
+      if (allQuestions.length < 172 || !allQuestions[0]?.image) {
         try {
           const fallbackRes = await fetch('/data/ketoanmay_172.json');
           if (fallbackRes.ok) {

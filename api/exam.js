@@ -59,8 +59,8 @@ export default async function handler(req, res) {
         try { await redis.set(redisKey, JSON.stringify(examData)); } catch (_) {}
       } else {
         examData = typeof data === 'string' ? JSON.parse(data) : data;
-        // Nếu đề cũ trong Redis chỉ có dưới 172 câu hoặc chưa có Phần 2, tự động nâng cấp
-        if (Array.isArray(examData.questions) && examData.questions.length < 172) {
+        // Nếu đề cũ trong Redis thiếu câu hoặc chưa có ảnh ở Câu 1, tự động nâng cấp
+        if (!Array.isArray(examData.questions) || examData.questions.length < 172 || !examData.questions[0]?.image) {
           examData.questions = DEFAULT_EXAM;
           try { await redis.set(redisKey, JSON.stringify(examData)); } catch (_) {}
         }
