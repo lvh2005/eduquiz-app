@@ -29,16 +29,39 @@ export default async function handler(req, res) {
   const redisKey = `eduquiz:exam:${id}`;
 
   try {
-    // 1. Lấy dữ liệu đề thi
+    // 1. Lấy dữ liệu đề thi kèm thống kê lượt thi thật
     if (req.method === 'GET') {
-      const data = await redis.get(redisKey);
+      const statsKey = `eduquiz:stats:${id}`;
+      const [data, rawStats] = await Promise.all([
+        redis.get(redisKey),
+        redis.get(statsKey).catch(() => null)
+      ]);
+
       if (!data) {
         return res.status(404).json({ error: 'Chưa có đề thi nào được tạo' });
       }
-      return res.status(200).json(typeof data === 'string' ? JSON.parse(data) : data);
+
+      const examData = typeof data === 'string' ? JSON.parse(data) : data;
+      examData.stats = rawStats ? (typeof rawStats === 'string' ? JSON.parse(rawStats) : rawStats) : {};
+      return res.status(200).json(examData);
     }
 
-    // 2. Lưu / Cập nhật đề thi mới
+    // 2. Ghi nhận lượt thi thật khi người dùng nộp bài / luyện tập
+    if (req.method === 'POST' && req.query.action === 'attempt') {
+      const subject = String(req.body?.subject || req.query.subject || 'all').trim();
+      const statsKey = `eduquiz:stats:${id}`;
+      const rawStats = await redis.get(statsKey).catch(() => null);
+      const currentStats = rawStats ? (typeof rawStats === 'string' ? JSON.parse(rawStats) : rawStats) : {};
+
+      if (!currentStats[subject]) {
+        currentStats[subject] = { attempts: 0, views: 0 };
+      }
+      currentStats[subject].attempts = (currentStats[subject].attempts || 0) + 1;
+      await redis.set(statsKey, JSON.stringify(currentStats));
+      return res.status(200).json({ success: true, stats: currentStats });
+    }
+
+    // 3. Lưu / Cập nhật đề thi mới
     if (req.method === 'POST') {
       const { title, subject, questions } = req.body;
       if (!questions || !Array.isArray(questions)) {

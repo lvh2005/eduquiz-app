@@ -33,6 +33,7 @@ let settings = {
   autoNext: false,
   autoNextDelay: 2
 };
+let serverStats = {};
 
 // 1. Lấy dữ liệu đề thi từ Vercel Serverless API
 async function fetchExam() {
@@ -41,6 +42,7 @@ async function fetchExam() {
     if (res.ok) {
       const data = await res.json();
       allQuestions = data.questions || [];
+      serverStats = data.stats || {};
       if (data.title) document.getElementById('dashExamTitle').innerText = data.title;
       const subject = data.subject || allQuestions[0]?.subject || data.title;
       allQuestions.forEach(question => {
@@ -56,33 +58,56 @@ async function fetchExam() {
   refreshDashboard();
 }
 
-function getSubjectStats(str, count) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = (hash << 5) - hash + str.charCodeAt(i);
-    hash |= 0;
+function getRealSubjectStats(subject) {
+  let localStats = {};
+  try {
+    localStats = JSON.parse(localStorage.getItem('eduquiz_subject_attempts') || '{}');
+  } catch {}
+
+  const serverCount = serverStats[subject]?.attempts || 0;
+  const localCount = localStats[subject] || 0;
+  const attempts = Math.max(serverCount, localCount);
+
+  return { attempts };
+}
+
+async function recordExamAttempt(subject) {
+  if (!subject) return;
+  // 1. Lưu local
+  try {
+    const localStats = JSON.parse(localStorage.getItem('eduquiz_subject_attempts') || '{}');
+    localStats[subject] = (localStats[subject] || 0) + 1;
+    localStorage.setItem('eduquiz_subject_attempts', JSON.stringify(localStats));
+  } catch {}
+
+  // 2. Gửi lên server Redis
+  try {
+    const res = await fetch(`/api/exam?id=${EXAM_ID}&action=attempt`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subject })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.stats) serverStats = data.stats;
+    }
+  } catch (err) {
+    console.warn('Lỗi ghi nhận lượt thi:', err);
   }
-  const abs = Math.abs(hash);
-  const views = Math.max(count * 3, (abs % 1800) + 120);
-  const plays = Math.max(Math.floor(count * 1.2), Math.floor(views * 0.45) + 25);
-  const monthly = Math.max(15, (abs % 75) + 18);
-  const formattedViews = views >= 1000 ? (views / 1000).toFixed(1) + 'k' : String(views);
-  const formattedPlays = plays >= 1000 ? (plays / 1000).toFixed(1) + 'k' : String(plays);
-  return { views: formattedViews, plays: formattedPlays, monthly };
 }
 
 function refreshDashboard() {
   document.getElementById('dashTotalQ').innerText = allQuestions.length;
-  const subjects = Array.from(new Set(allQuestions.map(q => q.subject || 'Chưa đặt môn'))).sort();
+  const subjects = Array.from(new Set(allQuestions.map(q => q.subject || 'Chưa đặt môn'))).filter(Boolean).sort();
   const container = document.getElementById('partsContainer');
   if (!container) return;
 
-  if (allQuestions.length === 0) {
+  if (allQuestions.length === 0 || subjects.length === 0) {
     container.innerHTML = `
       <div class="empty-exams-state">
         <i class="fa-regular fa-folder-open" style="font-size:42px; color:var(--gray-400); margin-bottom:12px;"></i>
         <p style="font-weight:700; font-size:16px;">Chưa có đề thi nào trong hệ thống</p>
-        <p style="color:var(--gray-500); font-size:13.5px; margin-top:6px;">Hãy nhấn nút <b>"Thêm đề thi (.docx)"</b> để tải bộ câu hỏi lên</p>
+        <p style="color:var(--gray-500); font-size:13.5px; margin-top:6px;">Hãy nhấn nút <b>"Thêm đề mới"</b> để tải đề thi lên</p>
         <button class="btn-cta-upload" style="margin-top:16px;" onclick="openUploadModal()"><i class="fa-solid fa-cloud-arrow-up"></i> Tải đề lên ngay</button>
       </div>`;
     return;
@@ -90,69 +115,19 @@ function refreshDashboard() {
 
   let html = '';
 
-  // 1. Nếu có nhiều hơn 1 môn, hiển thị card "Tất cả đề thi"
-  if (subjects.length > 1) {
-    const allStats = getSubjectStats('Tất cả đề thi', allQuestions.length);
-    html += `
-      <div class="trending-card ${selectedSubject === 'all' ? 'active' : ''}" onclick="startSubject('all')">
-        <div class="trending-card-banner">
-          <div class="banner-notebook-bg">
-            <div class="banner-school">Trường Đại học Kinh doanh<br>và Công nghệ Hà Nội</div>
-            <div class="banner-subject-red">TỔNG HỢP TOÀN BỘ ĐỀ THI<br><span class="banner-tc">(TẤT CẢ MÔN)</span></div>
-            <div class="banner-year">2026</div>
-          </div>
-          <div class="banner-actions">
-            <button class="banner-btn-icon heart" title="Yêu thích" onclick="event.stopPropagation(); toggleHeart(this)">
-              <i class="fa-regular fa-heart"></i>
-            </button>
-          </div>
-        </div>
-        <div class="trending-card-body">
-          <h3 class="trending-card-title" title="Tổng hợp toàn bộ các môn thi HUBT">
-            Tổng hợp toàn bộ đề thi HUBT (Tất cả môn)
-          </h3>
-          <div class="trending-card-author">
-            <span class="author-avatar-sm">T</span>
-            <span class="author-name-sm">TNM HUBT</span>
-          </div>
-          <div class="trending-stats-row">
-            <span><i class="fa-regular fa-circle-question"></i> ${allQuestions.length} câu</span>
-            <span><i class="fa-regular fa-eye"></i> ${allStats.views}</span>
-            <span><i class="fa-regular fa-circle-play"></i> ${allStats.plays}</span>
-            <span class="rating"><i class="fa-solid fa-star"></i> 5.0</span>
-          </div>
-          <div class="trending-tags-row">
-            <span class="trending-tag"><i class="fa-solid fa-building-columns"></i> HUBT</span>
-            <span class="trending-tag"><i class="fa-solid fa-graduation-cap"></i> Ôn Thi Sinh Viên</span>
-          </div>
-          <div class="trending-date">23/09/2026</div>
-          <div class="trending-footer">
-            <span class="fire-flame">🔥</span>
-            <span>${allStats.monthly} lượt luyện thi 30 ngày qua</span>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  // 2. Từng môn thi
+  // Chỉ hiển thị đúng các môn thi mà người dùng đã thêm
   subjects.forEach(subject => {
     const count = allQuestions.filter(q => (q.subject || 'Chưa đặt môn') === subject).length;
     const safeSubject = subject.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
     const subjectArg = JSON.stringify(subject).replace(/"/g, '&quot;');
-    const stats = getSubjectStats(subject, count);
-
-    let displaySubjectRed = safeSubject.toUpperCase();
-    if (!displaySubjectRed.includes('TC') && !displaySubjectRed.includes('TÍN')) {
-      displaySubjectRed += '<br><span class="banner-tc">(2TC)</span>';
-    }
+    const stats = getRealSubjectStats(subject);
 
     html += `
       <div class="trending-card ${selectedSubject === subject ? 'active' : ''}" onclick="startSubject(${subjectArg})">
         <div class="trending-card-banner">
           <div class="banner-notebook-bg">
             <div class="banner-school">Trường Đại học Kinh doanh<br>và Công nghệ Hà Nội</div>
-            <div class="banner-subject-red">${displaySubjectRed}</div>
+            <div class="banner-subject-red">${safeSubject.toUpperCase()}</div>
             <div class="banner-year">2026</div>
           </div>
           <div class="banner-actions">
@@ -165,8 +140,8 @@ function refreshDashboard() {
           </div>
         </div>
         <div class="trending-card-body">
-          <h3 class="trending-card-title" title="${safeSubject} HUBT (2TC)">
-            ${safeSubject} HUBT (2TC)
+          <h3 class="trending-card-title" title="${safeSubject}">
+            ${safeSubject}
           </h3>
           <div class="trending-card-author">
             <span class="author-avatar-sm">T</span>
@@ -174,9 +149,7 @@ function refreshDashboard() {
           </div>
           <div class="trending-stats-row">
             <span><i class="fa-regular fa-circle-question"></i> ${count} câu</span>
-            <span><i class="fa-regular fa-eye"></i> ${stats.views}</span>
-            <span><i class="fa-regular fa-circle-play"></i> ${stats.plays}</span>
-            <span class="rating"><i class="fa-solid fa-star"></i> 5.0</span>
+            <span><i class="fa-solid fa-graduation-cap"></i> ${stats.attempts} lượt thi</span>
           </div>
           <div class="trending-tags-row">
             <span class="trending-tag"><i class="fa-solid fa-building-columns"></i> HUBT</span>
@@ -185,7 +158,7 @@ function refreshDashboard() {
           <div class="trending-date">23/09/2026</div>
           <div class="trending-footer">
             <span class="fire-flame">🔥</span>
-            <span>${stats.monthly} lượt luyện thi 30 ngày qua</span>
+            <span>${stats.attempts} lượt luyện thi</span>
           </div>
         </div>
       </div>
@@ -546,6 +519,7 @@ function submitExam() {
   if (score >= 8.5) playSound('fanfare');
   document.getElementById('resultModal').style.display = 'flex';
   clearInterval(timerInterval);
+  recordExamAttempt(selectedSubject);
 }
 
 function retryWrongQuestions() {
