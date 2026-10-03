@@ -242,15 +242,25 @@ async function handleWordFile(e) {
       body: JSON.stringify({ title, subject, questions: parsedQuestions })
     });
 
-    const result = await res.json();
-    if (result.success) {
+    let result;
+    const textResponse = await res.text();
+    try {
+      result = JSON.parse(textResponse);
+    } catch {
+      if (res.status === 413) {
+        throw new Error('Dung lượng file quá lớn (vượt quá 4.5MB). Vui lòng nén nhỏ ảnh trong file.');
+      }
+      throw new Error(`Máy chủ trả về mã ${res.status}: ${textResponse.slice(0, 120)}`);
+    }
+
+    if (result && result.success) {
       const imgCount = parsedQuestions.filter(q => q.image).length;
       alert(`🎉 Đã lưu thành công ${result.count} câu hỏi vào đề thi!${imgCount > 0 ? ` (Bao gồm ${imgCount} câu có hình ảnh minh họa)` : ''}`);
       closeModal('uploadModal');
       document.getElementById('subjectInput').value = '';
       await fetchExam();
     } else {
-      alert('Lỗi lưu đề: ' + (result.error || 'Không thể cập nhật'));
+      alert('Lỗi lưu đề: ' + (result?.error || 'Không thể cập nhật'));
     }
   } catch (err) {
     alert('Lỗi xử lý file docx: ' + err.message);
@@ -279,13 +289,22 @@ async function handleRawTextSubmit() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title: 'Đề thi trắc nghiệm', subject, questions: parsed })
     });
-    const result = await res.json();
-    if (result.success) {
+    let result;
+    const textResponse = await res.text();
+    try {
+      result = JSON.parse(textResponse);
+    } catch {
+      throw new Error(`Lỗi máy chủ (${res.status}): ${textResponse.slice(0, 120)}`);
+    }
+
+    if (result && result.success) {
       alert(`🎉 Đã lưu ${result.count} câu hỏi vào Redis!`);
       closeModal('uploadModal');
       document.getElementById('rawTextarea').value = '';
       document.getElementById('subjectInput').value = '';
       await fetchExam();
+    } else {
+      alert('Lỗi lưu: ' + (result?.error || 'Không thể cập nhật'));
     }
   } catch (err) {
     alert('Lỗi lưu Redis: ' + err.message);

@@ -1,6 +1,6 @@
 // =======================================================
-// EduQuiz Universal Parser (.DOCX & .PPTX & .TXT)
-// Hỗ trợ trích xuất Câu hỏi, Phương án, Màu đỏ đáp án, Gạch chân và Hình ảnh Base64
+// EduQuiz Universal Parser (.DOCX & .PPTX & .TXT & .PDF)
+// Hỗ trợ trích xuất Câu hỏi, Phương án, Dấu tick ✓, Màu đỏ, In đậm, Gạch chân và Hình ảnh
 // =======================================================
 
 async function decompressDeflateRaw(compressedUint8Array) {
@@ -125,6 +125,51 @@ function uint8ArrayToBase64(uint8Array) {
   return window.btoa(binary);
 }
 
+// Nén ảnh nhẹ lại để không vượt quá giới hạn 4.5MB của Vercel & Redis
+async function compressImage(dataUrl, maxWidth = 800, quality = 0.72) {
+  if (!dataUrl || !dataUrl.startsWith('data:image')) return dataUrl;
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      let w = img.width;
+      let h = img.height;
+      if (w > maxWidth) {
+        h = Math.round((h * maxWidth) / w);
+        w = maxWidth;
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.onerror = () => resolve(dataUrl);
+    img.src = dataUrl;
+  });
+}
+
+function cleanVietnameseTypo(str) {
+  if (!str) return '';
+  return str
+    .replace(/đ-ợc/g, 'được')
+    .replace(/ng-ời/g, 'người')
+    .replace(/nh-\s+/g, 'như ')
+    .replace(/ch-ơng/g, 'chương')
+    .replace(/h-ởng/g, 'hưởng')
+    .replace(/t-ơng/g, 'tương')
+    .replace(/th-ơng/g, 'thương')
+    .replace(/l-u/g, 'lưu')
+    .replace(/b-ớc/g, 'bước')
+    .replace(/h-ớng/g, 'hướng')
+    .replace(/tr-ớc/g, 'trước')
+    .replace(/ph-ơng/g, 'phương')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 // =======================================================
 // XỬ LÝ FILE PDF (.PDF) - Cả PDF có chữ và PDF dạng ảnh scan (OCR)
 // =======================================================
@@ -146,7 +191,6 @@ async function parsePdfFileDetailed(file) {
     const items = textContent.items || [];
 
     if (items.length > 0) {
-      // Sắp xếp các đoạn text theo tọa độ dọc (Y) từ trên xuống dưới, rồi theo tọa độ ngang (X)
       items.sort((a, b) => {
         const yDiff = Math.abs(b.transform[5] - a.transform[5]);
         if (yDiff > 6) {
@@ -176,7 +220,6 @@ async function parsePdfFileDetailed(file) {
       if (currentLine.trim()) pageLines.push(currentLine.trim());
       fullExtractedText += pageLines.join('\n') + '\n\n';
     } else if (window.Tesseract) {
-      // Nếu là PDF ảnh scan không có text layer, kích hoạt OCR nhận diện chữ
       try {
         const viewport = page.getViewport({ scale: 1.5 });
         const canvas = document.createElement('canvas');
@@ -244,11 +287,16 @@ async function parseDocxFileDetailed(file) {
 
     function finishCurrentQ() {
       if (!currentQ) return;
-      if (currentQ.a.length >= 2) questions.push(currentQ);
-      else if (currentQ.a.length > 0) diagnostics.push(`Câu ${currentQ.sourceNumber} chỉ có ${currentQ.a.length} phương án`);
+      if (currentQ.a.length >= 2) {
+        currentQ.options = currentQ.a.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`);
+        currentQ.correct = currentQ.c;
+        questions.push(currentQ);
+      } else if (currentQ.a.length > 0) {
+        diagnostics.push(`Câu ${currentQ.sourceNumber} chỉ có ${currentQ.a.length} phương án`);
+      }
     }
 
-    slideKeys.forEach((slideKey, sIdx) => {
+    for (const slideKey of slideKeys) {
       const slideXml = zip[slideKey] ? decoder.decode(zip[slideKey]) : '';
       const relsKey = slideKey.replace('ppt/slides/', 'ppt/slides/_rels/') + '.rels';
       const relsXml = zip[relsKey] ? decoder.decode(zip[relsKey]) : '';
@@ -257,7 +305,7 @@ async function parseDocxFileDetailed(file) {
       const rMatches = relsXml.matchAll(/Id="([^"]+)"[^>]*Target="([^"]+)"/g);
       for (const m of rMatches) rels[m[1]] = m[2];
 
-      function getPptImageDataUrl(rId) {
+      async function getPptImageDataUrl(rId) {
         let target = rels[rId];
         if (!target) return null;
         target = target.replace(/^\.\.\//, 'ppt/');
@@ -266,15 +314,20 @@ async function parseDocxFileDetailed(file) {
         if (!imgData) return null;
         const ext = target.split('.').pop().toLowerCase();
         const mime = ext === 'png' ? 'image/png' : 'image/jpeg';
-        return `data:${mime};base64,${uint8ArrayToBase64(imgData)}`;
+        const rawUrl = `data:${mime};base64,${uint8ArrayToBase64(imgData)}`;
+        return await compressImage(rawUrl);
       }
 
       const pMatches = slideXml.match(/<a:p\b[\s\S]*?<\/a:p>/g) || [];
       const slideParagraphs = [];
 
-      pMatches.forEach(pXml => {
+      for (const pXml of pMatches) {
         const blipMatches = [...pXml.matchAll(/r:embed="([^"]+)"/g)];
-        const imagesInP = blipMatches.map(m => getPptImageDataUrl(m[1])).filter(Boolean);
+        const imagesInP = [];
+        for (const m of blipMatches) {
+          const imgUrl = await getPptImageDataUrl(m[1]);
+          if (imgUrl) imagesInP.push(imgUrl);
+        }
 
         let isRed = /<a:srgbClr\s+val="(?:FF0000|red|C00000|E00000|ED1C24|FF1744|F44336|D32F2F)"/i.test(pXml);
         let isUnderline = /u="(?:sng|words|dbl)"/i.test(pXml);
@@ -288,17 +341,15 @@ async function parseDocxFileDetailed(file) {
           tMatches.forEach(t => { pText += t.replace(/<[^>]+>/g, ''); });
         });
 
-        pText = pText.trim();
+        pText = cleanVietnameseTypo(pText.trim());
         if (pText || imagesInP.length > 0) {
           slideParagraphs.push({ text: pText, images: imagesInP, isRed, isUnderline });
         }
-      });
+      }
 
-      // Xử lý các đoạn văn trong slide
       slideParagraphs.forEach((item, pIdx) => {
         const { text: pText, images: imagesInP, isRed, isUnderline } = item;
 
-        // 1. Khớp "Câu X:", "Question X:"
         const qMatch = pText ? (pText.match(qHeaderRegex) || pText.match(numberedQRegex)) : null;
         if (qMatch) {
           finishCurrentQ();
@@ -314,7 +365,6 @@ async function parseDocxFileDetailed(file) {
           return;
         }
 
-        // 2. Nếu là đoạn đầu của slide và có dấu hỏi chấm hoặc có phương án theo sau
         if (!currentQ && pIdx === 0 && pText && (pText.endsWith('?') || slideParagraphs.length >= 3)) {
           finishCurrentQ();
           currentQ = {
@@ -335,9 +385,9 @@ async function parseDocxFileDetailed(file) {
         if (currentQ && pText) {
           let optText = pText;
           const optMatch = optText.match(optPrefixRegex);
-          const isAsterisk = /^\*/.test(optText) || /\[x\]/i.test(optText);
+          const isAsterisk = /^\*/.test(optText) || /\[x\]/i.test(optText) || /^[✓✔]/.test(optText);
           if (optMatch) optText = optMatch[4].trim();
-          optText = optText.replace(/^["'“](.*)["'”]$/, '$1').trim();
+          optText = optText.replace(/^[✓✔\*\[\]x\s]+/, '').replace(/^["'“](.*)["'”]$/, '$1').trim();
 
           if (optText) {
             currentQ.a.push(optText);
@@ -347,7 +397,7 @@ async function parseDocxFileDetailed(file) {
           }
         }
       });
-    });
+    }
 
     finishCurrentQ();
     return { questions, diagnostics };
@@ -367,7 +417,9 @@ async function parseDocxFileDetailed(file) {
   const rMatches = relsXml.matchAll(/Id="([^"]+)"[^>]*Target="([^"]+)"/g);
   for (const m of rMatches) rels[m[1]] = m[2];
 
-  function getImageDataUrl(rId) {
+  const imageCache = {};
+  async function getImageDataUrl(rId) {
+    if (imageCache[rId]) return imageCache[rId];
     let target = rels[rId];
     if (!target) return null;
     target = target.replace(/^\//, '');
@@ -376,7 +428,10 @@ async function parseDocxFileDetailed(file) {
     if (!imgData) return null;
     const ext = target.split('.').pop().toLowerCase();
     const mime = ext === 'png' ? 'image/png' : ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' : 'image/png';
-    return `data:${mime};base64,${uint8ArrayToBase64(imgData)}`;
+    const rawUrl = `data:${mime};base64,${uint8ArrayToBase64(imgData)}`;
+    const compressed = await compressImage(rawUrl);
+    imageCache[rId] = compressed;
+    return compressed;
   }
 
   const pMatches = xml.match(/<w:p\b[\s\S]*?<\/w:p>/g) || [];
@@ -384,37 +439,60 @@ async function parseDocxFileDetailed(file) {
   const diagnostics = [];
   let currentQ = null;
 
-  const qHeaderRegex = /^(?:câu|cau)\s*(\d+)[\s*:\.\-\)]([\s\S]*)$/i;
-  const optPrefixRegex = /^(?:(?:\(([a-eA-E])\)|\[([a-eA-E])\]|([a-eA-E])[\.\:\-\)\]])\s*|\*\s*)+([\s\S]*)$/;
+  const qHeaderRegex = /^(?:câu|cau|question|q\s*\.?|bài|bai)\s*(\d+)[\s*:\.\-\)]([\s\S]*)$/i;
+  const optPrefixRegex = /^(?:\[BOLD:)?\s*(?:(?:\(([a-hA-H])\)|\[([a-hA-H])\]|([a-hA-H])[\.\:\-\)\]])\s*|\*\s*|[✓✔]\s*)+([\s\S]*)$/i;
 
   function finishCurrentQ() {
     if (!currentQ) return;
-    if (currentQ.a.length >= 2) questions.push(currentQ);
-    else if (currentQ.a.length > 0) diagnostics.push(`Câu ${currentQ.sourceNumber} chỉ có ${currentQ.a.length} phương án trả lời`);
+    if (currentQ.a.length >= 2) {
+      currentQ.options = currentQ.a.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`);
+      currentQ.correct = currentQ.c;
+      questions.push(currentQ);
+    } else if (currentQ.a.length > 0) {
+      diagnostics.push(`Câu ${currentQ.sourceNumber} chỉ có ${currentQ.a.length} phương án trả lời`);
+    }
   }
 
-  pMatches.forEach(pXml => {
+  let pendingImage = null;
+
+  for (const pXml of pMatches) {
     const blipMatches = [...pXml.matchAll(/r:embed="([^"]+)"/g)];
-    const imagesInP = blipMatches.map(m => getImageDataUrl(m[1])).filter(Boolean);
+    const imagesInP = [];
+    for (const m of blipMatches) {
+      const imgUrl = await getImageDataUrl(m[1]);
+      if (imgUrl) imagesInP.push(imgUrl);
+    }
 
     let isRed = /w:color\s+w:val="(?:FF0000|red|C00000|E00000|ED1C24|FF1744|F44336|D32F2F)"/i.test(pXml);
     let isUnderline = /<w:u\b/i.test(pXml);
+    let hasCheckmark = /[✓✔]/.test(pXml);
 
     let pText = '';
     const runs = pXml.match(/<w:r\b[\s\S]*?<\/w:r>/g) || [];
     runs.forEach(r => {
       if (/w:color\s+w:val="(?:FF0000|red|C00000|E00000|ED1C24|FF1744|F44336|D32F2F)"/i.test(r)) isRed = true;
       if (/<w:u\b/i.test(r)) isUnderline = true;
+      if (/[✓✔]/.test(r)) hasCheckmark = true;
       const tMatches = r.match(/<w:t\b[^>]*>([\s\S]*?)<\/w:t>/g) || [];
       tMatches.forEach(t => { pText += t.replace(/<[^>]+>/g, ''); });
     });
 
-    pText = pText.replace(/&quot;/g, '"')
-                 .replace(/&apos;/g, "'")
-                 .replace(/&lt;/g, '<')
-                 .replace(/&gt;/g, '>')
-                 .replace(/&amp;/g, '&')
-                 .trim();
+    pText = cleanVietnameseTypo(
+      pText.replace(/&quot;/g, '"')
+           .replace(/&apos;/g, "'")
+           .replace(/&lt;/g, '<')
+           .replace(/&gt;/g, '>')
+           .replace(/&amp;/g, '&')
+           .trim()
+    );
+
+    if (imagesInP.length > 0) {
+      pendingImage = imagesInP[0];
+    }
+
+    if (/^Hình minh họa/i.test(pText)) {
+      continue;
+    }
 
     const qMatch = pText.match(qHeaderRegex);
     if (qMatch) {
@@ -423,35 +501,46 @@ async function parseDocxFileDetailed(file) {
       currentQ = {
         id: questions.length + 1,
         sourceNumber: Number(qMatch[1]),
+        part: 1,
         q: qBody || `Câu ${qMatch[1]}`,
-        image: imagesInP[0] || null,
+        image: imagesInP[0] || pendingImage || null,
         a: [],
         c: 0
       };
-      return;
+      pendingImage = null;
+      continue;
     }
 
     if (imagesInP.length > 0 && currentQ && currentQ.a.length === 0) {
       currentQ.image = imagesInP[0];
     }
 
-    if (!pText) return;
+    if (!pText) continue;
 
     if (currentQ) {
-      let optText = pText;
-      const optMatch = optText.match(optPrefixRegex);
-      const isAsteriskCorrect = /^\*/.test(optText) || /\[x\]/i.test(optText);
-      if (optMatch) optText = optMatch[4].trim();
-      optText = optText.replace(/^["'“](.*)["'”]$/, '$1').trim();
+      const isTick = hasCheckmark || /^[✓✔\*\[\]x\s]+/.test(pText) || pText.includes('✓') || pText.includes('✔');
+      const optMatch = pText.match(optPrefixRegex);
 
-      if (optText) {
-        currentQ.a.push(optText);
-        if (isRed || isUnderline || isAsteriskCorrect) {
-          currentQ.c = currentQ.a.length - 1;
+      if (optMatch) {
+        let optText = optMatch[4].trim()
+          .replace(/^[✓✔\*\[\]x\s]+/, '')
+          .replace(/TB\s*\(\d+\)\s*=\s*.*$/i, '')
+          .replace(/^["'“](.*)["'”]$/, '$1')
+          .trim();
+
+        if (optText) {
+          currentQ.a.push(optText);
+          if (isRed || isUnderline || isTick) {
+            currentQ.c = currentQ.a.length - 1;
+          }
         }
+      } else if (currentQ.a.length === 0) {
+        currentQ.q += ' ' + pText;
+      } else if (currentQ.a.length > 0) {
+        currentQ.a[currentQ.a.length - 1] += ' ' + pText.replace(/TB\s*\(\d+\)\s*=\s*.*$/i, '').trim();
       }
     }
-  });
+  }
 
   finishCurrentQ();
   return { questions, diagnostics };
@@ -462,18 +551,16 @@ function parseQuizTextDetailed(fullText) {
   const lines = fullText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
   const questions = [];
   const diagnostics = [];
-  let currentPart = 1;
   let current = null;
 
-  const partRegex = /^(?:phần|phan|part)\s*(\d+)/i;
-  const qMetaRegex = /^(?:câu|cau)\s*\d+\s*\((?:một|nhiều|mot|nhieu)?\s*đáp án\)/i;
   const qHeaderRegex = /^(?:câu|cau|question|q\s*\.?|bài|bai)\s*(\d+)[\s*:\.\-\)]([\s\S]*)$/i;
-  const numberedQRegex = /^(\d+)[\.\:\-\)]([\s\S]*)$/;
-  const optPrefixRegex = /^(?:(?:\(([a-eA-E])\)|\[([a-eA-E])\]|([a-eA-E])[\.\:\-\)\]])\s*|\*\s*)+([\s\S]*)$/;
+  const optPrefixRegex = /^(?:(?:\(([a-hA-H])\)|\[([a-hA-H])\]|([a-hA-H])[\.\:\-\)\]])\s*|\*\s*|[✓✔]\s*)+([\s\S]*)$/i;
 
   function finishCurrent() {
     if (!current) return;
     if (current.a.length >= 2) {
+      current.options = current.a.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`);
+      current.correct = current.c;
       questions.push(current);
     } else if (current.a.length > 0) {
       diagnostics.push(`Câu ${current.sourceNumber} chỉ có ${current.a.length} phương án`);
@@ -481,28 +568,16 @@ function parseQuizTextDetailed(fullText) {
   }
 
   lines.forEach(line => {
-    // Bỏ qua các dòng tiêu đề header/footer của trang in PDF
-    if (qMetaRegex.test(line) || line.startsWith('https://') || line.includes('EduQuiz -') || /^\d+\/\d+$/.test(line)) {
-      return;
-    }
+    const cleanLine = cleanVietnameseTypo(line);
+    const qMatch = cleanLine.match(qHeaderRegex);
 
-    // Nhận dạng phần thi (Phần 1, Phần 2...)
-    const partMatch = line.match(partRegex);
-    if (partMatch) {
-      currentPart = parseInt(partMatch[1]) || 1;
-      return;
-    }
-
-    // Nhận dạng đầu câu hỏi: "Câu 1: ...", "Câu 2. ...", "1. ..."
-    const qMatch = line.match(qHeaderRegex) || (line.match(numberedQRegex) && line.includes('?'));
     if (qMatch) {
       finishCurrent();
-      let qBody = qMatch[2].trim().replace(/^["'“](.*)["'”]$/, '$1').trim();
       current = {
         id: questions.length + 1,
         sourceNumber: Number(qMatch[1]),
-        part: currentPart,
-        q: qBody || `Câu ${qMatch[1]}`,
+        part: 1,
+        q: qMatch[2].trim() || `Câu ${qMatch[1]}`,
         image: null,
         a: [],
         c: 0
@@ -510,29 +585,30 @@ function parseQuizTextDetailed(fullText) {
       return;
     }
 
-    // Nhận dạng các phương án trả lời
     if (current) {
-      let isCorrect = line.startsWith('*') || line.startsWith('•*') || /\[x\]/i.test(line);
-      let optText = line.replace(/^\*\s*/, '');
-      const optMatch = optText.match(optPrefixRegex);
-      if (optMatch) {
-        optText = optMatch[4].trim();
-      }
-      optText = optText.replace(/^["'“](.*)["'”]$/, '$1').trim();
+      const isTick = /^[✓✔\*\[\]x\s]+/.test(cleanLine) || cleanLine.includes('✓') || cleanLine.includes('✔');
+      const optMatch = cleanLine.match(optPrefixRegex);
 
-      if (optText) {
-        current.a.push(optText);
-        if (isCorrect) {
-          current.c = current.a.length - 1;
+      if (optMatch) {
+        let optText = optMatch[4].trim()
+          .replace(/^[✓✔\*\[\]x\s]+/, '')
+          .replace(/TB\s*\(\d+\)\s*=\s*.*$/i, '')
+          .trim();
+
+        if (optText) {
+          current.a.push(optText);
+          if (isTick) {
+            current.c = current.a.length - 1;
+          }
         }
+      } else if (current.a.length === 0) {
+        current.q += ' ' + cleanLine;
+      } else {
+        current.a[current.a.length - 1] += ' ' + cleanLine;
       }
     }
   });
 
   finishCurrent();
   return { questions, diagnostics };
-}
-
-function parseQuizText(fullText) {
-  return parseQuizTextDetailed(fullText).questions;
 }
