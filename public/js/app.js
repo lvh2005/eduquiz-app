@@ -251,6 +251,38 @@ function confirmParsedImport(parsedResult) {
   );
 }
 
+async function uploadQuestionImages(questions) {
+  const uploadedImages = new Map();
+
+  for (const question of questions) {
+    if (!question.image?.startsWith('data:image/')) continue;
+    if (uploadedImages.has(question.image)) {
+      question.image = uploadedImages.get(question.image);
+      continue;
+    }
+
+    const imageBlob = await (await fetch(question.image)).blob();
+    const response = await fetch('/api/question-image', {
+      method: 'POST',
+      headers: { 'Content-Type': imageBlob.type },
+      body: imageBlob
+    });
+    const responseText = await response.text();
+    let result;
+    try {
+      result = JSON.parse(responseText);
+    } catch {
+      throw new Error(`Không tải được ảnh (máy chủ trả về mã ${response.status}).`);
+    }
+    if (!response.ok || !result.url) {
+      throw new Error(result.error || `Không tải được ảnh (mã ${response.status}).`);
+    }
+
+    uploadedImages.set(question.image, result.url);
+    question.image = result.url;
+  }
+}
+
 // 2. Upload file Word .docx -> Parse trên Client (hỗ trợ ảnh + màu đỏ + gạch chân) -> Đẩy JSON lên Vercel API
 async function handleWordFile(e) {
   const file = e.target.files[0];
@@ -270,6 +302,8 @@ async function handleWordFile(e) {
     }
 
     if (!confirmParsedImport(parsedResult)) return;
+
+    await uploadQuestionImages(parsedQuestions);
 
     const title = file.name.replace(/\.[^/.]+$/, '');
     parsedQuestions.forEach(question => { question.subject = subject; });
@@ -291,7 +325,7 @@ async function handleWordFile(e) {
       result = JSON.parse(textResponse);
     } catch {
       if (res.status === 413) {
-        throw new Error('Dung lượng file quá lớn (vượt quá 4.5MB). Vui lòng nén nhỏ ảnh trong file.');
+        throw new Error('Dữ liệu câu hỏi vượt quá giới hạn 4,5 MB của Vercel.');
       }
       throw new Error(`Máy chủ trả về mã ${res.status}: ${textResponse.slice(0, 120)}`);
     }

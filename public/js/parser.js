@@ -125,28 +125,45 @@ function uint8ArrayToBase64(uint8Array) {
   return window.btoa(binary);
 }
 
-// Nén ảnh nhẹ lại để không vượt quá giới hạn 4.5MB của Vercel & Redis
-async function compressImage(dataUrl, maxWidth = 800, quality = 0.72) {
+const MAX_IMAGE_UPLOAD_SIZE_BYTES = 4 * 1024 * 1024;
+
+function getDataUrlSize(dataUrl) {
+  const base64 = dataUrl.slice(dataUrl.indexOf(',') + 1);
+  const padding = base64.endsWith('==') ? 2 : base64.endsWith('=') ? 1 : 0;
+  return Math.floor(base64.length * 3 / 4) - padding;
+}
+
+async function compressImage(dataUrl, maxWidth = 2400, quality = 0.88) {
   if (!dataUrl || !dataUrl.startsWith('data:image')) return dataUrl;
-  return new Promise((resolve) => {
+  if (getDataUrlSize(dataUrl) <= MAX_IMAGE_UPLOAD_SIZE_BYTES) return dataUrl;
+
+  return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
-      let w = img.width;
-      let h = img.height;
-      if (w > maxWidth) {
-        h = Math.round((h * maxWidth) / w);
-        w = maxWidth;
-      }
+      let scale = Math.min(1, maxWidth / img.width);
+      let w = Math.max(1, Math.round(img.width * scale));
+      let h = Math.max(1, Math.round(img.height * scale));
       const canvas = document.createElement('canvas');
-      canvas.width = w;
-      canvas.height = h;
       const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(0, 0, w, h);
-      ctx.drawImage(img, 0, 0, w, h);
-      resolve(canvas.toDataURL('image/jpeg', quality));
+      for (let attempt = 0; attempt < 12; attempt++) {
+        canvas.width = w;
+        canvas.height = h;
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        const compressed = canvas.toDataURL('image/jpeg', quality);
+        if (getDataUrlSize(compressed) <= MAX_IMAGE_UPLOAD_SIZE_BYTES) {
+          resolve(compressed);
+          return;
+        }
+        scale *= 0.8;
+        w = Math.max(1, Math.round(img.width * scale));
+        h = Math.max(1, Math.round(img.height * scale));
+        quality = Math.max(0.5, quality - 0.05);
+      }
+      reject(new Error('Không thể nén ảnh xuống dưới 4 MB. Hãy giảm kích thước ảnh nguồn.'));
     };
-    img.onerror = () => resolve(dataUrl);
+    img.onerror = () => reject(new Error('Không thể đọc ảnh trong file Word hoặc PowerPoint.'));
     img.src = dataUrl;
   });
 }
