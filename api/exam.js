@@ -126,9 +126,30 @@ export default async function handler(req, res) {
 
     // 3. Lưu / Cập nhật đề thi mới
     if (req.method === 'POST') {
-      const { title, subject, questions } = req.body;
+      const { title, subject, questions, sourceQuestionCount } = req.body;
       if (!questions || !Array.isArray(questions)) {
         return res.status(400).json({ error: 'Dữ liệu questions không hợp lệ' });
+      }
+      if (sourceQuestionCount !== undefined &&
+          (!Number.isInteger(sourceQuestionCount) || sourceQuestionCount !== questions.length)) {
+        return res.status(400).json({
+          error: `Số câu trong file không khớp với dữ liệu nhận được (${questions.length} câu)`
+        });
+      }
+      const invalidQuestionIndex = questions.findIndex(question => {
+        const answerIndex = question?.c ?? question?.correct;
+        return typeof question?.q !== 'string' ||
+          !question.q.trim() ||
+          !Array.isArray(question.a) ||
+          question.a.length < 2 ||
+          !Number.isInteger(answerIndex) ||
+          answerIndex < 0 ||
+          answerIndex >= question.a.length;
+      });
+      if (invalidQuestionIndex >= 0) {
+        return res.status(400).json({
+          error: `Câu ${invalidQuestionIndex + 1} thiếu nội dung, phương án hoặc đáp án đúng hợp lệ`
+        });
       }
 
       const incomingSubject = subject || questions.find(question => question.subject)?.subject || title || 'Chưa đặt môn';

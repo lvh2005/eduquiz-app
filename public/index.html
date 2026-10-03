@@ -184,7 +184,23 @@
             <i class="fa-regular fa-file-word" style="color:#2563eb; margin-left:10px;"></i>
           </div>
           <p style="font-weight:700; font-size:15px; margin-top:4px;">Chọn file PDF (.pdf) hoặc Word (.docx)</p>
-          <p style="font-size:12.5px; color:var(--gray-500); margin-top:3px;">Tự động nhận diện chữ, đáp án đúng và hình ảnh minh họa</p>
+          <p style="font-size:12.5px; color:var(--gray-500); margin-top:3px;">Word: mỗi câu bắt đầu bằng “Câu 1.”, mỗi đáp án nằm riêng một dòng; đánh dấu đáp án đúng bằng ✓, màu đỏ hoặc gạch chân.</p>
+          <p style="font-size:12.5px; color:var(--gray-500); margin-top:3px;">Đặt hình trước nhóm câu hỏi liên quan. Hệ thống sẽ đối chiếu số câu đọc được và yêu cầu xác nhận trước khi tải lên; dùng DOCX để giữ hình đúng vị trí.</p>
+          <details style="margin-top:8px; text-align:left; font-size:12.5px; color:var(--gray-600);">
+            <summary style="cursor:pointer; font-weight:700;">Xem ví dụ định dạng Word</summary>
+            <pre style="white-space:pre-wrap; padding:10px; border-radius:6px; background:var(--gray-100);">Câu 1. Câu hỏi thứ nhất?
+A. Phương án A
+✓ B. Đáp án đúng
+C. Phương án C
+D. Phương án D
+
+[Chèn hình minh họa trước nhóm câu hỏi]
+Câu 2. Nhìn vào hình 01, câu hỏi về hình?
+A. Phương án A
+✓ B. Đáp án đúng
+C. Phương án C
+D. Phương án D</pre>
+          </details>
           <input type="file" id="fileUploadInput" accept=".pdf,.docx,.pptx,.txt" style="display:none;" onchange="handleWordFile(event)">
         </div>
         <textarea id="rawTextarea" rows="6" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--gray-300);" placeholder="Hoặc dán câu hỏi:&#10;Câu 1: SQL là gì?&#10;*A. Ngôn ngữ truy vấn&#10;B. Ngôn ngữ dịch"></textarea>

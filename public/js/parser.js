@@ -170,6 +170,10 @@ function cleanVietnameseTypo(str) {
     .trim();
 }
 
+function stripCorrectnessMarker(text) {
+  return text.replace(/^(?:(?:✓|✔|\*|\[x\])\s*)+/i, '').trim();
+}
+
 // =======================================================
 // XỬ LÝ FILE PDF (.PDF) - Cả PDF có chữ và PDF dạng ảnh scan (OCR)
 // =======================================================
@@ -184,11 +188,22 @@ async function parsePdfFileDetailed(file) {
   const numPages = pdf.numPages;
   let fullExtractedText = '';
   const diagnostics = [];
+  let pagesWithImages = 0;
 
   for (let pageNum = 1; pageNum <= numPages; pageNum++) {
     const page = await pdf.getPage(pageNum);
     const textContent = await page.getTextContent();
     const items = textContent.items || [];
+    const operatorList = await page.getOperatorList();
+    const imageOperators = [
+      window.pdfjsLib.OPS.paintImageXObject,
+      window.pdfjsLib.OPS.paintInlineImageXObject,
+      window.pdfjsLib.OPS.paintImageMaskXObject,
+      window.pdfjsLib.OPS.paintImageXObjectRepeat
+    ].filter(Number.isInteger);
+    if (operatorList.fnArray.some(operator => imageOperators.includes(operator))) {
+      pagesWithImages++;
+    }
 
     if (items.length > 0) {
       items.sort((a, b) => {
@@ -247,7 +262,14 @@ async function parsePdfFileDetailed(file) {
   const parsed = parseQuizTextDetailed(fullExtractedText);
   return {
     questions: parsed.questions,
-    diagnostics: [...diagnostics, ...parsed.diagnostics]
+    sourceQuestionCount: parsed.sourceQuestionCount,
+    diagnostics: [
+      ...diagnostics,
+      ...parsed.diagnostics,
+      ...(pagesWithImages > 0
+        ? [`PDF có hình minh họa trên ${pagesWithImages} trang nhưng không thể giữ đúng ảnh/vị trí khi nhập. Hãy dùng file DOCX gốc để bảo toàn hình.`]
+        : [])
+    ]
   };
 }
 
@@ -280,10 +302,11 @@ async function parseDocxFileDetailed(file) {
 
     const questions = [];
     const diagnostics = [];
+    let sourceQuestionCount = 0;
     let currentQ = null;
     const qHeaderRegex = /^(?:câu|cau|question|q\s*\.?|bài|bai)\s*(\d+)[\s*:\.\-\)]([\s\S]*)$/i;
     const numberedQRegex = /^(\d+)[\.\:\-\)]([\s\S]*)$/;
-    const optPrefixRegex = /^(?:(?:\(([a-eA-E])\)|\[([a-eA-E])\]|([a-eA-E])[\.\:\-\)\]])\s*|\*\s*)+([\s\S]*)$/;
+    const optPrefixRegex = /^(?:(?:\(([a-eA-E])\)|\[([a-eA-E])\]|([a-eA-E])[\.\:\-\)\]])\s*|[✓✔]\s*|\*\s*)+([\s\S]*)$/;
 
     function finishCurrentQ() {
       if (!currentQ) return;
@@ -293,6 +316,11 @@ async function parseDocxFileDetailed(file) {
         questions.push(currentQ);
       } else if (currentQ.a.length > 0) {
         diagnostics.push(`Câu ${currentQ.sourceNumber} chỉ có ${currentQ.a.length} phương án`);
+      } else {
+        diagnostics.push(`Câu ${currentQ.sourceNumber} không có phương án trả lời`);
+      }
+      if (currentQ.a.length >= 2 && currentQ.c === null) {
+        diagnostics.push(`Câu ${currentQ.sourceNumber} chưa đánh dấu đáp án đúng`);
       }
     }
 
@@ -353,6 +381,7 @@ async function parseDocxFileDetailed(file) {
         const qMatch = pText ? (pText.match(qHeaderRegex) || pText.match(numberedQRegex)) : null;
         if (qMatch) {
           finishCurrentQ();
+          sourceQuestionCount++;
           let qBody = qMatch[2].trim().replace(/^["'“](.*)["'”]$/, '$1').trim();
           currentQ = {
             id: questions.length + 1,
@@ -360,7 +389,7 @@ async function parseDocxFileDetailed(file) {
             q: qBody || `Câu ${qMatch[1]}`,
             image: imagesInP[0] || null,
             a: [],
-            c: 0
+            c: null
           };
           return;
         }
@@ -373,8 +402,9 @@ async function parseDocxFileDetailed(file) {
             q: pText.replace(/^["'“](.*)["'”]$/, '$1').trim(),
             image: imagesInP[0] || null,
             a: [],
-            c: 0
+            c: null
           };
+          sourceQuestionCount++;
           return;
         }
 
@@ -387,7 +417,7 @@ async function parseDocxFileDetailed(file) {
           const optMatch = optText.match(optPrefixRegex);
           const isAsterisk = /^\*/.test(optText) || /\[x\]/i.test(optText) || /^[✓✔]/.test(optText);
           if (optMatch) optText = optMatch[4].trim();
-          optText = optText.replace(/^[✓✔\*\[\]x\s]+/, '').replace(/^["'“](.*)["'”]$/, '$1').trim();
+          optText = stripCorrectnessMarker(optText).replace(/^["'“](.*)["'”]$/, '$1').trim();
 
           if (optText) {
             currentQ.a.push(optText);
@@ -400,7 +430,7 @@ async function parseDocxFileDetailed(file) {
     }
 
     finishCurrentQ();
-    return { questions, diagnostics };
+    return { questions, sourceQuestionCount, diagnostics };
   }
 
   // ==========================================
@@ -437,6 +467,7 @@ async function parseDocxFileDetailed(file) {
   const pMatches = xml.match(/<w:p\b[\s\S]*?<\/w:p>/g) || [];
   const questions = [];
   const diagnostics = [];
+  let sourceQuestionCount = 0;
   let currentQ = null;
 
   const qHeaderRegex = /^(?:câu|cau|question|q\s*\.?|bài|bai)\s*(\d+)[\s*:\.\-\)]([\s\S]*)$/i;
@@ -450,10 +481,16 @@ async function parseDocxFileDetailed(file) {
       questions.push(currentQ);
     } else if (currentQ.a.length > 0) {
       diagnostics.push(`Câu ${currentQ.sourceNumber} chỉ có ${currentQ.a.length} phương án trả lời`);
+    } else {
+      diagnostics.push(`Câu ${currentQ.sourceNumber} không có phương án trả lời`);
+    }
+    if (currentQ.a.length >= 2 && currentQ.c === null) {
+      diagnostics.push(`Câu ${currentQ.sourceNumber} chưa đánh dấu đáp án đúng`);
     }
   }
 
-  let pendingImage = null;
+  let activeImage = null;
+  let activeImageRequiresFigureReference = null;
 
   for (const pXml of pMatches) {
     const blipMatches = [...pXml.matchAll(/r:embed="([^"]+)"/g)];
@@ -461,6 +498,9 @@ async function parseDocxFileDetailed(file) {
     for (const m of blipMatches) {
       const imgUrl = await getImageDataUrl(m[1]);
       if (imgUrl) imagesInP.push(imgUrl);
+    }
+    if (imagesInP.length < blipMatches.length) {
+      diagnostics.push('Không trích xuất được một hoặc nhiều hình trong file Word');
     }
 
     let isRed = /w:color\s+w:val="(?:FF0000|red|C00000|E00000|ED1C24|FF1744|F44336|D32F2F)"/i.test(pXml);
@@ -487,7 +527,11 @@ async function parseDocxFileDetailed(file) {
     );
 
     if (imagesInP.length > 0) {
-      pendingImage = imagesInP[0];
+      activeImage = imagesInP[0];
+      activeImageRequiresFigureReference = null;
+      if (currentQ && currentQ.a.length === 0) {
+        currentQ.image = activeImage;
+      }
     }
 
     if (/^Hình minh họa/i.test(pText)) {
@@ -497,17 +541,22 @@ async function parseDocxFileDetailed(file) {
     const qMatch = pText.match(qHeaderRegex);
     if (qMatch) {
       finishCurrentQ();
+      sourceQuestionCount++;
       let qBody = qMatch[2].trim().replace(/^["'“](.*)["'”]$/, '$1').trim();
+      const hasFigureReference = /\b(?:hình|ảnh)\s*(?:số\s*)?0?\d+\b/i.test(qBody);
+      if (activeImageRequiresFigureReference === null && activeImage) {
+        activeImageRequiresFigureReference = hasFigureReference;
+      }
       currentQ = {
         id: questions.length + 1,
         sourceNumber: Number(qMatch[1]),
         part: 1,
         q: qBody || `Câu ${qMatch[1]}`,
-        image: imagesInP[0] || pendingImage || null,
+        image: imagesInP[0] || (activeImage &&
+          (!activeImageRequiresFigureReference || hasFigureReference) ? activeImage : null),
         a: [],
-        c: 0
+        c: null
       };
-      pendingImage = null;
       continue;
     }
 
@@ -522,8 +571,7 @@ async function parseDocxFileDetailed(file) {
       const optMatch = pText.match(optPrefixRegex);
 
       if (optMatch) {
-        let optText = optMatch[4].trim()
-          .replace(/^[✓✔\*\[\]x\s]+/, '')
+        let optText = stripCorrectnessMarker(optMatch[4])
           .replace(/TB\s*\(\d+\)\s*=\s*.*$/i, '')
           .replace(/^["'“](.*)["'”]$/, '$1')
           .trim();
@@ -543,7 +591,7 @@ async function parseDocxFileDetailed(file) {
   }
 
   finishCurrentQ();
-  return { questions, diagnostics };
+  return { questions, sourceQuestionCount, diagnostics };
 }
 
 // Phân tích văn bản thô (hỗ trợ cả định dạng EduQuiz PDF, Word, dán Text thủ công)
@@ -551,6 +599,7 @@ function parseQuizTextDetailed(fullText) {
   const lines = fullText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
   const questions = [];
   const diagnostics = [];
+  let sourceQuestionCount = 0;
   let current = null;
 
   const qHeaderRegex = /^(?:câu|cau|question|q\s*\.?|bài|bai)\s*(\d+)[\s*:\.\-\)]([\s\S]*)$/i;
@@ -564,6 +613,11 @@ function parseQuizTextDetailed(fullText) {
       questions.push(current);
     } else if (current.a.length > 0) {
       diagnostics.push(`Câu ${current.sourceNumber} chỉ có ${current.a.length} phương án`);
+    } else {
+      diagnostics.push(`Câu ${current.sourceNumber} không có phương án trả lời`);
+    }
+    if (current.a.length >= 2 && current.c === null) {
+      diagnostics.push(`Câu ${current.sourceNumber} chưa đánh dấu đáp án đúng`);
     }
   }
 
@@ -573,6 +627,7 @@ function parseQuizTextDetailed(fullText) {
 
     if (qMatch) {
       finishCurrent();
+      sourceQuestionCount++;
       current = {
         id: questions.length + 1,
         sourceNumber: Number(qMatch[1]),
@@ -580,7 +635,7 @@ function parseQuizTextDetailed(fullText) {
         q: qMatch[2].trim() || `Câu ${qMatch[1]}`,
         image: null,
         a: [],
-        c: 0
+        c: null
       };
       return;
     }
@@ -590,8 +645,7 @@ function parseQuizTextDetailed(fullText) {
       const optMatch = cleanLine.match(optPrefixRegex);
 
       if (optMatch) {
-        let optText = optMatch[4].trim()
-          .replace(/^[✓✔\*\[\]x\s]+/, '')
+        let optText = stripCorrectnessMarker(optMatch[4])
           .replace(/TB\s*\(\d+\)\s*=\s*.*$/i, '')
           .trim();
 
@@ -610,5 +664,5 @@ function parseQuizTextDetailed(fullText) {
   });
 
   finishCurrent();
-  return { questions, diagnostics };
+  return { questions, sourceQuestionCount, diagnostics };
 }

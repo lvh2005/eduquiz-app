@@ -211,6 +211,46 @@ async function deleteSubject(subject) {
   }
 }
 
+function confirmParsedImport(parsedResult) {
+  const questions = parsedResult.questions || [];
+  const issues = [...(parsedResult.diagnostics || [])];
+
+  if (parsedResult.sourceQuestionCount !== undefined &&
+      parsedResult.sourceQuestionCount !== questions.length) {
+    issues.unshift(`File có ${parsedResult.sourceQuestionCount} câu nhưng chỉ đọc được ${questions.length} câu.`);
+  }
+
+  const invalidQuestions = questions.filter(question => {
+    const answerIndex = question.c ?? question.correct;
+    return typeof question.q !== 'string' ||
+      !question.q.trim() ||
+      !Array.isArray(question.a) ||
+      question.a.length < 2 ||
+      !Number.isInteger(answerIndex) ||
+      answerIndex < 0 ||
+      answerIndex >= question.a.length;
+  });
+  if (invalidQuestions.length > 0) {
+    issues.unshift(`${invalidQuestions.length} câu thiếu nội dung, phương án hoặc đáp án đúng hợp lệ.`);
+  }
+
+  if (issues.length > 0) {
+    const visibleIssues = issues.slice(0, 10);
+    const remainder = issues.length > visibleIssues.length
+      ? `\n- ... và ${issues.length - visibleIssues.length} cảnh báo khác`
+      : '';
+    alert(`Chưa thể tải đề lên vì dữ liệu chưa đầy đủ:\n\n- ${visibleIssues.join('\n- ')}${remainder}`);
+    return false;
+  }
+
+  const imageCount = questions.filter(question => question.image).length;
+  const sourceQuestionCount = parsedResult.sourceQuestionCount ?? questions.length;
+  return confirm(
+    `Đã đối chiếu ${sourceQuestionCount} câu trong file và đọc đủ ${questions.length} câu cùng đáp án đúng. ` +
+    `${imageCount} câu có hình minh họa.\n\nBạn muốn tải đề này lên?`
+  );
+}
+
 // 2. Upload file Word .docx -> Parse trên Client (hỗ trợ ảnh + màu đỏ + gạch chân) -> Đẩy JSON lên Vercel API
 async function handleWordFile(e) {
   const file = e.target.files[0];
@@ -229,9 +269,7 @@ async function handleWordFile(e) {
       return alert('Không bóc tách được câu hỏi nào từ file Word! Hãy kiểm tra định dạng file.');
     }
 
-    if (parsedResult.diagnostics.length > 0) {
-      console.warn('Diagnostics khi đọc file:', parsedResult.diagnostics);
-    }
+    if (!confirmParsedImport(parsedResult)) return;
 
     const title = file.name.replace(/\.[^/.]+$/, '');
     parsedQuestions.forEach(question => { question.subject = subject; });
@@ -239,7 +277,12 @@ async function handleWordFile(e) {
     const res = await fetch(`/api/exam?id=${EXAM_ID}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, subject, questions: parsedQuestions })
+      body: JSON.stringify({
+        title,
+        subject,
+        sourceQuestionCount: parsedResult.sourceQuestionCount,
+        questions: parsedQuestions
+      })
     });
 
     let result;
@@ -263,7 +306,7 @@ async function handleWordFile(e) {
       alert('Lỗi lưu đề: ' + (result?.error || 'Không thể cập nhật'));
     }
   } catch (err) {
-    alert('Lỗi xử lý file docx: ' + err.message);
+    alert('Lỗi xử lý file: ' + err.message);
   }
   e.target.value = '';
 }
@@ -278,16 +321,19 @@ async function handleRawTextSubmit() {
   const parsedResult = parseQuizTextDetailed(text);
   const parsed = parsedResult.questions;
   if (parsed.length === 0) return alert('Không nhận dạng được câu hỏi!');
-  if (parsedResult.diagnostics.length > 0) {
-    alert(`Đã đọc ${parsed.length} câu, nhưng có cảnh báo:\n\n- ${parsedResult.diagnostics.join('\n- ')}`);
-  }
+  if (!confirmParsedImport(parsedResult)) return;
   parsed.forEach(question => { question.subject = subject; });
 
   try {
     const res = await fetch(`/api/exam?id=${EXAM_ID}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: 'Đề thi trắc nghiệm', subject, questions: parsed })
+      body: JSON.stringify({
+        title: 'Đề thi trắc nghiệm',
+        subject,
+        sourceQuestionCount: parsedResult.sourceQuestionCount,
+        questions: parsed
+      })
     });
     let result;
     const textResponse = await res.text();
