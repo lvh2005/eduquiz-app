@@ -1,0 +1,3652 @@
+[
+  {
+    "text": "[BOLD:ÔN TẬP MÃ NGUỒN MỞ]",
+    "images": []
+  },
+  {
+    "text": "Câu hỏi trắc nghiệm - giữ nguyên hình minh họa từ file gốc - đáp án đúng đánh dấu ✓",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 1. Quan niệm nào sau đây sai về copyleft:]",
+    "images": []
+  },
+  {
+    "text": "A. Được đưa ra dựa trên copyright",
+    "images": []
+  },
+  {
+    "text": "B. Nghĩa vụ phân phối và cho phép truy xuất công khai các tác phẩm phái sinh",
+    "images": []
+  },
+  {
+    "text": "C. Người sở hữu quyền cấp quyền để: sử dụng, sữa đổi, phân phối lại",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Tồn tại giấp phép copyleft cho cả phần mềm, âm nhạc và nghệ thuật]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 2. Nếu bạn viết 1 chương trình áp dụng giấy phép GNU-GPL thì bạn cấn đính kèm những thông báo đi cùng phần mềm ở đâu:]",
+    "images": []
+  },
+  {
+    "text": "A. Một thông báo độc lập đi kèm",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ B. Đính kèm vào phần đầu của tập tin mã nguồn ‘dưới dạng ghi chú’]",
+    "images": []
+  },
+  {
+    "text": "C. Đính kèm vào phần cuối của tập tin mã nguồn ‘dưới dạng ghi chú)’",
+    "images": []
+  },
+  {
+    "text": "D. Cả 3 phương pháp trên đều đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 3. Giấy phép BSD - Berkeley System Distribution Licenses đ-ợc sử dụng lần đầu tiên cho phân mềm nào?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Free BSD]",
+    "images": []
+  },
+  {
+    "text": "B. BSD Unix",
+    "images": []
+  },
+  {
+    "text": "C. Net BSD",
+    "images": []
+  },
+  {
+    "text": "D. Unix",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 4. Giấy phép mã nguồn mở là tập hợp các quy tắc đòi hỏi ai là người phải tuân theo :]",
+    "images": []
+  },
+  {
+    "text": "A. Người sáng chế ra phần mềm mã nguồn mở.",
+    "images": []
+  },
+  {
+    "text": "B. Nhà bảo hành phần mềm mã nguồn mở.",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. Người sử dụng phần mềm mã nguồn mở.]",
+    "images": []
+  },
+  {
+    "text": "D. Cả 3",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 5. Tổ chức OSI - Open Source Initiative là một tổ chức như thế nào ?]",
+    "images": []
+  },
+  {
+    "text": "A. Là một tổ chức phần mềm nguồn mở, trực tiếp phát triển các dự án phần mềm nguồn mở.",
+    "images": []
+  },
+  {
+    "text": "B. Là một tổ chức phi lợi nhuận mà mục đích của nó là thúc đẩy sự phát triển phần mềm nguồn mở.",
+    "images": []
+  },
+  {
+    "text": "C. Hoạt động quan trọng nhất của tổ chức này là xem xét phê duyệt giấy phép mã nguồn mở.",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Câu b và a]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 6. Tổ chức FSF là tổ chức]",
+    "images": []
+  },
+  {
+    "text": "A. Phần mềm mã nguồn mở",
+    "images": []
+  },
+  {
+    "text": "B. Phần mềm tự do",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. Quỹ phần mềm nguồn mở]",
+    "images": []
+  },
+  {
+    "text": "D. Phần mềm miễn phí",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 7. phát biểu nào sau đây không phải là phát biểu đúng]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Phần mềm mã nguồn mở là phần mềm tự do]",
+    "images": []
+  },
+  {
+    "text": "B. Phần mềm mã nguồn mở cho phép người dùng được sửa mã nguồn",
+    "images": []
+  },
+  {
+    "text": "C. Phần mềm mã nguồn mở là phần mềm miễn phí",
+    "images": []
+  },
+  {
+    "text": "D. Phần mềm mã nguồn mở cho phép người dùng được tự do chia sẻ cho người khác",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 8. Câu nào sau đây không phải là ưu điểm của mã nguồn mở]",
+    "images": []
+  },
+  {
+    "text": "A. Phần mềm mã nguồn mở cung cấp kèm mã nguồn",
+    "images": []
+  },
+  {
+    "text": "B. Phần mềm mã nguồn mở giúp cân bằng giá, chống độc quyền",
+    "images": []
+  },
+  {
+    "text": "C. Phần mềm mã nguồn mở không phải mất tiền mua",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Phần mềm mã nguồn mở có độ ổn định cao]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 9. câu nào sau đây là đúng]",
+    "images": []
+  },
+  {
+    "text": "A. Phần mềm mã nguồn mở không mang lại lợi nhuận",
+    "images": []
+  },
+  {
+    "text": "B. Phần mềm mã nguồn mở không cho phép phân phối lại",
+    "images": []
+  },
+  {
+    "text": "C. Phần mềm mã nguồn mở không có bản quyền",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Phần mềm mã nguồn mở không có bảo hành]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 10. Điều nào sau đây không đúng với các giấy phép mã nguồn mở]",
+    "images": []
+  },
+  {
+    "text": "A. Các loại giấy phép đều có cơ chế bảo vệ quyền của tác giả ban đầu",
+    "images": []
+  },
+  {
+    "text": "B. Các loại giấy phép đều yêu cầu không được thay đổi nội dung giấy phép",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. Có giấy phép yêu cầu phải sử dụng cùng loại giấy phép với sản phẩm phái sinh]",
+    "images": []
+  },
+  {
+    "text": "D. Không giấy phép nào cấm người dùng sửa đổi chương trình",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 11. Giấy phép GNU GPL phiên bản mới nhất là :]",
+    "images": []
+  },
+  {
+    "text": "A. 1.0",
+    "images": []
+  },
+  {
+    "text": "B. 2.0",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. 3.0]",
+    "images": []
+  },
+  {
+    "text": "D. 4.0",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 12. Bạn hãy cho biết phần mềm văn phòng nào sau đây sử dụng giấy phép mã nguồn mở :]",
+    "images": []
+  },
+  {
+    "text": "A. Microsoft Office",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ B. Libre Office]",
+    "images": []
+  },
+  {
+    "text": "C. Cả a và b",
+    "images": []
+  },
+  {
+    "text": "D. Không câu nào đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 13. bạn hãy cho biết phần mềm nào sau đây sử dụng giấp phép GNU GPL:]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Ubuntu]",
+    "images": []
+  },
+  {
+    "text": "B. Window Xfree86",
+    "images": []
+  },
+  {
+    "text": "C. JavaFBP toolkit",
+    "images": []
+  },
+  {
+    "text": "D. Không câu nào đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 14. bạn hãy cho biết phần mềm nào sau đây sử dụng giấp phép BSD :]",
+    "images": []
+  },
+  {
+    "text": "A. Ubuntu",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ B. Window Xfree86]",
+    "images": []
+  },
+  {
+    "text": "C. JavaFBP toolkit",
+    "images": []
+  },
+  {
+    "text": "D. Không câu nào đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 15. giấy phép nào không cấp phép một phần mềm/ thư viện mã nguồn đóng liên kết với một phần mềm/ thư viện mang giấy phép mở tương ứng.]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. GNU General Public License]",
+    "images": []
+  },
+  {
+    "text": "B. Apache Public License",
+    "images": []
+  },
+  {
+    "text": "C. BSD License",
+    "images": []
+  },
+  {
+    "text": "D. Artistic License",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 16. Giấy phép nào có khả năng kết hợp một phần mềm với một phần mềm/ thư viện mang giấy phép mở tương ứng.]",
+    "images": []
+  },
+  {
+    "text": "A. Apache Public License",
+    "images": []
+  },
+  {
+    "text": "B. BSD License",
+    "images": []
+  },
+  {
+    "text": "C. MIT License",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Cả 3 License]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 17. Phần mềm GIMP sử dụng giấy phép mã nguồn mở nào :]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. GNU GPL License]",
+    "images": []
+  },
+  {
+    "text": "B. Apache Public License",
+    "images": []
+  },
+  {
+    "text": "C. BSD License",
+    "images": []
+  },
+  {
+    "text": "D. Artistic License",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 18. Phần mềm Mozilla Firefox sử dụng giấy phép mã nguồn mở nào :]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Mozilla Public License]",
+    "images": []
+  },
+  {
+    "text": "B. BSD License",
+    "images": []
+  },
+  {
+    "text": "C. Artistic License",
+    "images": []
+  },
+  {
+    "text": "D. GPL License",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 19. Phần mềm Apache Server sử dụng giấy phép nào sau đây :]",
+    "images": []
+  },
+  {
+    "text": "A. BSD License",
+    "images": []
+  },
+  {
+    "text": "B. Artistic License",
+    "images": []
+  },
+  {
+    "text": "C. GPL License",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Apache License]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 20. Những phần mềm mã nguồn mở miễn phí nào sau đây giúp chạy các ứng dụng windows trên môi trường Ubuntu]",
+    "images": []
+  },
+  {
+    "text": "A. Wine và CrossOver.",
+    "images": []
+  },
+  {
+    "text": "B. Wine door và Cedega .",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. Wine và PlayOnlinux .]",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 21. Mã nguồn mở Nukeviet có mấy dòng phiên bản chính?]",
+    "images": []
+  },
+  {
+    "text": "A. 2",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ B. 1]",
+    "images": []
+  },
+  {
+    "text": "C. 3",
+    "images": []
+  },
+  {
+    "text": "D. 4",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 22. Trong các dòng phiên bản sau, dòng phiên bản chính nào của Nukeviet?]",
+    "images": []
+  },
+  {
+    "text": "A. 1. Dòng 2.0 trở về trước",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ B. 2. Dòng 3.0 trở về sau]",
+    "images": []
+  },
+  {
+    "text": "C. 3. Dòng 4.0",
+    "images": []
+  },
+  {
+    "text": "D. 1 và 2 đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 23. Dòng phiên bản Nukeviet 2.0 do những ai phát triển?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Nguyễn Anh Tú cùng một số lưu học sinh Việt Nam tại Nga phát triển]",
+    "images": []
+  },
+  {
+    "text": "B. Nguyễn Anh Tú cùng một số lưu học sinh Việt Nam tại Đức phát triển",
+    "images": []
+  },
+  {
+    "text": "C. Nguyễn Anh Tú cùng một số lưu học sinh Việt Nam tại Pháp phát triển",
+    "images": []
+  },
+  {
+    "text": "D. Nguyễn Anh Tú cùng một số lưu học sinh Việt Nam tại Nhật phát triển",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 24. Nukeviet được viết bằng ngôn ngữ và sử dụng CSDL nào?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. PHP và MySQL]",
+    "images": []
+  },
+  {
+    "text": "B. PHP và Access",
+    "images": []
+  },
+  {
+    "text": "C. PHP và DB4.0",
+    "images": []
+  },
+  {
+    "text": "D. PHP và O2",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 25. Nukeviet sử dụng bộ giấy phép nào?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. GNU/GPL]",
+    "images": []
+  },
+  {
+    "text": "B. GNU/GPC",
+    "images": []
+  },
+  {
+    "text": "C. GUI/GPL",
+    "images": []
+  },
+  {
+    "text": "D. GNU/GPLs",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 26. Chọn phát biểu đúng?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Joomla là mã nguồn mở và được cung cấp hoàn toàn miễn phí]",
+    "images": []
+  },
+  {
+    "text": "B. Joomla là một công cụ lập trình web",
+    "images": []
+  },
+  {
+    "text": "C. Joomla được phát triển bởi Microsoft",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 27. Chọn phát biểu đúng?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Joomla là nền tảng mã nguồn mở được xây dựng và đóng gói bởi những chuyên gia hàng đầu và những thành viên tích cực]",
+    "images": []
+  },
+  {
+    "text": "B. Joomla là nền tảng mã nguồn mở được xây dựng và đóng gói bởi những chuyên gia hàng đầu",
+    "images": []
+  },
+  {
+    "text": "C. Joomla là nền tảng mã nguồn mở được xây dựng và đóng gói bởi những thành viên tích cực",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 28. Chọn phát biểu đúng]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Joomla có 1 cộng đồng phát triển cũng như sử dụng, điều đó có nghĩa là ngay khi gặp vấn đề khó khăn, rất nhiều người tình nguyện giúp đỡ bạn]",
+    "images": []
+  },
+  {
+    "text": "B. khi gặp khó khăn không có ai giúp đỡ",
+    "images": []
+  },
+  {
+    "text": "C. Khi gặp khó thì tự mình giải quyết",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 29. Chọn phát biểu đúng]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Joomla giúp tiết kiệm thời gian và công sức thiết kế Website]",
+    "images": []
+  },
+  {
+    "text": "B. Tự ngồi lập trình lại từ đầu",
+    "images": []
+  },
+  {
+    "text": "C. Tự phát triển ngay từ đầu",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 30. Joomla có thể sử dụng vào những site?]",
+    "images": []
+  },
+  {
+    "text": "A. a. Blog cá nhân, tin tức, trường học",
+    "images": []
+  },
+  {
+    "text": "B. b. Thể thao, giải trí, mua sắm, thương mại điện tử",
+    "images": []
+  },
+  {
+    "text": "C. c. Danh bạ trực tuyến, mạng xã hội, mạng cộng đồng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. cả ‘a’, ‘b’, ‘c’ đều đúng]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 31. Joomla không thể sử dụng vào những site?]",
+    "images": []
+  },
+  {
+    "text": "A. a. Blog cá nhân, tin tức, trường học",
+    "images": []
+  },
+  {
+    "text": "B. b. Thể thao, giải trí, mua sắm, thương mại điện tử",
+    "images": []
+  },
+  {
+    "text": "C. c. Danh bạ trực tuyến, mạng xã hội, mạng cộng đồng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. d. Không có đáp án đúng]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 32. Moodle viết tắt của?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Modular Object-Oriented Dynamic Learning Environment]",
+    "images": []
+  },
+  {
+    "text": "B. Modular -Oriented Dynamic Learning Environment",
+    "images": []
+  },
+  {
+    "text": "C. Modular Object- Dynamic Learning Environment",
+    "images": []
+  },
+  {
+    "text": "D. Modular Object-Oriented Learning Environment",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 33. Công cụ Moodle dùng chủ yếu trong site nào?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Giáo dục]",
+    "images": []
+  },
+  {
+    "text": "B. Tin tức",
+    "images": []
+  },
+  {
+    "text": "C. Thương mại điện tử",
+    "images": []
+  },
+  {
+    "text": "D. Thể thao, giải trí",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 34. Moodle là một giải pháp học tập lý tưởng trên mạng cho?]",
+    "images": []
+  },
+  {
+    "text": "A. a: Các trường phổ thông",
+    "images": []
+  },
+  {
+    "text": "B. b: Các trường đại học, cao đẳng",
+    "images": []
+  },
+  {
+    "text": "C. c: Các tổ chức doang nghiệp, bệnh viện",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. cả ‘a’, ‘b’, ‘c’ đều đúng]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 35. Bài giảng trong Moodle sử dụng chuẩn nào?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. SCORM]",
+    "images": []
+  },
+  {
+    "text": "B. MCOM",
+    "images": []
+  },
+  {
+    "text": "C. Powerpoint",
+    "images": []
+  },
+  {
+    "text": "D. SCOM",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 36. Cấu trúc của hệ thống Moodle elearning gồm mấy phần?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 5]",
+    "images": []
+  },
+  {
+    "text": "B. 4",
+    "images": []
+  },
+  {
+    "text": "C. 3",
+    "images": []
+  },
+  {
+    "text": "D. 2",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 37. Trong các tính năng sau, tính năng nào là của Moodle?]",
+    "images": []
+  },
+  {
+    "text": "A. a. Tạo và quản lý khóa học",
+    "images": []
+  },
+  {
+    "text": "B. b. Đưa nội dung bài học tới học viên",
+    "images": []
+  },
+  {
+    "text": "C. c. Quản lý học viên",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Cả ‘a’, ‘b’, ‘c’ đều đúng]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 38. Trong các tính năng sau, tính năng nào là của Moodle?]",
+    "images": []
+  },
+  {
+    "text": "A. a. Trợ giúp giáo viên tổ chức các hoạt động: đánh giá, thảo luận, bài học, kiểm tra, bài tập lớn,…",
+    "images": []
+  },
+  {
+    "text": "B. b. Quản lý tài nguyên",
+    "images": []
+  },
+  {
+    "text": "C. c. Tổ chức hội thảo",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Cả ‘a’, ‘b’, ‘c’ đều đúng]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 39. Trong các tính năng sau, tính năng nào là của Moodle?]",
+    "images": []
+  },
+  {
+    "text": "A. a. Quản lý sự kiện",
+    "images": []
+  },
+  {
+    "text": "B. b. Báo cáo tiến trình học tập cảu học viên",
+    "images": []
+  },
+  {
+    "text": "C. c. Trợ giúp nội dung khóa học",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Cả ‘a’, ‘b’, ‘c’ đều đúng]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 40. Trong các đối tượng sau, đối tượng nào phục vụ Moodle Elearning?]",
+    "images": []
+  },
+  {
+    "text": "A. a. Quản lý viên",
+    "images": []
+  },
+  {
+    "text": "B. b. Giảng viên",
+    "images": []
+  },
+  {
+    "text": "C. c. Sinh viên",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Cả ‘a’, ‘b’, ‘c’ đều đúng]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 41. Trong các đối tượng sau, đối tượng nào không phục vụ Moodle Elearning]",
+    "images": []
+  },
+  {
+    "text": "A. a. Quản lý viên",
+    "images": []
+  },
+  {
+    "text": "B. b. Giảng viên",
+    "images": []
+  },
+  {
+    "text": "C. c. Sinh viên",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Cả ‘a’, ‘b’, ‘c’ đều sai]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 42. Quy trình triển khai hệ thống Moodle gồm có mấy bước]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 4]",
+    "images": []
+  },
+  {
+    "text": "B. 3",
+    "images": []
+  },
+  {
+    "text": "C. 2",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 43. Bước 1 trong quy trình triển khai hệ thống Moodle thực hiện công viêc?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Thuê tên miền, webhosting hoặc cài đặt hệ thống Moodle trên serer localhost]",
+    "images": []
+  },
+  {
+    "text": "B. Cài đặt và cấu hình hệ thống Moodle Elearning",
+    "images": []
+  },
+  {
+    "text": "C. Tạo các tài khoản cho người dùng và phân quyền cho người dùng trong hệ thống",
+    "images": []
+  },
+  {
+    "text": "D. Hỗ trợ thường xuyên người dùng trong quá trình sử dụng hệ thống Moodle Elearning",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 44. Bước 2 trong quy trình triển khai hệ thống Moodle thực hiện công viêc?]",
+    "images": []
+  },
+  {
+    "text": "A. Thuê tên miền, webhosting hoặc cài đặt hệ thống Moodle trên serer localhost",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ B. Cài đặt và cấu hình hệ thống Moodle Elearning]",
+    "images": []
+  },
+  {
+    "text": "C. Tạo các tài khoản cho người dùng và phân quyền cho người dùng trong hệ thống",
+    "images": []
+  },
+  {
+    "text": "D. Hỗ trợ thường xuyên người dùng trong quá trình sử dụng hệ thống Moodle Elearning",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 45. Bước 3 trong quy trình triển khai hệ thống Moodle thực hiện công viêc?]",
+    "images": []
+  },
+  {
+    "text": "A. Thuê tên miền, webhosting hoặc cài đặt hệ thống Moodle trên serer localhost",
+    "images": []
+  },
+  {
+    "text": "B. Cài đặt và cấu hình hệ thống Moodle Elearning",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. Tạo các tài khoản cho người dùng và phân quyền cho người dùng trong hệ thống]",
+    "images": []
+  },
+  {
+    "text": "D. Hỗ trợ thường xuyên người dùng trong quá trình sử dụng hệ thống Moodle Elearning",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 46. Bước 4 trong quy trình triển khai hệ thống Moodle thực hiện công viêc?]",
+    "images": []
+  },
+  {
+    "text": "A. Thuê tên miền, webhosting hoặc cài đặt hệ thống Moodle trên serer localhost",
+    "images": []
+  },
+  {
+    "text": "B. Cài đặt và cấu hình hệ thống Moodle Elearning",
+    "images": []
+  },
+  {
+    "text": "C. Tạo các tài khoản cho người dùng và phân quyền cho người dùng trong hệ thống",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Hỗ trợ thường xuyên người dùng trong quá trình sử dụng hệ thống Moodle Elearning]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 47. Ưu điểm của Moodle Elearning là?]",
+    "images": []
+  },
+  {
+    "text": "A. a. Can thiệp vào code",
+    "images": []
+  },
+  {
+    "text": "B. b. Cộng đồng người sử dụng lớn, nên có thể giúp chúng ta vận hành, phát triển",
+    "images": []
+  },
+  {
+    "text": "C. c. Tương thích với nhiều công cụ tạo bài giảng, dễ quảng trị, cấu hình,..",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Cả ‘a’, ‘b’, ‘c’ đều đúng]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 48. Để tạo môi trường Web trên localhost bạn chọn cách nào sau đây?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Cài đặt IIS trong Window]",
+    "images": []
+  },
+  {
+    "text": "B. Cài đặt SQL Server",
+    "images": []
+  },
+  {
+    "text": "C. Cài đặt MySQL",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 49. Để tạo môi trường Web và CSDL trên Localhost bạn phải cài đặt?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Cài đặt XamPP]",
+    "images": []
+  },
+  {
+    "text": "B. Cài đặt XML",
+    "images": []
+  },
+  {
+    "text": "C. Cài đặt PHP",
+    "images": []
+  },
+  {
+    "text": "D. Cài đặt IIS",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 50. Để tạo môi trường Web và CSDL trên Localhost bạn phải cài đặt?]",
+    "images": []
+  },
+  {
+    "text": "A. a. XamPP",
+    "images": []
+  },
+  {
+    "text": "B. b. IIS và SQL Server",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. Cả ‘a’, ‘b’ đều đúng]",
+    "images": []
+  },
+  {
+    "text": "D. Cả ‘a’, ‘b’ đều sai",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 51. Web Server là gì?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Là máy tính mà trên đó cài đặt phần mềm phục vụ Web]",
+    "images": []
+  },
+  {
+    "text": "B. Là máy tính cài đặt các phầm mềm ứng dùng",
+    "images": []
+  },
+  {
+    "text": "C. Là máy tính mà trên đó cài đặt Office",
+    "images": []
+  },
+  {
+    "text": "D. là máy tính trên đó cài đặt phần mềm",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 52. Theo bạn có những Webserver nào sau đây không tồn tại?]",
+    "images": []
+  },
+  {
+    "text": "A. a. Apache",
+    "images": []
+  },
+  {
+    "text": "B. b. ISS của Microsoft",
+    "images": []
+  },
+  {
+    "text": "C. c. Sun Java System Web",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. không có đáp án đúng]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 53. Webserver ISS của Microsoft dành cho:]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. *.asp; *.aspx,…]",
+    "images": []
+  },
+  {
+    "text": "B. Php",
+    "images": []
+  },
+  {
+    "text": "C. jps",
+    "images": []
+  },
+  {
+    "text": "D. không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 54. Webserver Apache dành cho:]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. *.PHP,…]",
+    "images": []
+  },
+  {
+    "text": "B. ASP",
+    "images": []
+  },
+  {
+    "text": "C. XML",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 55. Webserver SUN Java dành cho:]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. *.jps,…]",
+    "images": []
+  },
+  {
+    "text": "B. php",
+    "images": []
+  },
+  {
+    "text": "C. asp",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "",
+    "images": [
+      "media/image1.png"
+    ]
+  },
+  {
+    "text": "Hình minh họa theo file gốc (trang 10)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 56. Nhìn vào hình 01, để truy cập vào bảng điều khiển bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 1]",
+    "images": []
+  },
+  {
+    "text": "B. 2",
+    "images": []
+  },
+  {
+    "text": "C. 3",
+    "images": []
+  },
+  {
+    "text": "D. 4",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 57. Nhìn vào hình 01, để truy cập vào thư mục gốc XAMPP bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 2]",
+    "images": []
+  },
+  {
+    "text": "B. 3",
+    "images": []
+  },
+  {
+    "text": "C. 4",
+    "images": []
+  },
+  {
+    "text": "D. 5",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 58. Nhìn vào hình 01, để vô hiệu hóa Hypertext Transfer Protocol Secure bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 3]",
+    "images": []
+  },
+  {
+    "text": "B. 5",
+    "images": []
+  },
+  {
+    "text": "C. 4",
+    "images": []
+  },
+  {
+    "text": "D. 6",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 59. Nhìn vào hình 01,để vô hiệu hóa máy chủ bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 4]",
+    "images": []
+  },
+  {
+    "text": "B. 5",
+    "images": []
+  },
+  {
+    "text": "C. 6",
+    "images": []
+  },
+  {
+    "text": "D. 7",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 60. Nhìn vào hình 01, để cho phép sử dụng địa chỉ ipv4 bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 5]",
+    "images": []
+  },
+  {
+    "text": "B. 6",
+    "images": []
+  },
+  {
+    "text": "C. 7",
+    "images": []
+  },
+  {
+    "text": "D. 1",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 61. Nhìn vào hình 01, biết để vô hiệu hóa modperl bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 6]",
+    "images": []
+  },
+  {
+    "text": "B. 7",
+    "images": []
+  },
+  {
+    "text": "C. 4",
+    "images": []
+  },
+  {
+    "text": "D. 2",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 62. Nhìn bào hình 01, để vô hiệu hóa môi trường web bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 7]",
+    "images": []
+  },
+  {
+    "text": "B. 6",
+    "images": []
+  },
+  {
+    "text": "C. 5",
+    "images": []
+  },
+  {
+    "text": "D. 4",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 63. Nhìn vào hình 01, để thoát khỏi cửa sổ cài đặt bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. x]",
+    "images": []
+  },
+  {
+    "text": "B. exit",
+    "images": []
+  },
+  {
+    "text": "C. cmd",
+    "images": []
+  },
+  {
+    "text": "D. không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "",
+    "images": [
+      "media/image2.png"
+    ]
+  },
+  {
+    "text": "Hình minh họa theo file gốc (trang 12)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 64. Nhìn vào hình 02, để tạo môi trường Web và CSDL bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 9 và 10]",
+    "images": []
+  },
+  {
+    "text": "B. 8",
+    "images": []
+  },
+  {
+    "text": "C. 3",
+    "images": []
+  },
+  {
+    "text": "D. 1 và 2",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 65. Nhìn vào hình 02, để kiểm tra lại các cổng trong công cụ XAMPP bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 3]",
+    "images": []
+  },
+  {
+    "text": "B. 1",
+    "images": []
+  },
+  {
+    "text": "C. 2",
+    "images": []
+  },
+  {
+    "text": "D. 4",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 66. Nhìn vào hình 02, để làm tươi lại các cổng trong công cụ XAMPP bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 6]",
+    "images": []
+  },
+  {
+    "text": "B. 5",
+    "images": []
+  },
+  {
+    "text": "C. 7",
+    "images": []
+  },
+  {
+    "text": "D. 8",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 67. Nhìn vào hình 02, để xem hướng cẫn cấu hình công cụ XAMPP bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 7]",
+    "images": []
+  },
+  {
+    "text": "B. 8",
+    "images": []
+  },
+  {
+    "text": "C. 9",
+    "images": []
+  },
+  {
+    "text": "D. 10",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 68. Nhìn vào hình 02, để thoát khỏi công cụ sau khi thiết lập trong XAMPP bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 8]",
+    "images": []
+  },
+  {
+    "text": "B. 9",
+    "images": []
+  },
+  {
+    "text": "C. 10",
+    "images": []
+  },
+  {
+    "text": "D. 11",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 69. Nhìn vào hình 02, để quay trở lại môi trường DOS trong XAMPP bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 1]",
+    "images": []
+  },
+  {
+    "text": "B. 2",
+    "images": []
+  },
+  {
+    "text": "C. 3",
+    "images": []
+  },
+  {
+    "text": "D. 4",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 70. Nhìn vào hình 02, để quay trở lại môi trường Dos và cài đặt lại XAMPP trong môi trường DOS bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 2]",
+    "images": []
+  },
+  {
+    "text": "B. 3",
+    "images": []
+  },
+  {
+    "text": "C. 4",
+    "images": []
+  },
+  {
+    "text": "D. 5",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 71. Nhìn vào hình 02, phiên bản XAMPP là?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 1.7.2]",
+    "images": []
+  },
+  {
+    "text": "B. 1.7.2.x",
+    "images": []
+  },
+  {
+    "text": "C. 1.7.7",
+    "images": []
+  },
+  {
+    "text": "D. 1.7.8",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 72. Nhìn vào hình 02, bạn hãy cho biết XAMPP được lưu trữ tại?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. ổ C]",
+    "images": []
+  },
+  {
+    "text": "B. ổ D",
+    "images": []
+  },
+  {
+    "text": "C. ổ E",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "",
+    "images": [
+      "media/image3.png"
+    ]
+  },
+  {
+    "text": "Hình minh họa theo file gốc (trang 13)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 73. Nhìn vào hình 03, để backup đ-ợc 1 CSDL, sau thao tác chọn CSDL cần Backup bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 9]",
+    "images": []
+  },
+  {
+    "text": "B. 8",
+    "images": []
+  },
+  {
+    "text": "C. 10",
+    "images": []
+  },
+  {
+    "text": "D. 7",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 74. Nhìn vào hình 03, để khôi phục được 1 CSDL, sau thao tác chọn CSDL cần khôi phục bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 10]",
+    "images": []
+  },
+  {
+    "text": "B. 11",
+    "images": []
+  },
+  {
+    "text": "C. 12",
+    "images": []
+  },
+  {
+    "text": "D. 13",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 75. Nhìn vào hình 03, để kiểm tra trong hệ thống có bao nhiêu CSDL bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 1]",
+    "images": []
+  },
+  {
+    "text": "B. 2",
+    "images": []
+  },
+  {
+    "text": "C. 3",
+    "images": []
+  },
+  {
+    "text": "D. 4",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 76. Nhìn vào hình 03, để tạo ra một câu truy vấn trong CSDL bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 2]",
+    "images": []
+  },
+  {
+    "text": "B. 3",
+    "images": []
+  },
+  {
+    "text": "C. 4",
+    "images": []
+  },
+  {
+    "text": "D. 5",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 77. Nhìn vào hình 03, để xem trạng thái của CSDL bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 3]",
+    "images": []
+  },
+  {
+    "text": "B. 4",
+    "images": []
+  },
+  {
+    "text": "C. 5",
+    "images": []
+  },
+  {
+    "text": "D. 6",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 78. Nhìn vào hình 03, để chọn gói ngôn ngữ bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 11]",
+    "images": []
+  },
+  {
+    "text": "B. 1",
+    "images": []
+  },
+  {
+    "text": "C. 12",
+    "images": []
+  },
+  {
+    "text": "D. 14",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 79. Để tạo ra một Database bạn chọn thao tác nào sau sau khi mở trình duyệt Web?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. localhost/phpMyadmin gõ tên CSDL vào mục ‘Create new database’]",
+    "images": []
+  },
+  {
+    "text": "B. localhost/phpMyadmin gõ tên CSDL vào mục ‘Create new databas’",
+    "images": []
+  },
+  {
+    "text": "C. localhost/phpMyadmin gõ tên CSDL vào mục ‘Create database’",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "",
+    "images": [
+      "media/image4.png"
+    ]
+  },
+  {
+    "text": "Hình minh họa theo file gốc (trang 15)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 80. Nhìn vào hình 05, để xem trang thông tin cá nhân bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 1]",
+    "images": []
+  },
+  {
+    "text": "B. 2",
+    "images": []
+  },
+  {
+    "text": "C. 3",
+    "images": []
+  },
+  {
+    "text": "D. 4",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 81. Nhìn vào hình 05, để xem các trang của hệ thống bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 2]",
+    "images": []
+  },
+  {
+    "text": "B. 1",
+    "images": []
+  },
+  {
+    "text": "C. 3",
+    "images": []
+  },
+  {
+    "text": "D. 4",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 82. Nhìn vào hình 05, Để xem thông tin các nhân của tài khoản bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 3]",
+    "images": []
+  },
+  {
+    "text": "B. 2",
+    "images": []
+  },
+  {
+    "text": "C. 1",
+    "images": []
+  },
+  {
+    "text": "D. 4",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 83. Nhìn vào hình 05, để lập thẻ đánh dấu một trang bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 4]",
+    "images": []
+  },
+  {
+    "text": "B. 3",
+    "images": []
+  },
+  {
+    "text": "C. 2",
+    "images": []
+  },
+  {
+    "text": "D. 1",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 84. Nhìn vào hình 05, bạn hãy cho biết để thêm một khối bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 5]",
+    "images": []
+  },
+  {
+    "text": "B. 4",
+    "images": []
+  },
+  {
+    "text": "C. 3",
+    "images": []
+  },
+  {
+    "text": "D. 2",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 85. Nhìn vào hình 05, bạn hãy cho biết click vào đâu để xem đ-ợc các thông tin Tài khoản, thêm, sửa, xóa tài khoản?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 9]",
+    "images": []
+  },
+  {
+    "text": "B. 10",
+    "images": []
+  },
+  {
+    "text": "C. 11",
+    "images": []
+  },
+  {
+    "text": "D. 12",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 86. Nhìn vào hình 05, bạn hãy cho biết click vào đâu để có thể thêm được các khóa học, sửa khóa học, xóa khóa học?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 10]",
+    "images": []
+  },
+  {
+    "text": "B. 11",
+    "images": []
+  },
+  {
+    "text": "C. 12",
+    "images": []
+  },
+  {
+    "text": "D. 13",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 87. Nhìn vào hình 05, bạn hãy cho biết click vào đâu để có thể xem điểm số của các học viên?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 11]",
+    "images": []
+  },
+  {
+    "text": "B. 12",
+    "images": []
+  },
+  {
+    "text": "C. 13",
+    "images": []
+  },
+  {
+    "text": "D. 14",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 88. Nhìn vào hình 05, bạn hãy cho biết click vào đâu để thiết lập lại múi giờ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 12]",
+    "images": []
+  },
+  {
+    "text": "B. 13",
+    "images": []
+  },
+  {
+    "text": "C. 14",
+    "images": []
+  },
+  {
+    "text": "D. 15",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 89. Nhìn vào hình 05, bạn hãy cho biết click vào? Để thiết lập lại ngôn ngữ cho website?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 13]",
+    "images": []
+  },
+  {
+    "text": "B. 14",
+    "images": []
+  },
+  {
+    "text": "C. 15",
+    "images": []
+  },
+  {
+    "text": "D. 16",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 90. Nhìn vào hình 05, bạn hãy cho biết click vào? Để thiết lập các chính sách bảo mật cho Web?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 18]",
+    "images": []
+  },
+  {
+    "text": "B. 19",
+    "images": []
+  },
+  {
+    "text": "C. 20",
+    "images": []
+  },
+  {
+    "text": "D. 17",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 91. Nhìn vào hình 05, bạn hãy cho biết click vào? Để thiết lập hình thức trình bày của web]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 19]",
+    "images": []
+  },
+  {
+    "text": "B. 18",
+    "images": []
+  },
+  {
+    "text": "C. 17",
+    "images": []
+  },
+  {
+    "text": "D. 16",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 92. Nhìn vào hình 05, bạn hãy cho biết click vào? Để xem đường dẫn hệ thống, thư điện tử, quản lý phiên làm việc]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 15]",
+    "images": []
+  },
+  {
+    "text": "B. 16",
+    "images": []
+  },
+  {
+    "text": "C. 17",
+    "images": []
+  },
+  {
+    "text": "D. 18",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 93. Nhìn vào hình 05, hãy cho biết click vào? Để xem các lời bình, nhật ký l-u, thống kê,…]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 16]",
+    "images": []
+  },
+  {
+    "text": "B. 17",
+    "images": []
+  },
+  {
+    "text": "C. 18",
+    "images": []
+  },
+  {
+    "text": "D. 19",
+    "images": []
+  },
+  {
+    "text": "",
+    "images": [
+      "media/image5.png"
+    ]
+  },
+  {
+    "text": "Hình minh họa theo file gốc (trang 18)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 94. Nhìn vào hình 06, bạn hãy cho biết trước khi thêm 1 khóa học mới bạn phải chọn chủ đề ‘mục’ cho khóa học đó. Bạn phải click chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 1]",
+    "images": []
+  },
+  {
+    "text": "B. 2",
+    "images": []
+  },
+  {
+    "text": "C. 3",
+    "images": []
+  },
+  {
+    "text": "D. 4",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 95. Nhìn vào hình 06, bạn hãy cho biết để ghi thông tin mã số của khóa học bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 4]",
+    "images": []
+  },
+  {
+    "text": "B. 3",
+    "images": []
+  },
+  {
+    "text": "C. 2",
+    "images": []
+  },
+  {
+    "text": "D. 1",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 96. Nhìn vào hình 06, bạn hãy cho biết để đưa thông tin tóm tắt về khóa học bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 5]",
+    "images": []
+  },
+  {
+    "text": "B. 4",
+    "images": []
+  },
+  {
+    "text": "C. 3",
+    "images": []
+  },
+  {
+    "text": "D. 2",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 97. Nhìn vào hình 06, bạn hãy cho biết để định dạng bài giảng theo chuẩn SCOM bạn click chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 7]",
+    "images": []
+  },
+  {
+    "text": "B. 6",
+    "images": []
+  },
+  {
+    "text": "C. 5",
+    "images": []
+  },
+  {
+    "text": "D. 4",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 98. Nhìn vào hình 06, bạn hãy cho biết để thiết lập dung lượng của 1 file khi upload lên hệ thống bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 13]",
+    "images": []
+  },
+  {
+    "text": "B. 12",
+    "images": []
+  },
+  {
+    "text": "C. 11",
+    "images": []
+  },
+  {
+    "text": "D. 10",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 99. Nhìn vào hình 06, bạn hãy cho biết để thiết lập chế độ xem báo các hoạt động, bạn click chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 12]",
+    "images": []
+  },
+  {
+    "text": "B. 13",
+    "images": []
+  },
+  {
+    "text": "C. 14",
+    "images": []
+  },
+  {
+    "text": "D. 10",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 100. Nhìn vào hình 06, bạn hãy cho biết để thiết lập ngày bắt đầu khóa học bạn chọn?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 8]",
+    "images": []
+  },
+  {
+    "text": "B. 7",
+    "images": []
+  },
+  {
+    "text": "C. 6",
+    "images": []
+  },
+  {
+    "text": "D. 5",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 101. Những phát biểu nào đúng về dự án nguồn mở?]",
+    "images": []
+  },
+  {
+    "text": "A. Bất kỳ ai cũng có thể tải về toàn bộ kho mã nguồn(1)",
+    "images": []
+  },
+  {
+    "text": "B. Bất kỳ ai cũng có thể tải về toàn bộ các tài liệu(2)",
+    "images": []
+  },
+  {
+    "text": "C. Bất kỳ ai cũng có thể cùng cộng tác đóng góp(3)",
+    "images": []
+  },
+  {
+    "text": "D. Bất kỳ ai cũng có thể làm tài liệu cho dự án(4)",
+    "images": []
+  },
+  {
+    "text": "E. Đáp án (3) và (4)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ F. Tất cả các đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 102. Những phát biểu nào sai về dự án mã nguồn mở ?]",
+    "images": []
+  },
+  {
+    "text": "A. Bất kỳ ai cũng có thể tải về toàn bộ kho mã nguồn(1)",
+    "images": []
+  },
+  {
+    "text": "B. Bất kỳ ai cũng có thể tải về toàn bộ các tài liệu(2)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. Tất cả tài liệu dự án phải có giấy phép CC-BY hoặc CC-BY-SA(3)]",
+    "images": []
+  },
+  {
+    "text": "D. Tất cả những người tham gia vào dự án có thể trở thành người đóng góp",
+    "images": []
+  },
+  {
+    "text": "E. Bất kỳ ai cũng có quyền cá nhân hóa mã nguồn được chia sẻ",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 103. Phần mềm tự do nguồn mở mục đích là ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Giải phóng những cản trở về tư duy tự do trong sáng tạo, phát triển, chia sẻ của phần mềm]",
+    "images": []
+  },
+  {
+    "text": "B. Giải phóng những rào cản của sự phức tạp công nghệ bằng khả năng -tự dộng hóa",
+    "images": []
+  },
+  {
+    "text": "C. Liên kết nguồn tri thức vô tận trong xã hội, cạnh tranh bình đẳng và tự do trong sáng tạo",
+    "images": []
+  },
+  {
+    "text": "D. Tất cả các đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 104. Giấy phép dạng Copyleft nghĩa là gì ?]",
+    "images": []
+  },
+  {
+    "text": "A. Một loại giấy phép mà hạn chế sự tự do để sử dụng, chỉnh sửa, mở rộng và phân phối lại các phiên bản mã nguồn",
+    "images": []
+  },
+  {
+    "text": "B. Là loại giấy phép được cấp phép cho tất cả các phần mềm miễn phí",
+    "images": []
+  },
+  {
+    "text": "C. BSD và MIT là giấy phép ở dạng này",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Không có đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 105. Trong các dự án nguồn mở, Contributor (người đóng góp) là thành viên như thế nào ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Thành viên đã viết mã nguồn và đ-ợc chấp nhận đặt trong dự án, tuy nhiên không có quyền truy cập trực tiếp vào mã nguồn của dự án]",
+    "images": []
+  },
+  {
+    "text": "B. Thành viên có quyền truy cập trực tiếp vào mã nguồn của dự án, thường xuyên viết mã nguồn cho các chức năng cũng nh- sửa các bug cho dự án",
+    "images": []
+  },
+  {
+    "text": "C. Thành viên thực hiện việc xét duyệt các bản đóng góp vào dự án, thăng cấp hoặc giám cấp thành viên và quản lý tổng thể cả dự án",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 106. Trong các dự án nguồn mở, Commiter (người đề xuất) là thành viên như thế nào ?]",
+    "images": []
+  },
+  {
+    "text": "A. Thành viên đã viết mã nguồn và được chấp nhận đặt trong dự án, tuy nhiên không có quyền truy cập trực tiếp vào mã nguồn của dự án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ B. Thành viên có quyền truy cập trực tiếp vào mã nguồn của dự án, thường xuyên viết mã nguồn cho các chức năng cũng như sửa các bug cho dự án]",
+    "images": []
+  },
+  {
+    "text": "C. Thành viên thực hiện việc xét duyệt các bản đóng góp vào dự án, thăng cấp hoặc giám cấp thành viên và quản lý tổng thể cả dự án",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 107. Trong các dự án nguồn mở, Reviewer là thành viên nh- thế nào ?]",
+    "images": []
+  },
+  {
+    "text": "A. Thành viên đã viết mã nguồn và được chấp nhận đặt trong dự án, tuy nhiên không có quyền truy cập trực tiếp vào mã nguồn của dự án",
+    "images": []
+  },
+  {
+    "text": "B. Thành viên có quyền truy cập trực tiếp vào mã nguồn của dự án, thường xuyên viết mã nguồn cho các chức năng cũng như sửa các bug cho dự án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. Thành viên thực hiện việc xét duyệt các bản đóng góp vào dự án, thăng cấp hoặc giám cấp thành viên và quản lý tổng thể cả dự án]",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 108. Phần mềm tự do tham chiếu tới 4 quyền tự do cho ng-ời sử dụng phần mềm, quyền tự do số 0 là gì ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Tự do chạy chương trình phần mềm vì bất kỳ mục đích nào]",
+    "images": []
+  },
+  {
+    "text": "B. Tự do nghiên cứu cách mà chương trình phần mềm làm việc, áp dụng nó vào cho các nhu cầu của bạn. Việc truy cập vào mã nguồn là điều kiện tiên quyết để làm được việc này",
+    "images": []
+  },
+  {
+    "text": "C. Tự do phân phối các bản sao, sao cho bạn có thể giúp được người hàng xóm của bạn",
+    "images": []
+  },
+  {
+    "text": "D. Tự do cải tiến chương trình phần mềm, và tung ra những cải tiến của bạn (và các phiên bản đã đ-ợc sửa đổi nói chung) cho mọi ng-ời, sao cho toàn bộ cộng đồng đ-ợc h-ởng lợi. Việc truy cập vào mã nguồn là điều kiện tiên quyết để làm được việc này",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 109. Phần mềm tự do tham chiếu tới 4 quyền tự do cho người sử dụng phần mềm, quyền tự do số 1 là gì ?]",
+    "images": []
+  },
+  {
+    "text": "A. Tự do chạy chương trình phần mềm vì bất kỳ mục đích nào",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ B. Tự do nghiên cứu cách mà chương trình phần mềm làm việc, áp dụng nó vào cho các nhu cầu của bạn. Việc truy cập vào mã nguồn là điều kiện tiên quyết để làm được việc này]",
+    "images": []
+  },
+  {
+    "text": "C. Tự do phân phối các bản sao, sao cho bạn có thể giúp được người hàng xóm của bạn",
+    "images": []
+  },
+  {
+    "text": "D. Tự do cải tiến chương trình phần mềm, và tung ra những cải tiến của bạn (và các phiên bản đã đ-ợc sửa đổi nói chung) cho mọi ng-ời, sao cho toàn bộ cộng đồng đ-ợc h-ởng lợi. Việc truy cập vào mã nguồn là điều kiện tiên quyết để làm được việc này",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 110. Phần mềm tự do tham chiếu tới 4 quyền tự do cho người sử dụng phần mềm, quyền tự do số 2 là gì ?]",
+    "images": []
+  },
+  {
+    "text": "A. Tự do chạy chương trình phần mềm vì bất kỳ mục đích nào",
+    "images": []
+  },
+  {
+    "text": "B. Tự do nghiên cứu cách mà ch-ơng trình phần mềm làm việc, áp dụng nó vào cho các nhu cầu của bạn. Việc truy cập vào mã nguồn là điều kiện tiên quyết để làm được việc này",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. Tự do phân phối các bản sao, sao cho bạn có thể giúp được người hàng xóm của bạn]",
+    "images": []
+  },
+  {
+    "text": "D. Tự do cải tiến chương trình phần mềm, và tung ra những cải tiến của bạn (và các phiên bản đã đ-ợc sửa đổi nói chung) cho mọi ng-ời, sao cho toàn bộ cộng đồng đ-ợc h-ởng lợi. Việc truy cập vào mã nguồn là điều kiện tiên quyết để làm đ-ợc việc này",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 111. Phần mềm tự do tham chiếu tới 4 quyền tự do cho người sử dụng phần mềm, quyền tự do số 3 là gì ?]",
+    "images": []
+  },
+  {
+    "text": "A. Tự do chạy chương trình phần mềm vì bất kỳ mục đích nào",
+    "images": []
+  },
+  {
+    "text": "B. Tự do nghiên cứu cách mà chương trình phần mềm làm việc, áp dụng nó vào cho các nhu cầu của bạn. Việc truy cập vào mã nguồn là điều kiện tiên quyết để làm được việc này",
+    "images": []
+  },
+  {
+    "text": "C. Tự do phân phối các bản sao, sao cho bạn có thể giúp được người hàng xóm của bạn",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Tự do cải tiến chương trình phần mềm, và tung ra những cải tiến của bạn (và các phiên bản đã đ-ợc sửa đổi nói chung) cho mọi ng-ời, sao cho toàn bộ cộng đồng đ-ợc h-ởng lợi. Việc truy cập vào mã nguồn là điều kiện tiên quyết để làm được việc này]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 112. Tính tương thích của 2 loại giấy phép mã nguồn mở nghĩa là ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Bạn có thể tạo ra mã nguồn mà nó xuất xứ từ cả 2 loại giấy phép]",
+    "images": []
+  },
+  {
+    "text": "B. Hai loại giấy phép sử dụng giống y hệt nhau",
+    "images": []
+  },
+  {
+    "text": "C. Là hai loại giấy phép cùng được cấp phép bởi OSI",
+    "images": []
+  },
+  {
+    "text": "D. Việc đưa mã nguồn theo giấy phép này đòi hỏi bạn phải thay đổi những điều khoản của giấy phép kia TB(12)=Không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 113. Phần mềm nguồn mở là gì ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Là phần mềm sử dụng giấy phép được cấp phép bởi OSI]",
+    "images": []
+  },
+  {
+    "text": "B. Là phần mềm chia sẻ tự do và mã nguồn là sẵn có",
+    "images": []
+  },
+  {
+    "text": "C. Là phần mềm sử dụng giấy phép được cấp phép bởi GNU",
+    "images": []
+  },
+  {
+    "text": "D. Là phần mềm sử dụng giấy phép được cấp phép bởi FSF",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 114. Phần mềm tự do là gì ?]",
+    "images": []
+  },
+  {
+    "text": "A. Là phần mềm sử dụng giấy phép được cấp phép bởi OSI",
+    "images": []
+  },
+  {
+    "text": "B. Là phần mềm chia sẻ tự do và mã nguồn là sẵn có",
+    "images": []
+  },
+  {
+    "text": "C. Là phần mềm sử dụng giấy phép được cấp phép bởi GNU",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Là phần mềm sử dụng giấy phép được cấp phép bởi FSF]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 115. Phần mềm miễn phí (freeware) là gì ?]",
+    "images": []
+  },
+  {
+    "text": "A. Là một loại phần mềm tự do",
+    "images": []
+  },
+  {
+    "text": "B. Là một loại phần mềm nguồn mở",
+    "images": []
+  },
+  {
+    "text": "C. Là phần mềm tự do và cũng là phần mềm nguồn mở",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Không có đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 116. Phần mềm nguồn mở là gì ?]",
+    "images": []
+  },
+  {
+    "text": "A. Là một loại phần mềm tự do và mã nguồn có sẵn",
+    "images": []
+  },
+  {
+    "text": "B. Là phần mềm không có chi phí về tài chính",
+    "images": []
+  },
+  {
+    "text": "C. Là phần mềm vừa được gọi là tự do và được chứng thực là nguồn mở",
+    "images": []
+  },
+  {
+    "text": "D. Là phần mềm đáp ứng tiêu chí của một loại giấy phép mở",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ E. Không có đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 117. Phần mềm tự do là gì ?]",
+    "images": []
+  },
+  {
+    "text": "A. Giống như phần mềm nguồn mở nhưng mã nguồn không được chia sẻ",
+    "images": []
+  },
+  {
+    "text": "B. Là loại phần mềm sử dụng tự do, không mất chi phí",
+    "images": []
+  },
+  {
+    "text": "C. Là loại phần mềm tập trung vào vài dạng quyền tự do liên quan tới giấy phép phần mềm",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Là loại phần mềm sử dụng giấy phép GNU TB(17)=Không có đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 118. Những thành viên nào đóng góp nhiều nhất trong một dự án nguồn mở ?]",
+    "images": []
+  },
+  {
+    "text": "A. Là những lập trình viên phần mềm",
+    "images": []
+  },
+  {
+    "text": "B. Là những người đóng góp",
+    "images": []
+  },
+  {
+    "text": "C. Là những người đề xuất",
+    "images": []
+  },
+  {
+    "text": "D. Là những thành viên mới",
+    "images": []
+  },
+  {
+    "text": "E. Là tất cả những người tham gia",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ F. Không có đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 119. Những người mới tham gia vào dự án nguồn mở có thể tham gia vào các công việc nào ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Giúp những người sử dụng mới, đưa ra các ý kiến phản hồi…]",
+    "images": []
+  },
+  {
+    "text": "B. Thực thi những đề xuất mới, tham gia thảo luận trong diễn đàn…",
+    "images": []
+  },
+  {
+    "text": "C. Viết và cập nhật phần mềm, sửa code trong kho code của dự án…",
+    "images": []
+  },
+  {
+    "text": "D. Đề cử mình để trở thành người đóng góp cho dự án,… TB(19)=Không có đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 120. Giấy phép GNU GPLv2 là loại giấy phép gì ?]",
+    "images": []
+  },
+  {
+    "text": "A. Giấy phép được phê chuẩn là mở",
+    "images": []
+  },
+  {
+    "text": "B. Giấy phép được phê chuẩn là tự do",
+    "images": []
+  },
+  {
+    "text": "C. Giấy phép riêng của tổ chức GNU",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Giấy phép dạng Copyleft]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 121. Việc ra quyết định trong các dự án nguồn mở theo thứ tự như thế nào ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Đề xuất, thảo luận, biểu quyết, quyết định]",
+    "images": []
+  },
+  {
+    "text": "B. Thảo luận, đề xuất, biểu quyết, quyết định",
+    "images": []
+  },
+  {
+    "text": "C. Đề xuất, quyết định, thảo luận, biểu quyết",
+    "images": []
+  },
+  {
+    "text": "D. Đề xuất, quyết định, thảo luận, rà soát lại",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 122. Hai hệ thống giấy phép tư liệu mở phổ biến là ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Giấy phép Creative Commons và GNU General Free Document Licence]",
+    "images": []
+  },
+  {
+    "text": "B. Giấy phép của GNU và giấy phép của OSI",
+    "images": []
+  },
+  {
+    "text": "C. Giấy phép Open Document Format (ODF) và giấy phép Open Education Resource (OER)",
+    "images": []
+  },
+  {
+    "text": "D. Giấy phép Open Public Document (OPD) và giấy phép Open Licence Free (OLF)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 123. Khi giấy phép Creative Commons ghi là CC-BY nghĩa là gì?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Ghi công - Bắt buộc]",
+    "images": []
+  },
+  {
+    "text": "B. Ghi công - Phi thương mại",
+    "images": []
+  },
+  {
+    "text": "C. Ghi công - Chia sẻ tương tự",
+    "images": []
+  },
+  {
+    "text": "D. Ghi công - Không có phái sinh TB(23)=Không có đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 124. Khi giấy phép Creative Commons ghi là CC-BY-NC nghĩa là gì?]",
+    "images": []
+  },
+  {
+    "text": "A. Ghi công - Bắt buộc",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ B. Ghi công - Phi thương mại]",
+    "images": []
+  },
+  {
+    "text": "C. Ghi công - Chia sẻ tương tự",
+    "images": []
+  },
+  {
+    "text": "D. Ghi công - Không có phái sinh",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 125. Khi giấy phép Creative Commons ghi là CC-BY-SA nghĩa là gì?]",
+    "images": []
+  },
+  {
+    "text": "A. Ghi công - Bắt buộc",
+    "images": []
+  },
+  {
+    "text": "B. Ghi công - Phi thương mại",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. Ghi công - Chia sẻ tương tự]",
+    "images": []
+  },
+  {
+    "text": "D. Ghi công - Không có phái sinh",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 126. Khi giấy phép Creative Commons ghi là CC-BY-ND nghĩa là gì?]",
+    "images": []
+  },
+  {
+    "text": "A. Ghi công - Bắt buộc",
+    "images": []
+  },
+  {
+    "text": "B. Ghi công - Phi thương mại",
+    "images": []
+  },
+  {
+    "text": "C. Ghi công - Chia sẻ tương tự",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Ghi công - Không có phái sinh]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 127. Khi giấy phép Creative Commons ghi là CC-BY-NC-SA nghĩa là gì?]",
+    "images": []
+  },
+  {
+    "text": "A. Ghi công - Bắt buộc - Chia sẻ t-ơng tự",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ B. Ghi công - Phi th-ơng mại - Chia sẻ tương tự]",
+    "images": []
+  },
+  {
+    "text": "C. Ghi công - Chia sẻ t-ơng tự - Phi thương mại",
+    "images": []
+  },
+  {
+    "text": "D. Ghi công - Không có phái sinh - Chia sẻ tương tự",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 128. Khi giấy phép Creative Commons ghi là CC-BY-NC-ND nghĩa là gì?]",
+    "images": []
+  },
+  {
+    "text": "A. Ghi công - Bắt buộc - Chia sẻ tương tự",
+    "images": []
+  },
+  {
+    "text": "B. Ghi công - Phi th-ơng mại - Chia sẻ tương tự",
+    "images": []
+  },
+  {
+    "text": "C. Ghi công - Chia sẻ t-ơng tự - Phi thương mại",
+    "images": []
+  },
+  {
+    "text": "D. Ghi công - Không có phái sinh - Chia sẻ tương tự",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ E. Ghi công - Phi th-ơng mại - Không có phái sinh]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 129. Khi giấy phép Creative Commons ghi là Public Domain (No Right Reserved) nghĩa là gì?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Miền công cộng]",
+    "images": []
+  },
+  {
+    "text": "B. Giữ lại một số quyền",
+    "images": []
+  },
+  {
+    "text": "C. Giữ lại tất cả các quyền",
+    "images": []
+  },
+  {
+    "text": "D. ở mức độ tự do, tin cậy",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 130. Khi giấy phép Creative Commons ghi là Some Right Reserved nghĩa là gì?]",
+    "images": []
+  },
+  {
+    "text": "A. Miền công cộng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ B. Giữ lại một số quyền]",
+    "images": []
+  },
+  {
+    "text": "C. Giữ lại tất cả các quyền",
+    "images": []
+  },
+  {
+    "text": "D. ở mức độ tự do, tin cậy",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 131. Khi giấy phép Creative Commons ghi là All Right Reserved nghĩa là gì?]",
+    "images": []
+  },
+  {
+    "text": "A. Miền công cộng",
+    "images": []
+  },
+  {
+    "text": "B. Giữ lại một số quyền",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. Giữ lại tất cả các quyền]",
+    "images": []
+  },
+  {
+    "text": "D. ở mức độ tự do, tin cậy",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 132. Giấy phép GNU Gerneral Free Document Licence phiên bản nào có khả năng chuyển tiếp sang giấy phép CC-BY-SA 3.0?]",
+    "images": []
+  },
+  {
+    "text": "A. GNU Gerneral Free Document Licence 1.1",
+    "images": []
+  },
+  {
+    "text": "B. GNU Gerneral Free Document Licence 1.2",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. GNU Gerneral Free Document Licence 1.3]",
+    "images": []
+  },
+  {
+    "text": "D. GNU Gerneral Free Document Licence 1.4 TB(32)=Tất cả các phiên bản của giấy phép GFDL",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 133. Các khái niệm về phần mềm nguồn mở phải tuân thủ theo bao nhiêu tiêu chí ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. 10]",
+    "images": []
+  },
+  {
+    "text": "B. 12",
+    "images": []
+  },
+  {
+    "text": "C. 8",
+    "images": []
+  },
+  {
+    "text": "D. 4",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 134. Phần mềm mã nguồn mở là ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Hoàn toàn tôn trọng bản quyền và sở hữu trí tuệ]",
+    "images": []
+  },
+  {
+    "text": "B. Không tôn trọng bản quyển, chia sẻ miễn phí",
+    "images": []
+  },
+  {
+    "text": "C. Tôn trọng quyền sở hữu của cộng đồng hơn là sở hữu cá nhân",
+    "images": []
+  },
+  {
+    "text": "D. Quyền sở hữu nắm trong tay của cộng đồng nguồn mở",
+    "images": []
+  },
+  {
+    "text": "E. Không có đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 135. Cộng đồng là gì ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Là các nhóm cá nhân chia sẻ những lợi ích chung]",
+    "images": []
+  },
+  {
+    "text": "B. Là những người có khả năng tương tác với nhau",
+    "images": []
+  },
+  {
+    "text": "C. Là những người có nhiều đóng góp cho một dự án",
+    "images": []
+  },
+  {
+    "text": "D. Là một nhóm các lập trình viên và người sử dụng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 136. Một giấy phép được coi là copyfree khi nào ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Nó phải phù hợp với ‘Copyfree Standard Definition’]",
+    "images": []
+  },
+  {
+    "text": "B. Nó không phải là một giấy phép dạng Copyleft",
+    "images": []
+  },
+  {
+    "text": "C. Nó không đặt bất kỳ hạn chế về việc sửa đổi và phân phối",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 137. Các điều kiện để một giấy phép dạng copyfree là ?]",
+    "images": []
+  },
+  {
+    "text": "A. Miễn phí sử dụng",
+    "images": []
+  },
+  {
+    "text": "B. Phân phối miễn phí",
+    "images": []
+  },
+  {
+    "text": "C. Sửa đổi miễn phí nguồn và dẫn xuất",
+    "images": []
+  },
+  {
+    "text": "D. Miễn phí kết hợp",
+    "images": []
+  },
+  {
+    "text": "E. Phổ cập ứng dụng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ F. Tất cả các đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 138. Đặc trưng chính xác định phần mềm nguồn mở là gì ?]",
+    "images": []
+  },
+  {
+    "text": "A. Là tự do",
+    "images": []
+  },
+  {
+    "text": "B. Là miễn phí",
+    "images": []
+  },
+  {
+    "text": "C. Là mã nguồn",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Là giấy phép]",
+    "images": []
+  },
+  {
+    "text": "E. Đáp án khác",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 139. Nhận định nào là đúng về phần mềm nguồn mở ?]",
+    "images": []
+  },
+  {
+    "text": "A. Phần mềm nguồn mở thực tế là giống hệt như phần mềm tự do",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ B. Phần mềm nguồn mở và phần mềm tự do có điểm giống và khác nhau]",
+    "images": []
+  },
+  {
+    "text": "C. Phần mềm nguồn mở là chia sẻ miễn phí và không được kiếm tiền từ nó",
+    "images": []
+  },
+  {
+    "text": "D. Phần mềm nguồn mở là sự tự do, nó có thể coi là phần mềm miễn phí",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 140. Trong 4 quyền tự do của phần mềm tự do, nếu không đ-ợc phép truy cập vào mã nguồn thì quyền tự do nào không thực hiện được]",
+    "images": []
+  },
+  {
+    "text": "A. Số 0 và số 1",
+    "images": []
+  },
+  {
+    "text": "B. Số 1 và số 2",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. Số 1 và số 3]",
+    "images": []
+  },
+  {
+    "text": "D. Số 0 và số 3",
+    "images": []
+  },
+  {
+    "text": "E. Số 2 và số 3",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 141. Bước thực hiện nào không có trong thủ tục đệ trình một yêu cầu cấp giấy phép nguồn mở ?]",
+    "images": []
+  },
+  {
+    "text": "A. Đọc định nghĩa nguồn mở và đảm bảo rằng giấy phép của bạn phù hợp",
+    "images": []
+  },
+  {
+    "text": "B. Xác định dạng đệ trình (để rút lui, để chấp thuận phiên bản giấy phép đã có, để phê chuẩn)",
+    "images": []
+  },
+  {
+    "text": "C. Đảm bảo đơn vị có tư cách phù hợp để đệ trình một yêu cầu như vậy",
+    "images": []
+  },
+  {
+    "text": "D. Đăng ký để được cấp giấy phép đánh giá (nếu bạn chưa có sẵn)",
+    "images": []
+  },
+  {
+    "text": "E. Đệ trình một yêu cầu chính thức để xét duyệt giấy phép",
+    "images": []
+  },
+  {
+    "text": "F. Gửi thư điện tử yêu cầu (bao gồm thủ tục cần thiết)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ G. Cộng đồng xét duyệt trên danh sách thư điện tử ít nhất 30 ngày]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 142. Quá trình xét duyệt giấy phép nguồn mở nhằm mục đích gì ?]",
+    "images": []
+  },
+  {
+    "text": "A. Đảm bảo các giấy phép được phê duyệt tuân thủ định nghĩa nguồn mở",
+    "images": []
+  },
+  {
+    "text": "B. Xác định chủng loại giấy phép",
+    "images": []
+  },
+  {
+    "text": "C. Không khuyến khích các giấy phép hư danh và trùng lặp",
+    "images": []
+  },
+  {
+    "text": "D. Đảm bảo việc xét duyệt tỉ mỉ, minh bạch và đủ thời gian (60 ngày)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ E. Tất cả các đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 143. Với mục đích xin cấp giấy phép mới hoàn toàn, bạn sẽ xác định dạng đệ trình nào ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Để phê chuẩn]",
+    "images": []
+  },
+  {
+    "text": "B. Để rút lui",
+    "images": []
+  },
+  {
+    "text": "C. Để nâng cấp",
+    "images": []
+  },
+  {
+    "text": "D. Để cho một chủng loại mới",
+    "images": []
+  },
+  {
+    "text": "E. Để chấp thuận phiên bản giấy phép",
+    "images": []
+  },
+  {
+    "text": "F. Không có đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 144. Trong các dự án nguồn mở, việc báo cáo các lỗi (về mã nguồn) và sửa chữa thực hiện thông qua đâu ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Bản vá]",
+    "images": []
+  },
+  {
+    "text": "B. Phiên bản mới",
+    "images": []
+  },
+  {
+    "text": "C. Mô đun mới",
+    "images": []
+  },
+  {
+    "text": "D. Người đề xuất",
+    "images": []
+  },
+  {
+    "text": "E. Không có đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 145. Bước thực hiện nào không có trong thủ tục đệ trình một yêu cầu cấp giấy phép nguồn mở ?]",
+    "images": []
+  },
+  {
+    "text": "A. Đọc định nghĩa nguồn mở và đảm bảo rằng giấy phép của bạn phù hợp",
+    "images": []
+  },
+  {
+    "text": "B. Xác định dạng đệ trình (để rút lui, để chấp thuận phiên bản giấy phép đã có, để phê chuẩn)",
+    "images": []
+  },
+  {
+    "text": "C. Đệ trình một yêu cầu chính thức để xét duyệt giấy phép",
+    "images": []
+  },
+  {
+    "text": "D. Gửi thư điện tử yêu cầu (bao gồm thủ tục cần thiết)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ E. Không có đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 146. Bước thực hiện nào không có trong thủ tục đệ trình một yêu cầu cấp giấy phép nguồn mở ?]",
+    "images": []
+  },
+  {
+    "text": "A. Xác định dạng đệ trình (để rút lui, để chấp thuận phiên bản giấy phép đã có, để phê chuẩn)",
+    "images": []
+  },
+  {
+    "text": "B. Đảm bảo đơn vị có tư cách phù hợp để đệ trình một yêu cầu như vậy",
+    "images": []
+  },
+  {
+    "text": "C. Đệ trình một yêu cầu chính thức để xét duyệt giấy phép",
+    "images": []
+  },
+  {
+    "text": "D. Gửi thư điện tử yêu cầu (bao gồm thủ tục cần thiết)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ E. Không có đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 147. Bước thực hiện nào không có trong thủ tục đệ trình một yêu cầu cấp giấy phép nguồn mở ?]",
+    "images": []
+  },
+  {
+    "text": "A. Đọc định nghĩa nguồn mở và đảm bảo rằng giấy phép của bạn phù hợp",
+    "images": []
+  },
+  {
+    "text": "B. Đảm bảo đơn vị có tư cách phù hợp để đệ trình một yêu cầu như vậy",
+    "images": []
+  },
+  {
+    "text": "C. Đăng ký để được cấp giấy phép đánh giá (nếu bạn chưa có sẵn)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Cộng đồng xét duyệt trên danh sách thư điện tử ít nhất 30 ngày]",
+    "images": []
+  },
+  {
+    "text": "E. Không có đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 148. Bước thực hiện nào có trong thủ tục đệ trình một yêu cầu cấp giấy phép nguồn mở ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Đọc định nghĩa nguồn mở và đảm bảo rằng giấy phép của bạn phù hợp (i)]",
+    "images": []
+  },
+  {
+    "text": "B. Cộng đồng xét duyệt trên danh sách thư điện tử ít nhất 30 ngày (ii)",
+    "images": []
+  },
+  {
+    "text": "C. Bước thực hiện i",
+    "images": []
+  },
+  {
+    "text": "D. Bước thực hiện ii TB(48)=Không có đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 149. Thời gian phê duyệt giấy phép nguồn mở là bao nhiêu ngày]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. ít nhất 30 ngày]",
+    "images": []
+  },
+  {
+    "text": "B. ít nhất 60 ngày",
+    "images": []
+  },
+  {
+    "text": "C. ít nhất 20 ngày",
+    "images": []
+  },
+  {
+    "text": "D. ít nhất 40 ngày",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 150. Trong các giấy phép nguồn mở, giấy phép không sử dụng lại đ-ợc nghĩa là ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Chỉ tác giả của chúng dùng được còn người khác thì không sử dụng lại được]",
+    "images": []
+  },
+  {
+    "text": "B. Giấy phép nằm trong chủng loại giấy phép hư danh và đặc biệt với tác giả",
+    "images": []
+  },
+  {
+    "text": "C. Giấy phép bỏ đi không dùng bởi có những phiên bản mới hơn của chúng",
+    "images": []
+  },
+  {
+    "text": "D. Không có đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 151. Trong các giấy phép nguồn mở,giấy phép chưa được xếp loại nghĩa là ?]",
+    "images": []
+  },
+  {
+    "text": "A. Giấy phép hiện đang tìm kiếm sự chấp nhận",
+    "images": []
+  },
+  {
+    "text": "B. Giấy phép mà mã nguồn sẵn có nhưng không do OSI cấp",
+    "images": []
+  },
+  {
+    "text": "C. Giấy phép mà mã nguồn sẵn có và không phải là phần mềm tự do",
+    "images": []
+  },
+  {
+    "text": "D. Giấy phép cấm sử dụng và phân phối vì mục đích thương mại",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ E. Không có đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 152. Loại giấy phép nào không phải là giấy phép nguồn mở ?]",
+    "images": []
+  },
+  {
+    "text": "A. Apache License 2.0",
+    "images": []
+  },
+  {
+    "text": "B. New BSD License",
+    "images": []
+  },
+  {
+    "text": "C. MIT License",
+    "images": []
+  },
+  {
+    "text": "D. Eclipse Public License",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ E. Không có đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 153. Loại giấy phép nào không phải là giấy phép nguồn mở ?]",
+    "images": []
+  },
+  {
+    "text": "A. Mozilla Public License 1.1",
+    "images": []
+  },
+  {
+    "text": "B. NASA Open Source Agreement 1.3",
+    "images": []
+  },
+  {
+    "text": "C. W3C License",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Xamp Public License TB(53)=Không có đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 154. Loại giấy phép nào không phải là giấy phép nguồn mở ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. GNU Open Software License]",
+    "images": []
+  },
+  {
+    "text": "B. Simplified BSD License",
+    "images": []
+  },
+  {
+    "text": "C. MIT License",
+    "images": []
+  },
+  {
+    "text": "D. W3C License",
+    "images": []
+  },
+  {
+    "text": "E. Không có đáp án đúng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 155. GNU General Public License tất cả các phiên bản là loại giấy phép gì?]",
+    "images": []
+  },
+  {
+    "text": "A. Copyright",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ B. Copyleft]",
+    "images": []
+  },
+  {
+    "text": "C. Copyfree",
+    "images": []
+  },
+  {
+    "text": "D. Copyfull",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 156. Phát biểu nào sau đây là đúng về phần mềm nguồn mở ?]",
+    "images": []
+  },
+  {
+    "text": "A. Là một loại phần mềm tự do",
+    "images": []
+  },
+  {
+    "text": "B. Là một loại phần mềm miễn phí",
+    "images": []
+  },
+  {
+    "text": "C. Là không tôn trọng bản quyền",
+    "images": []
+  },
+  {
+    "text": "D. Là không thể cài đặt bình thường",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ E. Là được phép chia sẻ mã nguồn với hàng xóm]",
+    "images": []
+  },
+  {
+    "text": "F. Không có đáp án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 157. Trong dự án nguồn mở, thành viên có nhiều đóng góp cho dự án và đ-ợc phép truy cập trực tiếp vào mã nguồn là ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Commiter]",
+    "images": []
+  },
+  {
+    "text": "B. Contributor",
+    "images": []
+  },
+  {
+    "text": "C. Reviewer",
+    "images": []
+  },
+  {
+    "text": "D. Code leader",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 158. Trong dự án nguồn mở, thành viên có nhiều đóng góp cho dự án và không đ-ợc phép truy cập trực tiếp vào mã nguồn là ?]",
+    "images": []
+  },
+  {
+    "text": "A. Là Commiter",
+    "images": []
+  },
+  {
+    "text": "B. Là Committee",
+    "images": []
+  },
+  {
+    "text": "C. Là Commuter",
+    "images": []
+  },
+  {
+    "text": "D. Là Commentator",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ E. Không có đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 159. Giấy phép tư liệu mở chỉ có các loại giấy phéplà ?]",
+    "images": []
+  },
+  {
+    "text": "A. Creative Common và GNU General Free Document License",
+    "images": []
+  },
+  {
+    "text": "B. Apache License và GNU General Public License",
+    "images": []
+  },
+  {
+    "text": "C. BSD License và MIT License",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Không có đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 160. Trong các dự án nguồn mở, tài liệu điều hành của dự án đóng vai trò như thế nào ?]",
+    "images": []
+  },
+  {
+    "text": "A. Một tài liệu điều hành rõ ràng và minh bạch là phần chính của bất kỳ dự án phát triển mở nào",
+    "images": []
+  },
+  {
+    "text": "B. Nó xác định các quy tắc tham gia trong cộng đồng và mô tả mức độ ảnh hưởng của thành viên với dự án",
+    "images": []
+  },
+  {
+    "text": "C. Nó cho phép các thành viên quyết định mức độ tham gia của họ với cộng đồng đó",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Tất cả các đáp án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 161. Hai mô hình điều hành phổ biến trong các dự án nguồn mở là gì ?]",
+    "images": []
+  },
+  {
+    "text": "A. Nhà độc tài nhân từ",
+    "images": []
+  },
+  {
+    "text": "B. Chế độ người tài lãnh đạo",
+    "images": []
+  },
+  {
+    "text": "C. Kiểm soát tập trung như nhà thờ lớn",
+    "images": []
+  },
+  {
+    "text": "D. Kiểm soát phi tập trung như cái chợ",
+    "images": []
+  },
+  {
+    "text": "E. Kiểm soát tập trung như hội đồng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ F. Đáp án (1) và (2)]",
+    "images": []
+  },
+  {
+    "text": "G. Đáp án (3) và (4)",
+    "images": []
+  },
+  {
+    "text": "H. Đáp án (4) và (5)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 162. Các mô hình điều hành phổ biến của các dự án phần mềm tự do là gì ?]",
+    "images": []
+  },
+  {
+    "text": "A. Nhà độc tài nhân từ",
+    "images": []
+  },
+  {
+    "text": "B. Chế độ người tài lãnh đạo",
+    "images": []
+  },
+  {
+    "text": "C. Kiểm soát tập trung như nhà thờ lớn",
+    "images": []
+  },
+  {
+    "text": "D. Kiểm soát phi tập trung như cái chợ",
+    "images": []
+  },
+  {
+    "text": "E. Kiểm soát tập trung như hội đồng",
+    "images": []
+  },
+  {
+    "text": "F. Đáp án (1) và (2)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ G. Đáp án (3), (4) và (5)]",
+    "images": []
+  },
+  {
+    "text": "H. Đáp án (4) và (5)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 163. Trong các dự án nguồn mở, mô hình nhà độc tài nhân từ là ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Do một cá nhân lãnh đạo]",
+    "images": []
+  },
+  {
+    "text": "B. Do một ban lãnh đạo dự án",
+    "images": []
+  },
+  {
+    "text": "C. Do tất cả các thành viên tham gia quyết định",
+    "images": []
+  },
+  {
+    "text": "D. Do một tổ chức lãnh đạo",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 164. Với các dự án nguồn mở, mô hình điều hành ‘nhà độc tài nhân từ’, quyết định cuối cùng thuộc về ai ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Người lãnh đạo dự án]",
+    "images": []
+  },
+  {
+    "text": "B. Người đề xuất",
+    "images": []
+  },
+  {
+    "text": "C. Người đóng góp",
+    "images": []
+  },
+  {
+    "text": "D. Người sử dụng TB(64)=Ban quản lý dự án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 165. Với các dự án nguồn mở, mô hình điều hành ‘chế độ người tài lãnh đạo’, quyết định cuối cùng thuộc về ai ?]",
+    "images": []
+  },
+  {
+    "text": "A. Người lãnh đạo dự án",
+    "images": []
+  },
+  {
+    "text": "B. Người đề xuất",
+    "images": []
+  },
+  {
+    "text": "C. Người đóng góp",
+    "images": []
+  },
+  {
+    "text": "D. Người sử dụng",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ E. Ban quản lý dự án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 166. Trong các dự án nguồn mở, ai có thể trở thành người đóng góp (contributor) cho dự án?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. Có thể là bất kỳ ai]",
+    "images": []
+  },
+  {
+    "text": "B. Người được người đóng góp khác giới thiệu",
+    "images": []
+  },
+  {
+    "text": "C. Người được người đề xuất khác giới thiệu",
+    "images": []
+  },
+  {
+    "text": "D. Người được chỉ định",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 167. Với các dự án nguồn mở, các vai trò nào không có trong mô hình điều hành ‘nhà độc tài nhân từ’]",
+    "images": []
+  },
+  {
+    "text": "A. Người đề xuất (Commiter)",
+    "images": []
+  },
+  {
+    "text": "B. Người đóng góp (Contributor)",
+    "images": []
+  },
+  {
+    "text": "C. Lãnh đạo dự án (Project lead)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ D. Chủ tịch ban quản lý dự án]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 168. Với các dự án nguồn mở, các vai trò nào không có trong mô hình điều hành ‘chế độ người tài lãnh đạo’]",
+    "images": []
+  },
+  {
+    "text": "A. Người đề xuất (Commiter)",
+    "images": []
+  },
+  {
+    "text": "B. Người đóng góp (Contributor)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ C. Lãnh đạo dự án (Project lead)]",
+    "images": []
+  },
+  {
+    "text": "D. Chủ tịch ban quản lý dự án",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 169. Trong các dự án nguồn mở, sự ‘đồng thuận lười’ sẽ có hiệu lực khi nào ?]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ A. ít nhất 72 giờ đồng hồ khi giả thiết rằng không có sự phản đối]",
+    "images": []
+  },
+  {
+    "text": "B. ít nhất 24 giờ đồng hồ khi giả thiết rằng không có sự phản đối",
+    "images": []
+  },
+  {
+    "text": "C. ít nhất 48 giờ đồng hồ khi giả thiết rằng không có sự phản đối",
+    "images": []
+  },
+  {
+    "text": "D. ít nhất 36 giờ đồng hồ khi giả thiết rằng không có sự phản đối",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 170. Khi khởi xướng dự án nguồn mở, tài liệu điều hành phiên bản đầu tiên cần phải ?]",
+    "images": []
+  },
+  {
+    "text": "A. Chi tiết hóa đầy đủ khung công việc và đưa ra các quan điểm",
+    "images": []
+  },
+  {
+    "text": "B. Phải tính tới mọi kịch bản có thể trong tương lai",
+    "images": []
+  },
+  {
+    "text": "C. Đưa ra một mô hình đơn giản có khả năng quản lý được",
+    "images": []
+  },
+  {
+    "text": "D. Ngắn gọn, súc tích, truy cập được và dễ dàng tham chiếu tới",
+    "images": []
+  },
+  {
+    "text": "E. Đáp án (1) và (2)",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ F. Đáp án (3) và (4)]",
+    "images": []
+  },
+  {
+    "text": "[BOLD:Câu 171. Các công cụ cốt lõi mà tất cả các dự án nguồn mở nên bắt đầu là ?]",
+    "images": []
+  },
+  {
+    "text": "A. Website của dự án",
+    "images": []
+  },
+  {
+    "text": "B. Danh sách thư của những người lập trình",
+    "images": []
+  },
+  {
+    "text": "C. Kiểm soát phiên bản",
+    "images": []
+  },
+  {
+    "text": "D. Trình theo dõi các vấn đề",
+    "images": []
+  },
+  {
+    "text": "E. Trình tự động cập nhật các bản vá",
+    "images": []
+  },
+  {
+    "text": "F. Các trang wiki, diễn đàn",
+    "images": []
+  },
+  {
+    "text": "[BOLD:✓ G. Đáp án (1), (2), (3), (4)]",
+    "images": []
+  },
+  {
+    "text": "H. Đáp án (1), (2), (4), (5), (6)",
+    "images": []
+  }
+]
