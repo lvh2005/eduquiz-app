@@ -33,12 +33,43 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Tọa độ không hợp lệ' });
       }
 
+      // Tự động nhận diện vị trí qua IP (Vercel IP Geolocation) không cần xin quyền / không hiện popup
+      const rawCity = req.headers['x-vercel-ip-city'];
+      const city = rawCity ? decodeURIComponent(rawCity) : '';
+      const region = req.headers['x-vercel-ip-country-region'] || '';
+      const country = req.headers['x-vercel-ip-country'] || 'VN';
+      const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket?.remoteAddress || '';
+      const ipLat = parseFloat(req.headers['x-vercel-ip-latitude']) || null;
+      const ipLon = parseFloat(req.headers['x-vercel-ip-longitude']) || null;
+
+      let autoLabel = '';
+      if (city) {
+        autoLabel = `${city}${region ? ', ' + region : ''} (${country})`;
+      } else if (ip) {
+        autoLabel = `IP: ${ip}`;
+      }
+
       const now = Date.now();
       const sessionKey = `eduquiz:presence:session:${sessionId}`;
       const previous = parseRecord(await redis.get(sessionKey));
+
+      let effectiveLocation = location;
+      if (!effectiveLocation && previous?.location) {
+        effectiveLocation = previous.location;
+      }
+      if (!effectiveLocation && autoLabel) {
+        effectiveLocation = {
+          label: autoLabel,
+          latitude: ipLat,
+          longitude: ipLon,
+          isIp: true
+        };
+      }
+
       const record = {
         lastSeen: now,
-        location: location === undefined ? previous?.location || null : location,
+        ip,
+        location: effectiveLocation || null,
       };
 
       await Promise.all([
@@ -46,7 +77,7 @@ export default async function handler(req, res) {
         redis.set(sessionKey, JSON.stringify(record), { ex: SESSION_TTL_SECONDS }),
         redis.expire(PRESENCE_KEY, SESSION_TTL_SECONDS),
       ]);
-      return res.status(200).json({ success: true });
+      return res.status(200).json({ success: true, location: effectiveLocation });
     }
 
     if (req.method === 'GET') {

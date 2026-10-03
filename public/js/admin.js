@@ -46,15 +46,33 @@ function renderSessions(sessions) {
     const location = document.createElement('div');
     location.className = 'session-location';
     if (session.location) {
-      const { latitude, longitude, accuracy } = session.location;
-      const mapLink = document.createElement('a');
-      mapLink.href = `https://www.google.com/maps?q=${latitude},${longitude}`;
-      mapLink.target = '_blank';
-      mapLink.rel = 'noopener noreferrer';
-      mapLink.textContent = 'Mở bản đồ';
-      location.append(mapLink, document.createTextNode(` · sai số khoảng ${Math.round(accuracy)} m`));
+      if (session.location.label) {
+        location.textContent = session.location.label;
+        if (session.location.latitude && session.location.longitude) {
+          const mapLink = document.createElement('a');
+          mapLink.href = `https://www.google.com/maps?q=${session.location.latitude},${session.location.longitude}`;
+          mapLink.target = '_blank';
+          mapLink.rel = 'noopener noreferrer';
+          mapLink.textContent = ' (Bản đồ)';
+          mapLink.style.marginLeft = '6px';
+          location.append(mapLink);
+        }
+      } else if (session.location.latitude && session.location.longitude) {
+        const { latitude, longitude, accuracy } = session.location;
+        const mapLink = document.createElement('a');
+        mapLink.href = `https://www.google.com/maps?q=${latitude},${longitude}`;
+        mapLink.target = '_blank';
+        mapLink.rel = 'noopener noreferrer';
+        mapLink.textContent = 'Mở bản đồ';
+        location.append(mapLink);
+        if (accuracy) {
+          location.append(document.createTextNode(` · sai số ~${Math.round(accuracy)}m`));
+        }
+      } else {
+        location.textContent = 'Đã kết nối';
+      }
     } else {
-      location.textContent = 'Chưa chia sẻ';
+      location.textContent = 'Đã kết nối';
     }
 
     row.append(activity, location);

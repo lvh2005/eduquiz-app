@@ -43,57 +43,69 @@ export default async function handler(req, res) {
           redis.get(statsKey).catch(() => null)
         ]);
       } catch (redisErr) {
-        console.warn('Redis query failed, using default dataset:', redisErr);
+        console.warn('Redis query failed:', redisErr);
       }
 
       let examData;
+      const isKtm = (str) => {
+        const s = (str || '').trim().toLowerCase();
+        return s.includes('kế toán máy') || s.includes('ketoanmay') || s.includes('hệ thống kế toán máy');
+      };
+
       if (!data) {
         examData = {
           id,
-          title: 'Cơ sở công nghệ của hệ thống kế toán máy HUBT (2TC)',
-          subject: 'Cơ sở công nghệ của hệ thống kế toán máy HUBT (2TC)',
-          subjects: ['Cơ sở công nghệ của hệ thống kế toán máy HUBT (2TC)'],
+          title: 'Mã nguồn mở',
+          subject: 'Mã nguồn mở',
+          subjects: ['Mã nguồn mở'],
           updatedAt: new Date().toISOString(),
-          questions: DEFAULT_EXAM,
+          questions: Array.isArray(DEFAULT_EXAM) ? DEFAULT_EXAM : [],
         };
         try { await redis.set(redisKey, JSON.stringify(examData)); } catch (_) {}
       } else {
         examData = typeof data === 'string' ? JSON.parse(data) : data;
         let currentQuestions = Array.isArray(examData.questions) ? examData.questions : [];
-        const ktmSubjectName = 'Cơ sở công nghệ của hệ thống kế toán máy HUBT (2TC)';
 
-        // Tách và giữ nguyên 100% các câu hỏi thuộc môn khác của người dùng
-        const otherQuestions = currentQuestions.filter(q => {
-          const sub = (q.subject || '').trim().toLowerCase();
-          return sub && sub !== ktmSubjectName.toLowerCase() && !sub.includes('kế toán máy') && !sub.includes('ketoanmay');
-        });
+        // Lọc bỏ triệt để toàn bộ câu hỏi và môn thi liên quan đến Kế toán máy
+        let cleanedQuestions = currentQuestions.filter(q => !isKtm(q.subject) && !isKtm(q.title) && !isKtm(q.q));
+        let cleanedSubjects = (examData.subjects || []).filter(sub => !isKtm(sub));
 
-        // Kiểm tra câu hỏi của môn Kế toán máy
-        const ktmQuestions = currentQuestions.filter(q => {
-          const sub = (q.subject || '').trim().toLowerCase();
-          return !sub || sub === ktmSubjectName.toLowerCase() || sub.includes('kế toán máy') || sub.includes('ketoanmay');
-        });
+        if (cleanedQuestions.length === 0 && DEFAULT_EXAM.length > 0) {
+          cleanedQuestions = DEFAULT_EXAM;
+          cleanedSubjects = ['Mã nguồn mở'];
+          examData.title = 'Mã nguồn mở';
+          examData.subject = 'Mã nguồn mở';
+        }
 
-        const allowedImageQuestions = new Set([1, 2, 3, 4, 5, 48, 49, 50, 51, 52, 53]);
-        const hasImageMismatch = ktmQuestions.some(q => {
-          const isAllowed = q.part === 1 && allowedImageQuestions.has(q.sourceNumber);
-          return (isAllowed && !q.image) || (!isAllowed && Boolean(q.image));
-        });
+        const hasChanged = cleanedQuestions.length !== currentQuestions.length ||
+                           (examData.subjects && cleanedSubjects.length !== examData.subjects.length) ||
+                           isKtm(examData.title) || isKtm(examData.subject);
 
-        const needsKtmUpgrade = ktmQuestions.length < 172 || hasImageMismatch;
-
-        if (needsKtmUpgrade) {
-          examData.questions = [...otherQuestions, ...DEFAULT_EXAM];
-          examData.subjects = Array.from(new Set([
-            ...(examData.subjects || []),
-            ktmSubjectName,
-            ...otherQuestions.map(q => q.subject).filter(Boolean)
-          ]));
+        if (hasChanged) {
+          examData.questions = cleanedQuestions;
+          examData.subjects = cleanedSubjects;
+          examData.subject = cleanedSubjects[0] || (cleanedQuestions[0]?.subject) || 'Mã nguồn mở';
+          if (isKtm(examData.title) || !examData.title) {
+            examData.title = examData.subject || 'Mã nguồn mở';
+          }
           try { await redis.set(redisKey, JSON.stringify(examData)); } catch (_) {}
         }
       }
 
-      examData.stats = rawStats ? (typeof rawStats === 'string' ? JSON.parse(rawStats) : rawStats) : {};
+      // Xử lý thống kê lượt thi: lọc bỏ môn kế toán máy
+      let parsedStats = rawStats ? (typeof rawStats === 'string' ? JSON.parse(rawStats) : rawStats) : {};
+      let statsChanged = false;
+      for (const key of Object.keys(parsedStats)) {
+        if (isKtm(key)) {
+          delete parsedStats[key];
+          statsChanged = true;
+        }
+      }
+      if (statsChanged) {
+        try { await redis.set(statsKey, JSON.stringify(parsedStats)); } catch (_) {}
+      }
+
+      examData.stats = parsedStats;
       return res.status(200).json(examData);
     }
 
@@ -132,7 +144,7 @@ export default async function handler(req, res) {
 
       const examPayload = {
         id,
-        title: currentExam?.title || title || 'Bộ đề trắc nghiệm CSDL',
+        title: currentExam?.title || title || 'Bộ đề trắc nghiệm',
         subject: incomingSubject,
         subjects: Array.from(new Set([...retainedQuestions, ...questions].map(question => question.subject || incomingSubject))),
         updatedAt: new Date().toISOString(),

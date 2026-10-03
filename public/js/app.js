@@ -43,35 +43,23 @@ async function fetchExam() {
       const data = await res.json();
       allQuestions = data.questions || [];
       serverStats = data.stats || {};
-      if (data.title) document.getElementById('dashExamTitle').innerText = data.title;
-      const subject = data.subject || allQuestions[0]?.subject || data.title;
+      const subject = data.subject || allQuestions[0]?.subject || data.title || 'Mã nguồn mở';
+      if (document.getElementById('dashExamTitle')) document.getElementById('dashExamTitle').innerText = data.title || subject;
       allQuestions.forEach(question => {
-        if (!question.subject) question.subject = subject || 'Chưa đặt môn';
+        if (!question.a && question.options) question.a = question.options.map(opt => opt.replace(/^[A-G][\s.:\)\-]\s*/, ''));
+        if (question.c === undefined && question.correct !== undefined) question.c = question.correct;
+        if (!question.options && question.a) question.options = question.a.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`);
+        if (question.correct === undefined && question.c !== undefined) question.correct = question.c;
+        if (!question.subject) question.subject = subject || 'Mã nguồn mở';
       });
       if (subject) document.getElementById('dashCoverTitle').innerText = subject.toUpperCase();
     } else {
-      console.warn('Chưa có đề trên Redis. Tải bộ câu hỏi mặc định 172 câu (Phần 1 + Phần 2)...');
-      const fallbackRes = await fetch('/data/ketoanmay_172.json');
-      if (fallbackRes.ok) {
-        allQuestions = await fallbackRes.json();
-        const defaultSubject = 'Cơ sở công nghệ của hệ thống kế toán máy HUBT (2TC)';
-        document.getElementById('dashExamTitle').innerText = defaultSubject;
-        document.getElementById('dashCoverTitle').innerText = defaultSubject.toUpperCase();
-      }
+      console.warn('Không thể tải đề thi từ API.');
+      allQuestions = [];
     }
   } catch (err) {
     console.error('Lỗi fetchExam:', err);
-    try {
-      const fallbackRes = await fetch('/data/ketoanmay_172.json');
-      if (fallbackRes.ok) {
-        allQuestions = await fallbackRes.json();
-        const defaultSubject = 'Cơ sở công nghệ của hệ thống kế toán máy HUBT (2TC)';
-        document.getElementById('dashExamTitle').innerText = defaultSubject;
-        document.getElementById('dashCoverTitle').innerText = defaultSubject.toUpperCase();
-      }
-    } catch (e) {
-      console.error('Lỗi load fallback:', e);
-    }
+    allQuestions = [];
   }
   refreshDashboard();
 }
@@ -598,52 +586,7 @@ async function sendPresenceHeartbeat() {
   }
 }
 
-function renderLocationSharing() {
-  const button = document.getElementById('locationShareButton');
-  const title = document.getElementById('locationShareTitle');
-  const description = document.getElementById('locationShareDescription');
-  if (!button || !title || !description) return;
-
-  if (sharedLocation) {
-    title.innerText = 'Bạn đang chia sẻ vị trí';
-    description.innerText = 'Chỉ quản trị viên xem được vị trí. Dữ liệu tự xóa trong tối đa 3 phút sau lần gửi cuối hoặc khi bạn dừng chia sẻ.';
-    button.innerHTML = '<i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i> Ngừng chia sẻ';
-  } else {
-    title.innerText = 'Chia sẻ vị trí (không bắt buộc)';
-    description.innerText = 'Chỉ quản trị viên xem được vị trí sau khi bạn đồng ý. Tọa độ tự xóa trong tối đa 3 phút.';
-    button.innerHTML = '<i class="fa-solid fa-location-dot" aria-hidden="true"></i> Chia sẻ vị trí';
-  }
-}
-
-function toggleLocationSharing() {
-  if (sharedLocation) {
-    sharedLocation = null;
-    sessionStorage.removeItem('eduquizSharedLocation');
-    renderLocationSharing();
-    sendPresenceHeartbeat();
-    return;
-  }
-
-  if (!navigator.geolocation) return alert('Trình duyệt này không hỗ trợ định vị.');
-  navigator.geolocation.getCurrentPosition(position => {
-    sharedLocation = {
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
-      accuracy: position.coords.accuracy
-    };
-    sessionStorage.setItem('eduquizSharedLocation', JSON.stringify(sharedLocation));
-    renderLocationSharing();
-    sendPresenceHeartbeat();
-  }, error => {
-    const message = error.code === error.PERMISSION_DENIED
-      ? 'Bạn chưa cấp quyền vị trí. Có thể bật quyền trong cài đặt trình duyệt.'
-      : 'Không lấy được vị trí. Hãy thử lại khi trình duyệt cho phép định vị.';
-    alert(message);
-  }, { enableHighAccuracy: false, maximumAge: 30000, timeout: 10000 });
-}
-
 function initializePresence() {
-  renderLocationSharing();
   sendPresenceHeartbeat();
   setInterval(sendPresenceHeartbeat, 30000);
   document.addEventListener('visibilitychange', () => {
