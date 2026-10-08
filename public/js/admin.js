@@ -5,6 +5,10 @@ const loginMessage = document.getElementById('loginMessage');
 const dashboardMessage = document.getElementById('dashboardMessage');
 const logoutButton = document.getElementById('logoutButton');
 const sessionList = document.getElementById('sessionList');
+const accessPassEnabled = document.getElementById('accessPassEnabled');
+const accessPassInput = document.getElementById('accessPassInput');
+const saveAccessPassBtn = document.getElementById('saveAccessPassBtn');
+const accessPassMessage = document.getElementById('accessPassMessage');
 let refreshTimer = null;
 
 function showDashboard(isAuthenticated) {
@@ -13,6 +17,7 @@ function showDashboard(isAuthenticated) {
   logoutButton.hidden = !isAuthenticated;
   if (isAuthenticated) {
     refreshStats();
+    loadAccessPassConfig();
     clearInterval(refreshTimer);
     refreshTimer = setInterval(refreshStats, 15000);
   } else {
@@ -122,3 +127,75 @@ fetch('/api/admin-auth')
   .then(response => response.ok ? response.json() : Promise.reject(new Error('Admin chưa được cấu hình trên server.')))
   .then(result => showDashboard(result.authenticated === true))
   .catch(error => { loginMessage.textContent = error.message; });
+
+async function loadAccessPassConfig() {
+  if (!accessPassEnabled || !accessPassInput) return;
+  try {
+    const res = await fetch('/api/access?admin=1');
+    if (res.ok) {
+      const data = await res.json();
+      accessPassEnabled.checked = data.enabled !== false;
+      accessPassInput.value = data.password || '';
+      updateAccessPassUI();
+      if (accessPassMessage) accessPassMessage.textContent = '';
+    }
+  } catch (err) {
+    console.warn('Không tải được cấu hình mật khẩu phòng học:', err);
+  }
+}
+
+function updateAccessPassUI() {
+  if (!accessPassInput) return;
+  if (!accessPassEnabled.checked) {
+    accessPassInput.style.opacity = '0.6';
+  } else {
+    accessPassInput.style.opacity = '1';
+  }
+}
+
+if (accessPassEnabled) {
+  accessPassEnabled.addEventListener('change', () => {
+    updateAccessPassUI();
+  });
+}
+
+if (saveAccessPassBtn) {
+  saveAccessPassBtn.addEventListener('click', async () => {
+    if (!accessPassMessage) return;
+    accessPassMessage.textContent = '';
+    accessPassMessage.style.color = '#a23b36';
+
+    const enabled = accessPassEnabled.checked;
+    const password = accessPassInput.value.trim();
+
+    if (enabled && !password) {
+      accessPassMessage.textContent = 'Vui lòng nhập mật khẩu phòng học trước khi lưu.';
+      accessPassInput.focus();
+      return;
+    }
+
+    saveAccessPassBtn.disabled = true;
+    saveAccessPassBtn.textContent = 'Đang lưu...';
+
+    try {
+      const res = await fetch('/api/access?action=save_config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enabled, password })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Lỗi khi lưu mật khẩu.');
+
+      accessPassMessage.style.color = '#12665e';
+      accessPassMessage.textContent = enabled
+        ? `Đã bật và lưu mật khẩu phòng học thành công: "${password}"`
+        : 'Đã tắt yêu cầu mật khẩu phòng học thành công.';
+    } catch (err) {
+      accessPassMessage.style.color = '#a23b36';
+      accessPassMessage.textContent = err.message;
+    } finally {
+      saveAccessPassBtn.disabled = false;
+      saveAccessPassBtn.textContent = 'Lưu mật khẩu';
+    }
+  });
+}

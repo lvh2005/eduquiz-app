@@ -19,8 +19,43 @@
   </script>
   <!-- Tesseract.js hỗ trợ OCR nhận diện chữ trên PDF scan ảnh -->
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script>
+    if (sessionStorage.getItem('eduquiz_access_unlocked') === 'true') {
+      document.documentElement.classList.add('access-unlocked');
+    }
+  </script>
+  <style>
+    html.access-unlocked #studyLockScreen { display: none !important; }
+  </style>
 </head>
 <body>
+
+  <!-- LOCK SCREEN FOR STUDY ACCESS -->
+  <div id="studyLockScreen" class="study-lock-overlay">
+    <div class="study-lock-card" id="studyLockCard">
+      <div class="study-lock-icon">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <h2>Phòng học EduQuiz</h2>
+      <p class="study-lock-desc">Website được bảo mật. Vui lòng nhập mật khẩu để vào học.</p>
+
+      <form id="studyLockForm" onsubmit="handleStudyUnlock(event)">
+        <div class="study-pass-input-group">
+          <input type="password" id="studyAccessPassword" placeholder="Nhập mật khẩu vào học..." autocomplete="current-password" required>
+          <button type="button" class="btn-toggle-pass" onclick="togglePassVisibility()" title="Ẩn/Hiện mật khẩu">
+            <i class="fa-regular fa-eye" id="togglePassIcon"></i>
+          </button>
+        </div>
+        <p class="study-lock-error" id="studyLockError"></p>
+        <button type="submit" class="btn-unlock-study" id="btnUnlockStudy">
+          <span>Vào học ngay</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+      <div class="study-lock-footer">
+        <i class="fa-solid fa-lock"></i> Mật khẩu do quản trị viên cấp
+      </div>
+    </div>
+  </div>
 
   <!-- HEADER -->
   <header class="edu-header">

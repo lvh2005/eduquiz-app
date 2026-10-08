@@ -703,7 +703,129 @@ window.addEventListener('keydown', (e) => {
   else if (e.key === 'ArrowRight') nextQuestion();
 });
 
+let isStudyAccessUnlocked = false;
+
+async function checkStudyAccessLock() {
+  const lockScreen = document.getElementById('studyLockScreen');
+  if (!lockScreen) return;
+
+  const sessionUnlocked = sessionStorage.getItem('eduquiz_access_unlocked') === 'true';
+  if (sessionUnlocked) {
+    isStudyAccessUnlocked = true;
+    lockScreen.style.display = 'none';
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/access');
+    if (res.ok) {
+      const data = await res.json();
+      if (data.required) {
+        lockScreen.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => {
+          document.getElementById('studyAccessPassword')?.focus();
+        }, 120);
+      } else {
+        isStudyAccessUnlocked = true;
+        sessionStorage.setItem('eduquiz_access_unlocked', 'true');
+        document.documentElement.classList.add('access-unlocked');
+        lockScreen.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    } else {
+      // Nếu API lỗi, ẩn lock screen để không chặn trải nghiệm
+      lockScreen.style.display = 'none';
+    }
+  } catch (err) {
+    console.warn('Không kiểm tra được mã bảo vệ:', err);
+    lockScreen.style.display = 'none';
+  }
+}
+
+async function handleStudyUnlock(e) {
+  if (e) e.preventDefault();
+  const passInput = document.getElementById('studyAccessPassword');
+  const errorEl = document.getElementById('studyLockError');
+  const btn = document.getElementById('btnUnlockStudy');
+  const card = document.getElementById('studyLockCard');
+  const password = passInput ? passInput.value.trim() : '';
+
+  if (!password) {
+    if (errorEl) errorEl.textContent = 'Vui lòng nhập mật khẩu vào học';
+    if (passInput) passInput.focus();
+    return;
+  }
+
+  if (errorEl) errorEl.textContent = '';
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xác thực...';
+  }
+
+  try {
+    const res = await fetch('/api/access', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password })
+    });
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      isStudyAccessUnlocked = true;
+      sessionStorage.setItem('eduquiz_access_unlocked', 'true');
+      document.documentElement.classList.add('access-unlocked');
+      const lockScreen = document.getElementById('studyLockScreen');
+      if (lockScreen) {
+        lockScreen.classList.add('hidden');
+        setTimeout(() => {
+          lockScreen.style.display = 'none';
+          document.body.style.overflow = '';
+        }, 300);
+      }
+      if (allQuestions.length === 0) {
+        await fetchExam();
+      }
+    } else {
+      if (errorEl) errorEl.textContent = data.error || 'Mật khẩu không chính xác, vui lòng thử lại!';
+      if (card) {
+        card.classList.remove('study-lock-shake');
+        void card.offsetWidth; // trigger reflow
+        card.classList.add('study-lock-shake');
+      }
+      if (passInput) {
+        passInput.value = '';
+        passInput.focus();
+      }
+    }
+  } catch (err) {
+    if (errorEl) errorEl.textContent = 'Lỗi kết nối máy chủ, vui lòng thử lại';
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<span>Vào học ngay</span> <i class="fa-solid fa-arrow-right"></i>';
+    }
+  }
+}
+
+function togglePassVisibility() {
+  const passInput = document.getElementById('studyAccessPassword');
+  const icon = document.getElementById('togglePassIcon');
+  if (!passInput || !icon) return;
+  if (passInput.type === 'password') {
+    passInput.type = 'text';
+    icon.classList.remove('fa-eye');
+    icon.classList.add('fa-eye-slash');
+  } else {
+    passInput.type = 'password';
+    icon.classList.remove('fa-eye-slash');
+    icon.classList.add('fa-eye');
+  }
+}
+
 window.onload = async () => {
+  await checkStudyAccessLock();
+
   try {
     const response = await fetch('/api/admin-auth');
     const session = response.ok ? await response.json() : { authenticated: false };
