@@ -51,52 +51,58 @@ export default async function handler(req, res) {
         const s = (str || '').trim().toLowerCase();
         return s.includes('kế toán máy') || s.includes('ketoanmay') || s.includes('hệ thống kế toán máy');
       };
+      const isMnm = (str) => {
+        const s = (str || '').trim().toLowerCase();
+        return s.includes('mã nguồn mở') || s.includes('manguonmo') || s.includes('ma nguon mo');
+      };
 
       if (!data) {
         examData = {
           id,
-          title: 'Mã nguồn mở',
-          subject: 'Mã nguồn mở',
-          subjects: ['Mã nguồn mở'],
+          title: 'Bộ đề trắc nghiệm HUBT',
+          subject: '',
+          subjects: [],
           updatedAt: new Date().toISOString(),
-          questions: Array.isArray(DEFAULT_EXAM) ? DEFAULT_EXAM : [],
+          questions: Array.isArray(DEFAULT_EXAM) ? DEFAULT_EXAM.filter(q => !isMnm(q.subject) && !isMnm(q.q)) : [],
         };
         try { await redis.set(redisKey, JSON.stringify(examData)); } catch (_) {}
       } else {
         examData = typeof data === 'string' ? JSON.parse(data) : data;
         let currentQuestions = Array.isArray(examData.questions) ? examData.questions : [];
 
-        // Lọc bỏ triệt để toàn bộ câu hỏi và môn thi liên quan đến Kế toán máy
-        let cleanedQuestions = currentQuestions.filter(q => !isKtm(q.subject) && !isKtm(q.title) && !isKtm(q.q));
-        let cleanedSubjects = (examData.subjects || []).filter(sub => !isKtm(sub));
+        // Lọc bỏ triệt để toàn bộ câu hỏi và môn thi liên quan đến Kế toán máy và Mã nguồn mở
+        let cleanedQuestions = currentQuestions.filter(q =>
+          !isKtm(q.subject) && !isKtm(q.title) && !isKtm(q.q) &&
+          !isMnm(q.subject) && !isMnm(q.title) && !isMnm(q.q)
+        );
+        let cleanedSubjects = (examData.subjects || []).filter(sub => !isKtm(sub) && !isMnm(sub));
 
         if (cleanedQuestions.length === 0 && DEFAULT_EXAM.length > 0) {
-          cleanedQuestions = DEFAULT_EXAM;
-          cleanedSubjects = ['Mã nguồn mở'];
-          examData.title = 'Mã nguồn mở';
-          examData.subject = 'Mã nguồn mở';
+          cleanedQuestions = DEFAULT_EXAM.filter(q => !isKtm(q.subject) && !isMnm(q.subject) && !isMnm(q.q));
+          cleanedSubjects = Array.from(new Set(cleanedQuestions.map(q => q.subject).filter(Boolean)));
         }
 
         const hasChanged = cleanedQuestions.length !== currentQuestions.length ||
                            (examData.subjects && cleanedSubjects.length !== examData.subjects.length) ||
-                           isKtm(examData.title) || isKtm(examData.subject);
+                           isKtm(examData.title) || isKtm(examData.subject) ||
+                           isMnm(examData.title) || isMnm(examData.subject);
 
         if (hasChanged) {
           examData.questions = cleanedQuestions;
           examData.subjects = cleanedSubjects;
-          examData.subject = cleanedSubjects[0] || (cleanedQuestions[0]?.subject) || 'Mã nguồn mở';
-          if (isKtm(examData.title) || !examData.title) {
-            examData.title = examData.subject || 'Mã nguồn mở';
+          examData.subject = cleanedSubjects[0] || (cleanedQuestions[0]?.subject) || '';
+          if (isKtm(examData.title) || isMnm(examData.title) || !examData.title) {
+            examData.title = examData.subject || 'Bộ đề trắc nghiệm HUBT';
           }
           try { await redis.set(redisKey, JSON.stringify(examData)); } catch (_) {}
         }
       }
 
-      // Xử lý thống kê lượt thi: lọc bỏ môn kế toán máy
+      // Xử lý thống kê lượt thi: lọc bỏ môn kế toán máy và mã nguồn mở
       let parsedStats = rawStats ? (typeof rawStats === 'string' ? JSON.parse(rawStats) : rawStats) : {};
       let statsChanged = false;
       for (const key of Object.keys(parsedStats)) {
-        if (isKtm(key)) {
+        if (isKtm(key) || isMnm(key)) {
           delete parsedStats[key];
           statsChanged = true;
         }
@@ -161,15 +167,22 @@ export default async function handler(req, res) {
         ...question,
         subject: question.subject || currentSubject,
       }));
-      const retainedQuestions = normalizedQuestions.filter(question => question.subject !== incomingSubject);
+      const isMnmPost = (str) => {
+        const s = (str || '').trim().toLowerCase();
+        return s.includes('mã nguồn mở') || s.includes('manguonmo') || s.includes('ma nguon mo');
+      };
+      const retainedQuestions = normalizedQuestions.filter(question => question.subject !== incomingSubject && !isMnmPost(question.subject) && !isMnmPost(question.q));
+      const cleanTitle = (currentExam?.title && !isMnmPost(currentExam.title) && !currentExam.title.toLowerCase().includes('kế toán máy'))
+        ? currentExam.title
+        : (incomingSubject && !isMnmPost(incomingSubject) ? incomingSubject : 'Bộ đề trắc nghiệm HUBT');
 
       const examPayload = {
         id,
-        title: currentExam?.title || title || 'Bộ đề trắc nghiệm',
+        title: cleanTitle,
         subject: incomingSubject,
-        subjects: Array.from(new Set([...retainedQuestions, ...questions].map(question => question.subject || incomingSubject))),
+        subjects: Array.from(new Set([...retainedQuestions, ...questions].map(question => question.subject || incomingSubject).filter(s => s && !isMnmPost(s)))),
         updatedAt: new Date().toISOString(),
-        questions: [...retainedQuestions, ...questions],
+        questions: [...retainedQuestions, ...questions].filter(q => !isMnmPost(q.subject) && !isMnmPost(q.q)),
       };
 
       await redis.set(redisKey, JSON.stringify(examPayload));
@@ -184,9 +197,19 @@ export default async function handler(req, res) {
       const currentExam = currentData ? (typeof currentData === 'string' ? JSON.parse(currentData) : currentData) : null;
       if (!currentExam) return res.status(404).json({ error: 'Chưa có đề thi' });
 
-      const questions = (currentExam.questions || []).filter(question => (question.subject || currentExam.subject) !== subject);
-      const subjects = Array.from(new Set(questions.map(question => question.subject).filter(Boolean)));
-      const examPayload = { ...currentExam, subject: subjects[0] || '', subjects, questions, updatedAt: new Date().toISOString() };
+      const isMnmDel = (str) => {
+        const s = (str || '').trim().toLowerCase();
+        return s.includes('mã nguồn mở') || s.includes('manguonmo') || s.includes('ma nguon mo');
+      };
+
+      const questions = (currentExam.questions || []).filter(question =>
+        (question.subject || currentExam.subject) !== subject &&
+        !isMnmDel(question.subject) &&
+        !isMnmDel(question.q)
+      );
+      const subjects = Array.from(new Set(questions.map(question => question.subject).filter(s => s && !isMnmDel(s))));
+      const cleanTitle = (currentExam.title && !isMnmDel(currentExam.title) && currentExam.title !== subject) ? currentExam.title : (subjects[0] || 'Bộ đề trắc nghiệm HUBT');
+      const examPayload = { ...currentExam, title: cleanTitle, subject: subjects[0] || '', subjects, questions, updatedAt: new Date().toISOString() };
       await redis.set(redisKey, JSON.stringify(examPayload));
       return res.status(200).json({ success: true, count: questions.length, exam: examPayload });
     }

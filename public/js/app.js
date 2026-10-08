@@ -43,16 +43,18 @@ async function fetchExam() {
       const data = await res.json();
       allQuestions = data.questions || [];
       serverStats = data.stats || {};
-      const subject = data.subject || allQuestions[0]?.subject || data.title || 'Mã nguồn mở';
-      if (document.getElementById('dashExamTitle')) document.getElementById('dashExamTitle').innerText = data.title || subject;
+      const subject = data.subject || allQuestions[0]?.subject || (data.title && !data.title.toLowerCase().includes('mã nguồn mở') ? data.title : '') || '';
+      if (document.getElementById('dashExamTitle')) document.getElementById('dashExamTitle').innerText = data.title || subject || 'Bộ đề trắc nghiệm HUBT';
       allQuestions.forEach(question => {
         if (!question.a && question.options) question.a = question.options.map(opt => opt.replace(/^[A-G][\s.:\)\-]\s*/, ''));
         if (question.c === undefined && question.correct !== undefined) question.c = question.correct;
         if (!question.options && question.a) question.options = question.a.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`);
         if (question.correct === undefined && question.c !== undefined) question.correct = question.c;
-        if (!question.subject) question.subject = subject || 'Mã nguồn mở';
+        if (!question.subject) question.subject = subject || 'Chưa đặt môn';
       });
-      if (subject) document.getElementById('dashCoverTitle').innerText = subject.toUpperCase();
+      if (document.getElementById('dashCoverTitle')) {
+        document.getElementById('dashCoverTitle').innerText = subject ? subject.toUpperCase() : 'EDUQUIZ HUBT';
+      }
     } else {
       console.warn('Không thể tải đề thi từ API.');
       allQuestions = [];
